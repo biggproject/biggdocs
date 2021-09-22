@@ -9,10 +9,37 @@ The Building Information aGGregation, harmonisation and analytics (BIGG) platfor
 # Required data model for the input
 biggr and biggpy requires the usage of harmonised buildings-energy-related datasets energy consumption, weather, thermal conditions data 
 
+# Data types definition
+
+## <code>string</code>
+* R: <code>character</code> class
+* Python: <code>string</code> type 
+
+## <code>float</code>
+* R: <code>float</code> class
+* Python: <code>float</code> type 
+
+## <code>integer</code>
+* R: <code>integer</code> class
+* Python: <code>integer</code> type 
+
+## <code>boolean</code>
+* R: <code>logical</code> class
+* Python: <code>boolean</code> type 
+
+## <code>timeSeries</code>
+
+* R:
+> <code>data.frame</code> with two columns. The first one, named "time", defining the series' timestamps using POSIXct class and UTC timezone. The second column represents the value column and it can be of whatever class needed by the variable (<code>character, float, integer, factor</code>).
+
+* Python:
+> <code>pandas.Series</code> with indexed time in UTC timezone. The series type can be whatever is needed by the variable (<code>string, float, integer</code>) 
+
+
 # Modules of the AI toolbox
 
 ## Data preparation
-Lorem ipsum ...
+It contains the functions used for cleaning, gaps detection, ...
 [Access to the data preparation module documentation](DataPreparation.md)
 
 ## Data transformation
