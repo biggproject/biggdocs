@@ -7,7 +7,7 @@ The Building Information aGGregation, harmonisation and analytics (BIGG) platfor
 - [biggr - R package](https://github.com/BeeGroup-cimne/biggr#readme)
 
 # Required data model for the input
-biggr and biggpy requires the usage of harmonised buildings-energy-related datasets energy consumption, weather, thermal conditions data 
+The functionalities implemented in biggr and biggpy requires the usage of harmonised datasets of the energy consumption, weather information, building characteristics and thermal conditions of buildings. This data model is presented in the WP4 of the BIGG project, and can be found in [this repository](www.google.com).
 
 # Data types definition
 
@@ -30,36 +30,33 @@ biggr and biggpy requires the usage of harmonised buildings-energy-related datas
 ## <code>timeSeries</code>
 
 * R:
-> <code>data.frame</code> with two columns. The first one, named "time", defining the series' timestamps using POSIXct class and UTC timezone. The second column represents the value column and it can be of whatever class needed by the variable (<code>character, float, integer, factor</code>).
+> <code>data.frame</code> with two columns. The first one, named "time", defining the series' initial timestamp using POSIXct class and UTC timezone. The second column represents the value column and it can be of whatever class needed by the variable (<code>character, float, integer, factor</code>).
 
 * Python:
 > <code>pandas.Series</code> with indexed time in UTC timezone. The series type can be whatever is needed by the variable (<code>string, float, integer</code>) 
 
+* Note! In the case of non cumulative consumption or some weather feature time series, the time stamp of each element represents the initial time where the value applies. We assume that it does not change during that time step, until the next time series element.
 
 # Modules of the AI toolbox
 
 ## Data preparation
-It contains the functions used for cleaning, gaps detection, ...
+It contains the functions used for time stamps alignment, data validation, time gaps detection, outlier detection and missing data management
+
 [Access to the data preparation module documentation](DataPreparation.md)
 
 ## Data transformation
-Lorem ipsum .....
+It contains functions used for transforming cleaned datasets to valuable features for the usage in statistical and machine learning algorithms. This functions includes low pass filtering techniques, fourier decomposition, obtaining calendar features, multiple seasonalities profiling, weather features transformations, among others.
+
 [Access to the data transformation module documentation](DataTransformation.md)
 
 ## Modelling
-Lorem ipsum .....
+This module contains the functions used to train, optimise, predict and assess the statistical or machine learning models applied to energy consumption, thermal comfort and user behaviour in buildings.
+
 [Access to the data transformation module documentation](Modelling.md)
 
-## Cross validation
-Lorem ipsum .....
-[Access to the data transformation module documentation](CrossValidation.md)
-
-## Model optimisation
-Lorem ipsum .....
-[Access to the data transformation module documentation](ModelOptimisation.md)
-
 ## Reinforcement Learning
-Lorem ipsum .....
+This is a very brief description of the functions implemented in this module.
+
 [Access to the data transformation module documentation](ReinforcementLearning.md)
 
 
