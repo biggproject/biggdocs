@@ -41,6 +41,7 @@ The supported string frequency aliases are:
 |M|month end frequency|
 |AS, YS|year start frequency|
 |A, Y|year end frequency|
+
 If the frequency is not uniform, because of missing values for example, the function will still try to infer the 
 frequency and return the best guess, i.e. the most frequent time step.
 
