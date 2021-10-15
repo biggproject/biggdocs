@@ -27,13 +27,30 @@ The functionalities implemented in biggr and biggpy requires the usage of harmon
 * R: <code>logical</code> class
 * Python: <code>boolean</code> type 
 
+## <code>date</code>
+* R: <code>Date</code> class
+* Python: <code>datetime.date</code> class (datetime library is needed)
+
+## <code>datetime</code>
+* R: <code>POSIXct</code> class in UTC timezone.
+* Python: <code>datetime.datetime</code> class (datetime library is needed) in UTC timezone.
+
+## <code>list</code>
+* R: <code>c(<element1>,<element2>,...,<elementN>)</code> function, where all elements belong to character, float, integer, logical, Date or POSIXct classes.
+* Python: <code>[<element1>,<element2>,...,<elementN>]</code>, where all elements belong to the types string, float, integer, or boolean, or to the datetime.date or datetime.datetime classes.
+
+## <code>dictionary</code>
+* R: <code>list(<key1>:<value1>,<key2>:<value2>,...,<keyN>:<valueN>)</code>, where all keys belong to character class, and values can be float, integer, logical, Date, POSIXct, list or data.frame classes.
+* Python: <code>{<key1>:<value1>,<key2>:<value2>,...,<keyN>:<valueN>}</code>, where all keys belong to string type, and values can be
+string, float, integer, boolean, or whatever Python class.
+
 ## <code>timeSeries</code>
 
 * R:
 > <code>data.frame</code> with two columns. The first one, named "time", defining the series' initial timestamp using POSIXct class and UTC timezone. The second column represents the value column and it can be of whatever class needed by the variable (<code>character, float, integer, factor</code>).
 
 * Python:
-> <code>pandas.Series</code> with indexed time in UTC timezone. The series type can be whatever is needed by the variable (<code>string, float, integer</code>) 
+> <code>pandas.Series</code> class with indexed time in UTC timezone. The series type can be whatever is needed by the variable (<code>string, float, integer</code>) 
 
 * Note! In the case of non cumulative consumption or some weather feature time series, the time stamp of each element represents the initial time where the value applies. We assume that it does not change during that time step, until the next time series element.
 
