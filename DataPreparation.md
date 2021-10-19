@@ -114,45 +114,50 @@ rollover (reset) must be taken into account in the transformation process.
 ### Description:
 Detect elements of the time series outside a minimum and maximum range.
  
-### Arguments:
+### Input arguments:
 * _data_: <code>timeSeries</code> An argument containing the time series from which the outliers need to be detected.
 * _min_: <code>float</code> The minimum value allowed for each element of the time series.
 * _max_: <code>float</code> The maximum value allowed for each element of the time series.
 * _minSeries_: <code>timeSeries</code>. An optional argument defining a time series with minimum allowed values.
 * _maxSeries_: <code>timeSeries</code>. An optional argument defining a time series with maximum allowed values.
 
+### Return value: 
+This function returns a logical <code>timeSeries</code> object using the original time period and frequency, only assigning True values when an element should be considered as an outlier.
+
 ### Details:
 This function detects elements of a time series outside the allowed range in which you know the data should be. In the case of energy consumption, it should be a positive value and not exceeding the total capacity permitted. Sometimes, this value is not easy to define.
 
 Additionally, with the minSeries and maxSeries arguments, this ranges can be set differently along the period. When using this feature, the time step of both _minSeries_ and _maxSeries_ need to be resampled to the original frequency of the _data_ time series, applying forward fill if is needed (Remember the time stamps of each time series element always represent the begining of the time step).
 
-### Value: 
-This function returns a logical <code>timeSeries</code> object using the original time period and frequency, only assigning True values when an element should be considered as an outlier.
 
-
-## :round_pushpin: clean_ts_znorm_outliers
+## :round_pushpin: clean_ts_zscore_outliers
 
 ### Description:
-Detect elements of the time series out of the z-normalization transformation threshold
+Detect elements of the time series out of a Z-score threshold, applied on the whole timeseries or a rolling window of predefined width.
 
-### Arguments:
+### Input arguments:
 * _data_: <code>timeSeries</code> An argument containing the time series from which the outliers need to be detected.
- znormThreshold, znorm_window
-
-### Details:
+* _zScoreThreshold_: <code>float</code> An argument defining the threshold of the Z-score calculation. 
+* _zScoreWindow_: <code>string</code>. A string in ISO 8601 format representing the window (e.g. "7D","1D", "72H"
+,...). This is an optional argument setting the width of the rolling window where the Z-normalization calculation is considered. This argument allows to adapt the outlier filtering depending the dynamics of the signal itself. Default value is "NULL", thus no rolling window is considered.
+* _zScoreExtremesSensitive_: <code>boolean</code> An optional argument to define if the aggregation function of the Zscore is the mean (true), or median(false). The first one makes the Z-score sensitive to extreme values, and the second no.  Default is true.
 
 ### Value: 
 This function returns a logical <code>timeSeries</code> object using the original time period and frequency, only assigning True values when an element should be considered as an outlier.
 
+### Details:
+This function uses _detect_time_step()_ to detect the time step of the input timeseries (_data_) and then calculate the Z-score considering the formula <img src="https://render.githubusercontent.com/render/math?math=Z_t = data_t-mean(data)/std(data)"> applied to the window score set in _zScoreWindow_. The formula can be <img src="https://render.githubusercontent.com/render/math?math=Z_t = data_t-median(data)/std(data)"> if zScoreExtremesSensitive is set to false.
 
 ## :round_pushpin: clean_ts_lm_calendar_outliers
 
 ### Description:
-Detect elements of the time series out of the XX% confidence of a linear model based on calendar variables (month, weekday, hour)
+Detect elements of the time series out of a confidence threshold based on linear model of the calendar variables (month, weekday, hour).
 
 ### Arguments:
 * _data_: <code>timeSeries</code> An argument containing the time series from which the outliers need to be detected.
- lm_quantileThreshold, holidays calendar
+* _lmQuantile_: <code>float</code> 
+* _relativePercentDifferenceThreshold_: <code>float</code> 
+* _holidaysCalendar_: <code>list of dates</code>
 
 ### Details:
 
