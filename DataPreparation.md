@@ -15,13 +15,12 @@ for the input time series.
 
 ### Input arguments:
 * _data_: <code>timeSeries</code>. Input time series whose time step has to be detected.
-* _maxMissingTimeSteps_: <code>int</code>. Optional tolerance threshold (percentage) specifying the maximum number 
-of missing values in the time series. 
+* _maxMissingTimeSteps_: <code>int</code>. Optional tolerance threshold specifying the maximum tolerable percentage 
+of missing values on the total length of the time series. 
 
 ### Return values: 
 * _timeStep_: <code>string</code>. A string in ISO 8601 format representing the time step (e.g. "15T","1H", "3M", "1D"
 ,...).
-
 If no frequency can be detected, the function will return None.
 
 ### Details:
@@ -49,9 +48,9 @@ The function handles explicit missing values, i.e. samples having NaN as value o
 samples that are missing in the series given a detected minimum frequency. 
 
 If _maxMissingTimeSteps_ is not provided, the 
-function will return the minimum detected frequency regardless of the number of missing values. If it is provided, in case of 
-non-uniform time series, the function will return the best frequency to use, i.e. the minimum frequency of the series
-with a number of missing time steps lower than or equal to this argument value.
+function will return the minimum detected frequency regardless of the number of missing values. If it is provided, in 
+case of non-uniform time series, the function will return the best frequency to use, i.e. the minimum frequency of the 
+series with a percentage of missing time steps lower than or equal to this argument value.
 
 ## :round_pushpin: align_time_grid
 
@@ -84,7 +83,7 @@ converted to the _instantaneous_ type of measurement with the function _clean_ts
 
 ### Description:
     
-The function converts a _cumulative_ (counter) or _onChange_ (delta) measurement to instantaneous.
+The function converts a _cumulative_ (counter) or _onChange_ (delta) measurement to _instantaneous_.
 ### Input arguments:
 * _data_: <code>timeSeries</code>. The cumulative or on-change time series that has to be converted to instantaneous.
 An _instantaneous_ measurement is a gauge metric, in which the value can increase or decrease and measures a specific
