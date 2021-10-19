@@ -25,6 +25,8 @@ The function takes as input a time-indexed series of a measurement of _instantan
 pattern from the data. Holidays are provided as an input time series to the function and are excluded from the 
 calculation, together with outliers. To be consistent with the input data, the resulting time series 
 will be temporarily aligned with the last week of the input series. 
+The function uses _data_preparation_._detect_time_step_ to infer the frequency of the input data and convert it to 
+hourly data with _data_preparation_._align_time_grid_.
 The minimum frequency allowed to compute the weekly profile is hourly ('H').
 
 ## :round_pushpin: yearly_profile_detection
@@ -46,4 +48,6 @@ The function takes as input a time-indexed series of a measurement of _instantan
 pattern from the data. Holidays are provided as an input time series to the function and are excluded from the 
 calculation, together with outliers. To be consistent with the input data, the resulting time series 
 will be temporarily aligned with the last year of the input series. 
+The function uses _data_preparation_._detect_time_step_ to infer the frequency of the input data and convert it to 
+daily data with _data_preparation_._align_time_grid_.
 The lowest frequency allowed to be able to compute the weekly profile is daily ('D').
