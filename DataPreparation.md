@@ -237,27 +237,25 @@ To test regular expressions configured in the _regExpValues_ you should use the 
 
 ## :round_pushpin: clean_ts_fill_NA
 
-
 ### Description:
-
+This function imputates values to Not Available (NA) elements of a time series, based on the outliers estimation made the functions implemented in Outlier Detection module block of this library.
 
 ### Input arguments:
-* _data_: <code>timeSeries</code>
-* _outliersMinMax_: <code>clean_ts_min_max_outliers() _output_</code> 
+* _data_: <code>timeSeries</code> with Not Available elements to be filled.
+* _outliersMinMax_: <code>clean_ts_min_max_outliers() _output_</code>
 * _outliersZScore_: <code>clean_ts_zscore_outliers() _output_</code> 
 * _outliersCalendarModel_: <code>clean_ts_calendar_model_outliers() _output_</code> 
-* _methodFillNA_: <code>string</code>  Possible values are:
-  * _calendarModel_: The predicted values considered in the calendar model of the 
-  * _backward_:
-  * _forward_:
-  * _linearInterpolation_:
+* _methodFillNA_: <code>string</code> argument specifying the methodology for filling the NA elements. Possible values are:
+  * _calendarModel_: The predicted values estimated by the calendar model are used to fulfill the NA elements.
+  * _backward_: The previous known element of the timeseries is considered.
+  * _forward_: The next known element of the timeseries is considered.
+  * _linearInterpolation_: A linear interpolation is done between using previous and next known elements regarding each data gap.
 * _maxGap_: <code>string</code> in ISO 8601 format representing the window (e.g. "4H", "30M", "72H", "2D",...). It defines the maximum period allowed. Therefore, gaps with greater period are not considered in the imputation. By default, it doesn't exists a limitation of the gap longitude.
-* _fillMask_:
+* _fillMask_: <code>boolean timeSeries</code> defining the time periods where the imputation can be done. By default, all elements of the timeseries can be filled.
 
 ### Return value: 
+* _filledData_: <code>timeSeries</code> with filled elements.
 
 ### Details:
-
-
-
+This function requires the previous usage of the Outlier Detection functions. An interpretation of the _maxGap_ and a resample of the _fillMask_ timestep is done, considering the actual timestep of the _data_ timeseries. Actual methods to fill the NA elements are quite simple, but in future more complex implementation of this imputation could be integrated. 
 
