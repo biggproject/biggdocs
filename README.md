@@ -21,11 +21,11 @@ The functionalities implemented in biggr and biggpy requires the usage of harmon
 
 ## <code>integer</code>
 * R: <code>integer</code> class
-* Python: <code>integer</code> type 
+* Python: <code>int</code> type 
 
 ## <code>boolean</code>
 * R: <code>logical</code> class
-* Python: <code>boolean</code> type 
+* Python: <code>bool</code> type 
 
 ## <code>date</code>
 * R: <code>Date</code> class
@@ -37,12 +37,38 @@ The functionalities implemented in biggr and biggpy requires the usage of harmon
 
 ## <code>list</code>
 * R: <code>c(<element1>,<element2>,...,<elementN>)</code> function, where all elements belong to character, float, integer, logical, Date or POSIXct classes.
-* Python: <code>[<element1>,<element2>,...,<elementN>]</code>, where all elements belong to the types string, float, integer, or boolean, or to the datetime.date or datetime.datetime classes.
+* Python: <code>list</code><code>[<element1>,<element2>,...,<elementN>]</code>, where all elements belong to the types \
+string, float, integer, or boolean, or to the datetime.date or datetime.datetime classes or whatever Python class.
 
 ## <code>dictionary</code>
 * R: <code>list(<key1>:<value1>,<key2>:<value2>,...,<keyN>:<valueN>)</code>, where all keys belong to character class, and values can be float, integer, logical, Date, POSIXct, list or data.frame classes.
-* Python: <code>{<key1>:<value1>,<key2>:<value2>,...,<keyN>:<valueN>}</code>, where all keys belong to string type, and values can be
-string, float, integer, boolean, or whatever Python class.
+* Python: <code>dict</code><code>{<key1>:<value1>,<key2>:<value2>,...,<keyN>:<valueN>}</code>, where all keys belong to string, int or any non mutable type, and values can be
+string, float, integer, boolean, list or whatever Python class.
+
+## <code>generator</code>
+Generators are iterators, but you can only iterate over them once. 
+It’s because they do not store all the values in memory, they generate the values on the fly. 
+Generators are best for calculating large sets of results (particularly calculations involving loops themselves) where 
+you don’t want to allocate the memory for all results at the same time. 
+You use them by iterating over them, either with a ‘for’ loop or by passing them to any function or construct that 
+iterates. Most of the time generators are implemented as functions. However, they do not <code>return</code> a value, 
+they <code>yield</code> it.
+
+* Python: <code>generator</code> A generator expression in Python can be created with a one-liner expression like:
+
+```python 
+g = (x**2 for x in range(10))
+print g.next()
+```
+or can be created by defining a python function that <code>yield</code> a result, like:
+```python
+def __gen(exp):
+    for x in exp:
+        yield x**2
+g = __gen(iter(range(10)))
+print g.next()
+```
+* R
 
 ## <code>timeSeries</code>
 
@@ -51,6 +77,8 @@ string, float, integer, boolean, or whatever Python class.
 
 * Python:
 > <code>pandas.Series</code> class with indexed time in UTC timezone. The series type can be whatever is needed by the variable (<code>string, float, integer</code>) 
+
+> <code>pandas.DataFrame</code> class with a DateTimeIndex and one column representing the values of the series. The series type can be whatever is needed by the variable (<code>string, float, integer</code>) 
 
 * Note! In the case of non cumulative consumption or some weather feature time series, the time stamp of each element represents the initial time where the value applies. We assume that it does not change during that time step, until the next time series element.
 
