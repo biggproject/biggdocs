@@ -64,7 +64,7 @@ i.e. with a specific frequency. If the _measurementReadingType_ of the series is
 be converted first using the function _clean_ts_integrate_.
 * _outputTimeStep_: <code>string</code>. The frequency used to resample the input time series for the alignment.
 It must be a string in ISO 8601 format representing the time step (e.g. "15T","1H", "M", "D",...).
-* _aggregationFunction_: <code>enumeration</code>. The aggregation function to use when resampling the series. Possible
+* _aggregationFunction_: <code>string</code>. The aggregation function to use when resampling the series. Possible
 values are:
   * _avg_: average value in a time period.
   * _sum_: sum of the values in a time period.
@@ -121,7 +121,7 @@ Detect elements of the time series outside a minimum and maximum range.
 * _maxSeries_: <code>timeSeries</code>. An optional argument defining a time series with maximum allowed values.
 
 ### Return value: 
-This function returns a logical <code>timeSeries</code> object using the original time period and frequency, only assigning True values when an element should be considered as an outlier.
+* _outliers_: <code>boolean timeSeries</code> object using the original time period and frequency, only assigning True values when an element should be considered as an outlier.
 
 ### Details:
 This function detects elements of a time series outside the allowed range in which you know the data should be. In the case of energy consumption, it should be a positive value and not exceeding the total capacity permitted. Sometimes, this value is not easy to define.
@@ -137,31 +137,50 @@ Detect elements of the time series out of a Z-score threshold, applied on the wh
 ### Input arguments:
 * _data_: <code>timeSeries</code> An argument containing the time series from which the outliers need to be detected.
 * _zScoreThreshold_: <code>float</code> An argument defining the threshold of the Z-score calculation. 
-* _zScoreWindow_: <code>string</code>. A string in ISO 8601 format representing the window (e.g. "7D","1D", "72H"
+* _window_: <code>string</code>. A string in ISO 8601 format representing the window (e.g. "7D","1D", "72H"
 ,...). This is an optional argument setting the width of the rolling window where the Z-normalization calculation is considered. This argument allows to adapt the outlier filtering depending the dynamics of the signal itself. Default value is "NULL", thus no rolling window is considered.
 * _zScoreExtremesSensitive_: <code>boolean</code> An optional argument to define if the aggregation function of the Zscore is the mean (true), or median(false). The first one makes the Z-score sensitive to extreme values, and the second no.  Default is true.
 
-### Value: 
-This function returns a logical <code>timeSeries</code> object using the original time period and frequency, only assigning True values when an element should be considered as an outlier.
+### Return value: 
+* _outliers_: <code>boolean timeSeries</code> object using the original time period and frequency, only assigning true values when an element should be considered as an outlier.
 
 ### Details:
-This function uses _detect_time_step()_ to detect the time step of the input timeseries (_data_) and then calculate the Z-score considering the formula <img src="https://render.githubusercontent.com/render/math?math=Z_t = data_t-mean(data)/std(data)"> applied to the window score set in _zScoreWindow_. The formula can be <img src="https://render.githubusercontent.com/render/math?math=Z_t = data_t-median(data)/std(data)"> if zScoreExtremesSensitive is set to false.
+This function uses _detect_time_step()_ to detect the time step of the input timeseries (_data_) and then calculate the Z-score considering the formula <img src="https://render.githubusercontent.com/render/math?math=Z_t=\frac{data_t-mean(data)}{std(data)}"> applied to the choosen _window_. The formula can be <img src="https://render.githubusercontent.com/render/math?math=Z_t=\frac{data_t-median(data)}{std(data)}"> if _zScoreExtremesSensitive_ is set to false.
 
 ## :round_pushpin: clean_ts_lm_calendar_outliers
 
 ### Description:
 Detect elements of the time series out of a confidence threshold based on linear model of the calendar variables (month, weekday, hour).
 
-### Arguments:
+### Input arguments:
 * _data_: <code>timeSeries</code> An argument containing the time series from which the outliers need to be detected.
-* _lmQuantile_: <code>float</code> 
-* _relativePercentDifferenceThreshold_: <code>float</code> 
-* _holidaysCalendar_: <code>list of dates</code>
+* _calendarFeatures_: <code>list of strings</code> An optional argument set the calendar features of the model. Default values are: ["HOL*intercept","H"]. Possible values are:
+  * _intercept_: intercept
+  * _Y_: yearly seasonality
+  * _m_: monthly seasonality
+  * _W_: week of the year seasonality
+  * _U_: day of the week seasonality
+  * _H_: hour of the day seasonality
+  * _HOL_: holidays
+
+* _lmPercentile_: <code>float</code> An optional argument to define the percentile used in the quantile regression model. Default is 50.
+* _mode_: <code>string</code> An optional argument setting which outliers need to be filtered, the ones upper, or the ones lower to the prediction. Possible values are:
+  * _upper_: filter only upper outliers.
+  * _lower_: filter only lower outliers.
+  * _upperAndLower_: filter upper and lower outliers.
+* _upperPercentualThreshold_: <code>float</code> It sets the dynamic upper threshold to detect outliers. It is an optional argument to define the percentage of difference added to the model predition itself. Default is 200.
+* _lowerPercentualThreshold_: <code>float</code> It sets the dynamic lower threshold to detect outliers. An optional argument to define the percentage of difference substracted to the predition of the model. Default is 90.
+* _holidaysCalendar_: <code>list of dates</code> An optional list giving the dates where local or national holidays related to the location of the _data_ argument. Default is empty list.
+* _window_: <code>string</code>. A string in ISO 8601 format representing the window (e.g. "2m","4m","14D",...). This is an optional argument setting the width of the rolling window where the model is trained and evaluated. In this case, is more recommended to select a large window that is affected by several cycles of each of the seasonalities considered. This rolling window allows to adapt the outlier filtering depending the dynamics of the signal itself. Default value is "NULL", thus no rolling window is considered.
+
+### Return value: 
+* _outliers_: <code>boolean timeSeries</code> object using the original time period and frequency, only assigning true values when an element should be considered as an outlier.
+* _predicted_: <code>timeSeries</code> of the predicted values of the original timeSeries based on the calendar regression model.
 
 ### Details:
+This function estimates the outliers of a timeseries based on a rolling-window or steady quantile regression model that uses calendar features as input variables. This calendar features, that corresponds to common timeseries seasonalities, are transformed using Fourier components. However, there are two exceptions of model features that are not transformed using this technique: the _intercept_ and _HOL_ (holidays) feature, which is a 0-1 depending if the day is holiday or not. 
 
-### Value: 
-This function returns a logical <code>timeSeries</code> object using the original time period and frequency, only assigning True values when an element should be considered as an outlier.
+The only feature which is mandatory in this model is the _intercept_, that will be considered even if it is not specified in the _calendarFeatures_ argument. Another interesting point of this arguments is that it allows the interaction between terms. Thus, if we set a _HOL*intercept_ term, a different intercept will be estimated for holidays and non-holidays.
 
 
 ## :round_pushpin: plot_outliers
@@ -169,40 +188,74 @@ This function returns a logical <code>timeSeries</code> object using the origina
 ### Description:
 v2
 
-### Arguments:
+### Input arguments:
 Time series, outliers logical time series, cleaned time series, showPlot
+
+### Return value: 
+This function returns a plot (svg, pdf, html)
 
 ### Details:
 Plot the data cleaning process of a time series to expose the outliers
-
-### Value: 
-This function returns a plot (svg, pdf, html)
 
 
 ## :round_pushpin: detect_static_min_max_outliers
 
 ### Description:
-Detect element outside the min max range (To be discussed _ seems not to be used today)
+Detect which numerical elements are outside the min-max range.
 
-### Arguments:
-Value, min, max
+### Input arguments:
+* _data_: <code>float/integer list</code> The numerical elements to be evaluated
+* _min_: <code>float/integer</code> The minimum value of the range.
+* _max_: <code>float/integer</code> The maximum value of the range.
+* _includedMin_: <code>boolean</code> An optional argument setting if the minimum value should be included as valid value (true), or not (false). Default is true.
+* _includedMax_: <code>boolean</code> An optional argument setting if the maximum value should be included as valid value (true), or not (false). Default is true.
+
+### Return value: 
+* _outliers_: <code>boolean list</code> considering if each element of the _data_ list is an outlier, or not. 
 
 ### Details:
+This function should be used to filter outliers of static data (e.g. building areas, year of construction, ...)
 
-### Value: 
-This function returns a 
-
-
-## :round_pushpin: detect_static_allowed_values
+## :round_pushpin: detect_static_reg_exp
 
 ### Description:
-Detect if the element fullfill the regular expression or it exists in the list of possible values
+Detect which string element satisfy the regular expression
 
-### Arguments:
-Value, regexp, possibleValues
+### Input arguments:
+* _data_: <code>string list</code> The elements to be evaluated.
+* _regExpValues_: <code>string list</code> A list of regular expressions to be checked.
+* _negativeExp_: <code>boolean</code> An optional argument to evaluate the inverse result of the regular expressions. Default is false, thus all elements that are satified by any of the regular expressions are true.
+
+### Return value: 
+* _outliers_: <code>boolean list</code> considering if each element of the _data_ list satisfy any of the regular expression, or the contrary (if _negativeExp_ is true).
 
 ### Details:
+To test regular expressions configured in the _regExpValues_ you should use the application https://regexr.com/
 
-### Value: 
-This function returns a 
+
+# :card_file_box: Data Preparation / Missing Data Management
+
+## :round_pushpin: clean_ts_fill_NA
+
+### Description:
+This function imputates values to Not Available (NA) elements of a time series, based on the outliers estimation made the functions implemented in Outlier Detection module block of this library.
+
+### Input arguments:
+* _data_: <code>timeSeries</code> with Not Available elements to be filled.
+* _outliersMinMax_: <code>clean_ts_min_max_outliers() _output_</code>
+* _outliersZScore_: <code>clean_ts_zscore_outliers() _output_</code> 
+* _outliersCalendarModel_: <code>clean_ts_calendar_model_outliers() _output_</code> 
+* _methodFillNA_: <code>string</code> argument specifying the methodology for filling the NA elements. Possible values are:
+  * _calendarModel_: The predicted values estimated by the calendar model are used to fulfill the NA elements.
+  * _backward_: The previous known element of the timeseries is considered.
+  * _forward_: The next known element of the timeseries is considered.
+  * _linearInterpolation_: A linear interpolation is done between using previous and next known elements regarding each data gap.
+* _maxGap_: <code>string</code> in ISO 8601 format representing the window (e.g. "4H", "30M", "72H", "2D",...). It defines the maximum period allowed. Therefore, gaps with greater period are not considered in the imputation. By default, it doesn't exists a limitation of the gap longitude.
+* _fillMask_: <code>boolean timeSeries</code> defining the time periods where the imputation can be done. By default, all elements of the timeseries can be filled.
+
+### Return value: 
+* _filledData_: <code>timeSeries</code> with filled elements.
+
+### Details:
+This function requires the previous usage of the Outlier Detection functions. An interpretation of the _maxGap_ and a resample of the _fillMask_ timestep is done, considering the actual timestep of the _data_ timeseries. Actual methods to fill the NA elements are quite simple, but in future more complex implementation of this imputation could be integrated. 
 
