@@ -52,6 +52,14 @@ string, float, integer, boolean, or whatever Python class.
 
 * Note! In the case of non cumulative consumption or some weather feature time series, the time stamp of each element represents the initial time where the value applies. We assume that it does not change during that time step, until the next time series element.
 
+## <code>matrix</code>
+* R: <code>data.frame</code>
+* Python: <code>pandas.DataFrame</code>
+
+## <code>object</code>
+* R: <code>whatever object</code> that can be serialised
+* Python: <code>whatever object</code> that can be serialised
+
 # Modules of the AI toolbox
 
 ## Data preparation

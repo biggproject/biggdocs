@@ -12,8 +12,8 @@
 Cluster similar daily load curves based on the load curves itself, calendar variables and outdoor temperature
 
 ### Input arguments:
-* _consumption_: <code>timeSeries</code> containing the total energy consumption of a building. Minimum time step: hourly.
-* _temperature_: <code>timeSeries</code> containing the outdoor temperature of the related building. Minimum time step: hourly.
+* _consumption_: <code>timeSeries</code> containing the total energy consumption of a building.
+* _temperature_: <code>timeSeries</code> containing the outdoor temperature of the related building.
 * _localTimeZone_: <code>string</code> specifying the local time zone related to the building in analysis. The format of this time zones are defined by the IANA Time Zone Database (https://www.iana.org/time-zones).
 * _kMax_: <code>integer</code> defining the maximum number of allowed groups in the clustering proceed.
 * _inputVars_: <code>list of strings</code>. Select a number of features as an input of the clustering.
@@ -30,18 +30,20 @@ Cluster similar daily load curves based on the load curves itself, calendar vari
 
 
 ### Return values:
-* _dailyClassification_: <code>timeSeries</code>
-* _absoluteLoadCurvesCentroids_: <code>matrix</code>
-* _clusteringCentroids_: <code>matrix</code>
-* _clusteringModel_: <code>object</code>
+* _dailyClassification_: <code>timeSeries</code> in daily frequency, containing the classification of each daily load curve.
+* _absoluteLoadCurvesCentroids_: <code>matrix</code> with row names as the identifier of the cluster, and column names as the day hours. This matrix is filled with the hourly average consumption of each cluster detected.
+* _clusteringCentroids_: <code>matrix</code> with row names as the identifier of the cluster, and column names as the input variables used by the clustering algorithm. This matrix is filled with the average values of each input variable and cluster.
+* _classificationModel_: <code>object</code> containing a simple classification model to predict a load curve based on calendar features. 
 * _opts_: <code>dictionary</code>
-  * _normSpecs_: 
-  * _loadCurveTransformation_: 
-  * _inputVars_:
-  * _nDayParts_:
+  * _normSpecs_: <code>matrix</code> of aggregations used in the Z-score normalisation of the clustering inputs. The different types of aggregations (mean, median, std, ...) are specified as row names, and the different input features are related with column names.
+  * _loadCurveTransformation_: <code>object</code>
+  * _inputVars_: <code>object</code>
+  * _nDayParts_: <code>object</code>
 
 ### Details:
-
+Spectral clustering is used as the technique to infer the unknown daily load curves patterns. 
+In addition, a classification model to predict a load curve based on calendar features.
+The minimum frequency allowed of the arguments _consumption_ and _temperature_ to cluster daily load curves is hourly ('H').
 
 ## :round_pushpin: classification_dlc
 
@@ -49,16 +51,20 @@ Cluster similar daily load curves based on the load curves itself, calendar vari
 Classify daily load curves based on the outputs of a clustering and a new set of data
 
 ### Input arguments:
-* _consumption_: <code>timeSeries</code> containing the total energy consumption of a building. Minimum time step: hourly.
-* _temperature_: <code>timeSeries</code> containing the outdoor temperature of the related building. Minimum time step: hourly.
+* _consumption_: <code>timeSeries</code> containing the total energy consumption of a building.
+* _temperature_: <code>timeSeries</code> containing the outdoor temperature of the related building.
 * _localTimeZone_: <code>string</code> specifying the local time zone related to the building in analysis. The format of this time zones are defined by the IANA Time Zone Database (https://www.iana.org/time-zones).
 * _clustering_: <code>clustering_dlc() output</code>
+* _methodPriority_: <code>list of strings</code> Possible values:
+  * _absoluteLoadCurvesCentroids_: Based on the absolute consumption load curve
+  * _clusteringCentroids_: Based on the inputs considered in the clustering procedure. Applying the same transformations done during that process.
+  * _classificationModel_: Based on a classification model of the calendar features.
 
 ### Return values:
 * _dailyClassification_: <code>timeSeries</code>
 
 ### Details:
-
+The minimum frequency allowed of the arguments _consumption_ and _temperature_ to cluster daily load curves is hourly ('H').
 
 ## :round_pushpin: weekly_profile_detection
 
