@@ -12,7 +12,7 @@
     
 The function divides all the samples in _k_ groups of samples, called folds (if _k_ is chosen to be equal to the size of
 the input dataset _n_, this is equivalent to the _Leave One Out_ strategy, where n-1 observations are used for the 
-training set and the remaining one is used for the test set), of equal sizes (if possible). 
+training set and the remaining one is used for the test set), of approximately equal sizes. 
 The prediction function is learned using _k-1_ folds, and the fold left out is used for test.
 
 ### Input arguments:
@@ -83,23 +83,74 @@ parameter set for a specific model family, given a scoring function.
 ### Input arguments:
 * _model_family_: <code>string</code>. string identifying a model family (e.g. 'SVC',
 'DecisionTreeClassifier', etc.)
+* _X_data_: <code>timeSeries</code>. X time series. Training vector of shape (_n_samples_, _n_features_), 
+where _n_samples_ is the number of samples and _n_features_ is the number of features.
+* _y_data_: <code>timeSeries</code>. Y time series. Target relative to X for classification or regression; 
+None for unsupervised learning.
 * _parameter_grid_: <code>dict</code>. Dictionary containing the set of parameters to explore.
-* _scoring_: <code>string</code>. A string representing the scoring functions to use.
+* _scoring_: <code>string</code>. A string representing the scoring function to use.
 * _cv_splitter_: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
 library which yields couples of _k_ training sets and test sets indices, each couple representing one split.
 
 ### Return values: 
-* _best_model_: <code>object</code>. Best model instance of the model family found by the exhaustive search and 
+* _best_model_instance_: <code>object</code>. Best model instance of the model family found by the exhaustive search and 
 retrained on the whole dataset.
 * _best_params_: <code>dict</code>. Parameter setting that gave the best results on the hold out data.
-* _best_score_: <code>float</code>. Mean cross-validated score of the best_estimator.
+* _best_score_: <code>float</code>. Mean cross-validated score of the best model _best_model_instance_.
 * _cv_results_: <code>dict</code>. A dict with keys as column headers and values as columns representing the test score
-for each split and each parameter combination and the rank of each set of parameters.
+for each split and each parameter combination and the rank of each set of parameters. Can be imported into a DataFrame.
+
+Example:
+
+<img src="figures/hyper_parameter_tuner.png" alt="table" width="800"> 
 
 ### Details:
 
-This function performs an exhaustive search within the _parameter_grid_ of the best parameters for a given model family
-and scoring function, identifying and returning, in fact, the best model instance.
+It will perform an exhaustive search of the best parameters for the given model family over the parameter grid, using
+the provided cross validation partitioning. For each fixed combination of hyper-parameters and cross validation 
+iteration (split), it will fit the model instance on the folds representing the training set and predict on the fold 
+left out as test set, calculating the accuracy of the prediction with the provided scoring function. 
+Then, it will compute the average of all the cv split scores for each fixed combination of hyper-parameters. Finally, it
+will return the model instance retrained on the whole dataset using the parameters that provided the best mean 
+cross-validated score. For details, the function will also provide a dictionary showing the final and intermediate 
+results and also the time took for the several phases of the optimization.
+
+
+## :round_pushpin: evaluate_model
+
+### Description:
+    
+This function evaluates the performances of a given model instance by cross-validation using the given metrics. 
+
+### Input arguments:
+* _model_instance_: <code>object</code>. Object representing a specific model instance, i.e. a model class (family) 
+ already initialized with a fixed set of hyper-parameters (if available).
+* _X_data_: <code>timeSeries</code>. X time series. Training vector of shape (_n_samples_, _n_features_), 
+where _n_samples_ is the number of samples and _n_features_ is the number of features.
+* _y_data_: <code>timeSeries</code>. Y time series. Target relative to X for classification or regression; 
+None for unsupervised learning.
+* _scoring_: <code>list</code><code>string</code>. A list of strings representing the scoring functions to use.
+* _cv_splitter_: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
+library which yields couples of _k_ training sets and test sets indices, each couple representing one split.
+
+### Return values:
+* _cv_results_: <code>dict</code>. A dict of arrays containing the score/time arrays for each scoring metric.
+Can be imported into a DataFrame.
+
+Example:
+
+<img src="figures/evaluate_model.png" alt="table2" width="800"> 
+
+### Details:
+
+This function will evaluate a model instance,  i.e. a model class (family) which has been already initialized with a 
+fixed set of hyper-parameters using one or more scoring functions and a cross-validation splitter. 
+For each cross validation iteration (split), it will fit the model instance on the folds representing the training set 
+and predict on the fold left out as test set, calculating the accuracy of the prediction with the provided scoring 
+functions.
+
+
+
 
 
 ## :round_pushpin: test_stationarity_acf_pacf
