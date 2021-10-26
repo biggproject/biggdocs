@@ -70,10 +70,10 @@ can generate training sets with observations that occur after the observation of
 be trained on future data to predict past data, which is a situation we want to avoid.
 This function will partition the data so that the test sets of each fold will not overlap in time (will contain unique
 observations) and observations from the training set will always occur before their corresponding test set.
-The return value is a generator that can be used directly as input argument of the _hyper_parameter_tuner_ function to 
+The return value is a generator that can be used directly as input argument of the _tune_hyper_parameters_ function to 
 specify which partitioner to use.
 
-## :round_pushpin: hyper_parameter_tuner
+## :round_pushpin: tune_hyper_parameters
 
 ### Description:
     
@@ -102,14 +102,14 @@ for each split and each parameter combination and the rank of each set of parame
 
 Example:
 
-<img src="figures/hyper_parameter_tuner.png" alt="table" width="800"> 
+<img src="figures/tune_hyper_parameters.png" alt="table" width="1000"> 
 
 ### Details:
 
 It will perform an exhaustive search of the best parameters for the given model family over the parameter grid, using
-the provided cross validation partitioning. For each fixed combination of hyper-parameters and cross validation 
-iteration (split), it will fit the model instance on the folds representing the training set and predict on the fold 
-left out as test set, calculating the accuracy of the prediction with the provided scoring function. 
+the provided cross validation partitioning. For each fixed combination of hyper-parameters (parameter set) 
+and cross validation iteration (split), it will fit the model instance on the folds representing the training set and 
+predict on the fold left out as test set, calculating the accuracy of the prediction with the provided scoring function. 
 Then, it will compute the average of all the cv split scores for each fixed combination of hyper-parameters. Finally, it
 will return the model instance retrained on the whole dataset using the parameters that provided the best mean 
 cross-validated score. For details, the function will also provide a dictionary showing the final and intermediate 
@@ -139,7 +139,7 @@ Can be imported into a DataFrame.
 
 Example:
 
-<img src="figures/evaluate_model.png" alt="table2" width="800"> 
+<img src="figures/evaluate_model.png" alt="table2" width="500"> 
 
 ### Details:
 
@@ -147,9 +147,55 @@ This function will evaluate a model instance,  i.e. a model class (family) which
 fixed set of hyper-parameters using one or more scoring functions and a cross-validation splitter. 
 For each cross validation iteration (split), it will fit the model instance on the folds representing the training set 
 and predict on the fold left out as test set, calculating the accuracy of the prediction with the provided scoring 
-functions.
+functions. 
+N.B.: To evaluate the generalization performance of several model instances of the same model family (model families
+requiring a tuning of their hyper-parameters), _the evaluate_model_with_tuning_ function should be used.
 
 
+## :round_pushpin: evaluate_model_with_tuning
+
+### Description:
+    
+This function performs a nested cross-validation (double cross-validation), which includes an internal hyper-parameter 
+tuning, to reduce the bias in combined hyper-parameter tuning and model selection. However, this function will not 
+select the best model instance but will provide a less biased estimate of a tuned model’s performance on the dataset.
+
+### Input arguments:
+* _model_family_: <code>string</code>. string identifying a model family (e.g. 'SVC',
+'DecisionTreeClassifier', etc.)
+* _X_data_: <code>timeSeries</code>. X time series. Training vector of shape (_n_samples_, _n_features_), 
+where _n_samples_ is the number of samples and _n_features_ is the number of features.
+* _y_data_: <code>timeSeries</code>. Y time series. Target relative to X for classification or regression; 
+None for unsupervised learning.
+* _parameter_grid_: <code>dict</code>. Dictionary containing the set of parameters to explore.
+* _scoring_: <code>string</code>. A string representing the scoring function to use.
+* _cv_splitter_outer: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
+library which yields couples of _k_ training sets and test sets indices, each couple representing one split. This 
+splitter is related to the outer loop of cross-validation and generally has a _k_ lower than or equal to the inner.
+* _cv_splitter_inner: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
+library which yields couples of _k_ training sets and test sets indices, each couple representing one split. This 
+splitter is related to the inner loop of cross-validation for the hyper-parameter tuning.
+
+### Return values:
+* _mean_score_: <code>float</code>. Mean cross-validated score for all the model instances.
+* _cv_results_: <code>list</code><code>dict</code>. A list of dictionaries where each element represents the results
+obtained on a specific model instance in terms of performance evaluation and selected hyper-parameters.
+
+### Details:
+
+This function will evaluate multiple model instances, i.e. several models of the same family instantiated with a 
+specific set of hyper-parameters. However, the purpose of this procedure is not the selection of the best model (the 
+function _tune_hyper_parameters_ is in charge of this task) among all the instances but is instead to provide a 
+less-biased evaluation of a subset of instances of a model family. The score obtained from the function 
+_tune_hyper_parameters_ is not a reasonable estimate of our testing error, when evaluating the performance of the 
+best model, and it is shown to be too optimistic in practice. Indeed, in that case, we use the final scores to pick-up
+the best model. It means that we used knowledge from the test set (i.e. test score) to decide our model’s 
+training parameter and that score is not representative of the generalization performance of the model. 
+While, in this case, the hyper-parameter tuning is less likely to overfit the dataset as 
+it is only carried out on a subset of the dataset provided by the outer cross-validation procedure. 
+This function will run the hyper-parameter tuning for each training set of the outer cross-validation split and 
+evaluate the best selected model instance at that iteration using the test set of that split. The results of each 
+evaluation carried out on the outer cross validation splits are then averaged into one single value.
 
 
 ## :round_pushpin: test_stationarity_acf_pacf
