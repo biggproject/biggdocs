@@ -152,15 +152,14 @@ functions.
 
 
 
-
 ## :round_pushpin: test_stationarity_acf_pacf
 
 ### Description:
     
-This function tests the stationarity and plot the autocorrelation and partial autocorrelation of the time series 
+This function tests the stationarity and plot the autocorrelation and partial autocorrelation of the time series. 
 
 ### Input arguments:
-* _data: : <code>timeSeries</code> for which the stationarity as to be evaluated.
+* _data: <code>timeSeries</code> for which the stationarity as to be evaluated.
 * _Sample: <code>float</code>. Sample of the data that will be evaluated.
 * _Maxlag: <code>int</code>. Maximum lag which is included in test, default value of 12*(nobs/100)^{1/4} is used when None.
 
@@ -194,14 +193,95 @@ These indirect correlations are a linear function of the correlation of the obse
 This function split the time series in train and test datasets from any given data point. 
 
 ### Input arguments:
-* _data: : <code>timeSeries</code> we want to split. 
-* _test: <code>float</code> (ex: 0.2) or <code>str</code>: index position (ex."yyyy-mm-dd", 1000). Test size 
+* _data_: <code>timeSeries</code> we want to split. 
+* _test_: <code>float</code> (ex: 0.2) or <code>str</code>: index position (ex."yyyy-mm-dd", 1000). Test size 
+* plot: <code>boolean</code> to decide if the 2 new time series have to be plotted
 
 ### Return values: 
-* _ts_train <code>timeSeries</code>. Train time series
-* _ts_test <code>timeSeries</code>. Test time series 
-
+* _ts_train_: <code>timeSeries</code>. Train time series
+* _ts_test_: <code>timeSeries</code>. Test time series 
+* _Optional_<code>plot</code> of the train and test time series 
 
 ### Details:
 
-This function take a dataset and divide it into two subsets: the first one will be used to fit the model and the second one will be the used to evaluate the fit. 
+This function takes a dataset and divides it into two subsets: the first one will be used to fit the model and the second one will be the used to evaluate the fit. 
+
+## :round_pushpin: fit_sarimax
+
+### Description:
+    
+This function fits a SARIMAX model 
+
+### Input arguments:
+* _ts_train_: <code>timeSeries</code> used to train the model. 
+* _order_: <code>tuple</code>. ARIMA(p,d,q) --> p: lag order (AR), d: 
+                  degree of differencing (to remove trend), q: order 
+                  of moving average (MA). 
+* _seasonal_order_: <code>tuple</code>. (P,D,Q,s) --> s: number of 
+                  observations per seasonal (ex. 7 for weekly 
+                  seasonality with daily data, 12 for yearly 
+                  seasonality with monthly data).              
+* _exog_train_: <code>timeSeries</code> containing the exogeneous variables.  
+
+### Return values: 
+* _model_: <code>Object</code> holding results from fitting the model. 
+
+### Details:
+SARIMAX (Seasonal ARIMA with External Regressors) is an extension to ARIMA that supports the direct modeling of the seasonal component of the series: 
+    y[t+1] = (c + a0*y[t] + a1*y[t-1] +...+ ap*y[t-p]) + (e[t] + 
+              b1*e[t-1] + b2*e[t-2] +...+ bq*e[t-q]) + (B*X[t])
+              
+              
+## :round_pushpin: test_sarimax
+
+### Description:
+    
+This function gets the prediction of the sarimax model. 
+
+### Input arguments:
+* _start_: <code>int</code>, <code>str</code> or <code>datetime</code>. Observation number at which to start forecasting used to train the model. Can also be a date string to parse or a datetime type. Default is the the zeroth observation.
+* _end_: <code>int</code>, <code>str</code> or <code>datetime</code>. Observation number at which to end forecasting. Default is the last observation in the sample.          
+* _exog_test_: <code>timeSeries</code> containing the exogeneous variables.  
+* _model_: <code>Object</code> holding results from fitting the model. 
+
+### Return values: 
+* _forecast_: <code>timeSeries</code> containing the forecasted value. 
+
+### Details:
+This function will make the prediction using the model previously created. 
+              
+
+## :round_pushpin: fit_prophet
+
+### Description:
+    
+This function fits a PROPHET model 
+
+### Input arguments:
+* _dtf_train_: <code>dataframe</code>  with columns 'ds' (dates), 
+             'y' (values), 'cap' (capacity if growth="logistic") [requirement of the Prophet model], 
+             other additional regressor. 
+* _lst_exog_: <code>list</code> of exogeneous variables. 
+### Return values: 
+* _model_: <code>Object</code> holding results from fitting the model. 
+
+### Details:
+Prophet can be considered a nonlinear regression model of the form:
+    y[t] = g(t) +s(t) +h(t) + ε[t]
+where g(t) describes a linear trend, s(t) describes the various seasonal patterns, h(t) captures the holiday effects and ε[t] is a noise error term. 
+              
+## :round_pushpin: test_prophet
+
+### Description:
+    
+This function gets the prediction of the prophet model. 
+
+### Input arguments:
+* _model_: <code>Object</code> holding results from fitting the model. 
+* _period_: <code>int</code>. Number of periods to be predicted. 
+
+### Return values: 
+* _forecast_: <code>timeSeries</code> containing the forecasted value. 
+
+### Details:
+This function will make the prediction using the model previously created. 
