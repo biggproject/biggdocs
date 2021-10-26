@@ -160,13 +160,13 @@ functions.
 This function tests the stationarity and plot the autocorrelation and partial autocorrelation of the time series 
 
 ### Input arguments:
-* _data: : <code>timeSeries</code>. for which the stationarity as to be evaluated.
+* _data: : <code>timeSeries</code> for which the stationarity as to be evaluated.
 * _Sample: <code>float</code>. Sample of the data that will be evaluated.
 * _Maxlag: <code>int</code>. Maximum lag which is included in test, default value of 12*(nobs/100)^{1/4} is used when None.
 
 ### Return values: 
-* <code>plot</code>. of the mean and variance of the sample with the p-value.
-* <code>plot</code>. of the autocorrelation and partial autocorrelation. 
+* <code>plot</code> of the mean and variance of the sample with the p-value.
+* <code>plot</code> of the autocorrelation and partial autocorrelation. 
 
 
 ### Details:
@@ -187,4 +187,21 @@ The autocorrelation for an observation and an observation at a prior time step i
 These indirect correlations are a linear function of the correlation of the observation, with observations at intervening time steps.
 
 
+## :round_pushpin: split_train_test
 
+### Description:
+    
+This function split the time series in train and test datasets from any given data point. 
+
+### Input arguments:
+* _data: : <code>timeSeries</code> we want to split. 
+* _test: <code>float</code> (ex: 0.2) or <code>str</code>: index position (ex."yyyy-mm-dd", 1000). Test size 
+
+### Return values: 
+* _ts_train <code>timeSeries</code>. Train time series
+* _ts_test <code>timeSeries</code>. Test time series 
+
+
+### Details:
+
+This function take a dataset and divide it into two subsets: the first one will be used to fit the model and the second one will be the used to evaluate the fit. 
