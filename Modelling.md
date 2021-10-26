@@ -258,7 +258,7 @@ This function will make the prediction using the model previously created.
 This function fits a PROPHET model 
 
 ### Input arguments:
-* _dtf_train_: <code>dataframe</code>  with columns 'ds' (dates), 
+* _ts_train_: <code>timeSeries</code>. Imported into a DataFrame with columns 'ds' (dates), 
              'y' (values), 'cap' (capacity if growth="logistic") [requirement of the Prophet model], 
              other additional regressor. 
 * _lst_exog_: <code>list</code> of exogeneous variables. 
@@ -285,3 +285,23 @@ This function gets the prediction of the prophet model.
 
 ### Details:
 This function will make the prediction using the model previously created. 
+
+
+## :round_pushpin: schedule_optimizer
+
+### Description:
+    
+This function gives alternative schedules for households to answer to the flexibility request. 
+
+### Input arguments:
+* _X_forecast_: <code>timeSeries</code>. Forecast of X household energy consumption. 
+* _flex_request_: <code>tuple</code>. Time window and amount of energy asked in the flexibility request. 
+* _X_user_pref_: <code>dict</code> containing the X user preferences.
+* _dynamic_tariff_: <code>timeSeries</code>. Price of energy per hour. 
+* _dynamic_renew_energy_: <code>timeSeries</code>. Quantity of available renewable energy per hour. 
+
+### Return values: 
+* _Y_schedule_: <code>dict</code> A dict containing the alternative schedule for each Y households. 
+
+### Details:
+This function will analyze which households have to adapt their consumption to answer to the flexibility request based on the forecast and taking into account their preferences. Alternative schedules are created for these identified households taking into account the dynamic tariff and the amount of renewable energy available.
