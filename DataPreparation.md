@@ -132,7 +132,7 @@ Additionally, with the minSeries and maxSeries arguments, this ranges can be set
 ## :round_pushpin: detect_ts_zscore_outliers
 
 ### Description:
-Detect elements of the time series out of a Z-score threshold, applied on the whole timeseries or a rolling window of predefined width.
+Detect elements of the time series out of a Z-score threshold, applied on the whole time series or a rolling window of predefined width.
 
 ### Input arguments:
 * _data_: <code>timeSeries</code> An argument containing the time series from which the outliers need to be detected.
@@ -145,7 +145,7 @@ Detect elements of the time series out of a Z-score threshold, applied on the wh
 * _outliers_: <code>boolean timeSeries</code> object using the original time period and frequency, only assigning true values when an element should be considered as an outlier.
 
 ### Details:
-This function uses _detect_time_step()_ to detect the time step of the input timeseries (_data_) and then calculate the Z-score considering the formula <img src="https://render.githubusercontent.com/render/math?math=Z_t=\frac{data_t-mean(data)}{std(data)}"> applied to the choosen _window_. The formula can be <img src="https://render.githubusercontent.com/render/math?math=Z_t=\frac{data_t-median(data)}{std(data)}"> if _zScoreExtremesSensitive_ is set to false.
+This function uses _detect_time_step()_ to detect the time step of the input time series (_data_) and then calculate the Z-score considering the formula <img src="https://render.githubusercontent.com/render/math?math=Z_t=\frac{data_t-mean(data)}{std(data)}"> applied to the choosen _window_. The formula can be <img src="https://render.githubusercontent.com/render/math?math=Z_t=\frac{data_t-median(data)}{std(data)}"> if _zScoreExtremesSensitive_ is set to false.
 
 ## :round_pushpin: detect_ts_calendar_model_outliers
 
@@ -179,7 +179,7 @@ Detect elements of the time series out of a confidence threshold based on linear
 * _predicted_: <code>timeSeries</code> of the predicted values of the original timeSeries based on the calendar regression model.
 
 ### Details:
-This function estimates the outliers of a timeseries based on a quantile regression model that uses calendar features as input variables. This calendar features, that normally corresponds to common seasonalities, are transformed using Fourier components. However, there are two exceptions of model features that are not transformed using this technique: the _intercept_, which is a fixed term during all the period, and _HOL_ (holidays) feature, which is a 0-1 depending if the day is holiday or not. 
+This function estimates the outliers of a time series based on a quantile regression model that uses calendar features as input variables. This calendar features, that normally corresponds to common seasonalities, are transformed using Fourier components. However, there are two exceptions of model features that are not transformed using this technique: the _intercept_, which is a fixed term during all the period, and _HOL_ (holidays) feature, which is a 0-1 depending if the day is holiday or not. 
 
 Regarding mandatory features, the _intercept_ is the only one that will be considered even if it is not specified in the _calendarFeatures_ argument. Another interesting point of this argument, is that it allows the interaction between terms. Thus, if we set a _HOL*intercept_ term, a different intercept will be estimated for holidays and non-holidays.
 
@@ -251,15 +251,15 @@ This function imputates values to Not Available (NA) elements of a time series, 
 * _outliersCalendarModel_: <code>detect_ts_calendar_model_outliers() _output_</code> 
 * _methodFillNA_: <code>string</code> argument specifying the methodology for filling the NA elements. Possible values are:
   * _calendarModel_: The predicted values estimated by the calendar model are used to fulfill the NA elements.
-  * _backward_: The previous known element of the timeseries is considered.
-  * _forward_: The next known element of the timeseries is considered.
+  * _backward_: The previous known element of the time series is considered.
+  * _forward_: The next known element of the time series is considered.
   * _linearInterpolation_: A linear interpolation is done between using previous and next known elements regarding each data gap.
 * _maxGap_: <code>string</code> in ISO 8601 format representing the window (e.g. "4H", "30M", "72H", "2D",...). It defines the maximum period allowed. Therefore, gaps with greater period are not considered in the imputation. By default, it doesn't exists a limitation of the gap longitude.
-* _fillMask_: <code>boolean timeSeries</code> defining the time periods where the imputation can be done. By default, all elements of the timeseries can be filled.
+* _fillMask_: <code>boolean timeSeries</code> defining the time periods where the imputation can be done. By default, all elements of the time series can be filled.
 
 ### Return value: 
 * _filledData_: <code>timeSeries</code> with filled elements.
 
 ### Details:
-This function requires the previous usage of the Outlier Detection functions. An interpretation of the _maxGap_ and a resample of the _fillMask_ timestep is done, considering the actual timestep of the _data_ timeseries. Actual methods to fill the NA elements are quite simple, but in future more complex implementation of this imputation could be integrated. 
+This function requires the previous usage of the Outlier Detection functions. An interpretation of the _maxGap_ and a resample of the _fillMask_ time step is done, considering the actual time step of the _data_ time series. Actual methods to fill the NA elements are quite simple, but in future more complex implementation of this imputation could be integrated. 
 

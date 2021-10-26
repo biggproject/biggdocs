@@ -68,7 +68,23 @@ def __gen(exp):
 g = __gen(iter(range(10)))
 print g.next()
 ```
-* R
+* R: <code>generator</code> A generator expression in R can be created in multiple ways, one of them is using the <code>coro</code> library:
+```r
+library(coro)
+gen <- generator(
+  function(X){
+    for(x in X){
+      yield(x**2)
+    }
+  }
+)
+# Get the elements one by one, by iteratively execute g()
+g = gen(0:9)
+g()
+# Get all the elements at once
+g = gen(0:9)
+collect(g)
+```
 
 ## <code>timeSeries</code>
 
