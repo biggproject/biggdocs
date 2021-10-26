@@ -54,7 +54,7 @@ them. Also, it adds all surplus data to the first training partition, which is a
 ### Input arguments:
 * _data_: <code>timeSeries</code>. Input time series representing the dataset to partition.
 * _k_: <code>int</code>. Number of folds. Must be at least 2. The default value is 5.
-* max_training_set_size_: <code>int</code>. Maximum size for a single training set.
+* _max_training_set_size_: <code>int</code>. Maximum size for a single training set.
 
 ### Return values: 
 * _partition_indices_: <code>Generator</code>. Yields (generate) couples of _k_ training sets and test sets indices, 
@@ -157,8 +157,9 @@ requiring a tuning of their hyper-parameters), _the evaluate_model_with_tuning_ 
 ### Description:
     
 This function performs a nested cross-validation (double cross-validation), which includes an internal hyper-parameter 
-tuning, to reduce the bias in combined hyper-parameter tuning and model selection. However, this function will not 
-select the best model instance but will provide a less biased estimate of a tuned model’s performance on the dataset.
+tuning, to reduce the bias when combining model selection and generalization error estimation. However, this function 
+will not select the best model instance but will provide a less biased estimate of a tuned model’s performance on the 
+dataset.
 
 ### Input arguments:
 * _model_family_: <code>string</code>. string identifying a model family (e.g. 'SVC',
@@ -169,10 +170,10 @@ where _n_samples_ is the number of samples and _n_features_ is the number of fea
 None for unsupervised learning.
 * _parameter_grid_: <code>dict</code>. Dictionary containing the set of parameters to explore.
 * _scoring_: <code>string</code>. A string representing the scoring function to use.
-* _cv_splitter_outer: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
+* _cv_splitter_outer_: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
 library which yields couples of _k_ training sets and test sets indices, each couple representing one split. This 
 splitter is related to the outer loop of cross-validation and generally has a _k_ lower than or equal to the inner.
-* _cv_splitter_inner: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
+* _cv_splitter_inner_: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
 library which yields couples of _k_ training sets and test sets indices, each couple representing one split. This 
 splitter is related to the inner loop of cross-validation for the hyper-parameter tuning.
 
@@ -196,6 +197,10 @@ it is only carried out on a subset of the dataset provided by the outer cross-va
 This function will run the hyper-parameter tuning for each training set of the outer cross-validation split and 
 evaluate the best selected model instance at that iteration using the test set of that split. The results of each 
 evaluation carried out on the outer cross validation splits are then averaged into one single value.
+
+Example:
+
+<img src="figures/nested_cv.png" alt="nested_cv" width="500"> 
 
 
 ## :round_pushpin: test_stationarity_acf_pacf
