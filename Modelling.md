@@ -229,6 +229,8 @@ In statistics, the Dickey–Fuller test tests the null hypothesis that a unit ro
 * p-value > 0.05: Fail to reject the null hypothesis (H0), the data has a unit root and is non-stationary.
 * p-value <= 0.05: Reject the null hypothesis (H0), the data does not have a unit root and is stationary.
 
+This function is used to verify stationarity so that suitable forecasting methodes can be applied. 
+
 Partial autocorrelation is a summary of the relationship between an observation in a time series with observations at prior time steps 
 with the relationships of intervening observations removed.
 The partial autocorrelation at lag k is the correlation that results after removing the effect of any correlations due to the terms at shorter lags.
@@ -236,17 +238,19 @@ The partial autocorrelation at lag k is the correlation that results after remov
 The autocorrelation for an observation and an observation at a prior time step is comprised of both the direct correlation and indirect correlations. 
 These indirect correlations are a linear function of the correlation of the observation, with observations at intervening time steps.
 
+These correlations are used to define the parameters of the forecasting methods (lag). 
+
 
 ## :round_pushpin: split_train_test
 
 ### Description:
     
-This function split the time series in train and test datasets from any given data point. 
+This function splits the time series into train and test datasets at any given data point. 
 
 ### Input arguments:
 * _data_: <code>timeSeries</code> we want to split. 
 * _test_: <code>float</code> (ex: 0.2) or <code>str</code>: index position (ex."yyyy-mm-dd", 1000). Test size 
-* plot: <code>boolean</code> to decide if the 2 new time series have to be plotted
+* _plot_: <code>boolean</code> to decide if the 2 new time series have to be plotted
 
 ### Return values: 
 * _ts_train_: <code>timeSeries</code>. Train time series
@@ -261,7 +265,7 @@ This function takes a dataset and divides it into two subsets: the first one wil
 
 ### Description:
     
-This function fits a SARIMAX model 
+This function trains and fits a SARIMAX model 
 
 ### Input arguments:
 * _ts_train_: <code>timeSeries</code> used to train the model. 
@@ -278,9 +282,18 @@ This function fits a SARIMAX model
 * _model_: <code>Object</code> holding results from fitting the model. 
 
 ### Details:
-SARIMAX (Seasonal ARIMA with External Regressors) is an extension to ARIMA that supports the direct modeling of the seasonal component of the series: 
-    y[t+1] = (c + a0*y[t] + a1*y[t-1] +...+ ap*y[t-p]) + (e[t] + 
-              b1*e[t-1] + b2*e[t-2] +...+ bq*e[t-q]) + (B*X[t])
+
+A seasonal autoregressive integrated moving average (SARIMA) model is one step different from an ARIMA model based on the concept of seasonal trends:
+
+The AR from ARIMA stands for autoregressive and refers to using lagged values of our target variable to make our prediction. For example, we might use today’s, yesterday’s, and the day before yesterday’s sales numbers to forecast tomorrow’s sales. That would be an AR(3) model as it uses 3 lagged values to make its prediction.
+
+The I stands for integrated. It means that instead of taking the raw target values, we are differencing them. For example, our sales prediction model would try to forecast tomorrow’s change in sales (i.e. tomorrow’s sales minus today’s sales) rather than just tomorrow’s sales. The reason we need this is that many time series exhibit a trend, making the raw values non-stationary. Taking the difference makes our Y variable more stationary.
+
+The MA stands for moving average. A moving average model takes the lagged prediction errors as inputs. It’s not a directly observable parameter unlike the others (and it’s not fixed as it changes along with the model’s others parameters). At a high level, feeding the model’s errors back to itself serves to push it somewhat towards the correct value (the actual Y values).
+
+The S in SARIMA stands for seasonality: consistently cyclical and easily predictable, which means that we should look past the cyclicality(in other words adjust for it).
+
+SARIMAX extends on this framework just by adding the capability to handle exogenous variables.
               
               
 ## :round_pushpin: test_sarimax
@@ -306,7 +319,7 @@ This function will make the prediction using the model previously created.
 
 ### Description:
     
-This function fits a PROPHET model 
+This function trains and fits a PROPHET model 
 
 ### Input arguments:
 * _ts_train_: <code>timeSeries</code>. Imported into a DataFrame with columns 'ds' (dates), 
@@ -317,9 +330,18 @@ This function fits a PROPHET model
 * _model_: <code>Object</code> holding results from fitting the model. 
 
 ### Details:
-Prophet can be considered a nonlinear regression model of the form:
-    y[t] = g(t) +s(t) +h(t) + ε[t]
-where g(t) describes a linear trend, s(t) describes the various seasonal patterns, h(t) captures the holiday effects and ε[t] is a noise error term. 
+Prophet makes use of a decomposable time series model with three main model components: trend, seasonality, and holidays.
+
+They are combined in the following equation:
+y(t) = g(t) + s(t) + h(t) + e(t)
+
+g(t): trend models non-periodic changes; linear or logistic.
+s(t): seasonality represents periodic changes; i.e. weekly, monthly, yearly.
+h(t): ties in effects of holidays; on potentially irregular schedules ≥ 1 day(s).
+The error term e(t) represents any idiosyncratic changes which are not accommodated by the model; later we will make the parametric assumption that e(t) is normally distributed.
+
+Similar to a generalized additive model, with time as a regressor, Prophet fits several linear and non-linear functions of time as components.
+Prophet is framing the forecasting problem as a curve-fitting exercise rather than looking explicitly at the time based dependence of each observation.
               
 ## :round_pushpin: test_prophet
 
