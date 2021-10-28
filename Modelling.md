@@ -74,49 +74,7 @@ The return value is a generator that can be used directly as input argument of t
 specify which partitioner to use.
 
 
-## :round_pushpin: tune_hyper_parameters
-
-### Description:
-    
-This function performs an exhaustive search on all the parameters of the parameter grid defined and identifies the best
-parameter set for a specific model family, given a scoring function.
-
-### Input arguments:
-* _model_family_: <code>string</code>. string identifying a model family (e.g. 'SVC',
-'DecisionTreeClassifier', etc.)
-* _X_data_: <code>timeSeries</code>. X time series. Training vector of shape (_n_samples_, _n_features_), 
-where _n_samples_ is the number of samples and _n_features_ is the number of features.
-* _y_data_: <code>timeSeries</code>. Y time series. Target relative to X for classification or regression; 
-None for unsupervised learning.
-* _parameter_grid_: <code>dict</code>. Dictionary containing the set of parameters to explore.
-* _scoring_: <code>string</code>. A string representing the scoring function to use.
-* _cv_splitter_: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
-library which yields couples of _k_ training sets and test sets indices, each couple representing one split.
-
-### Return values: 
-* _best_model_instance_: <code>object</code>. Best model instance of the model family found by the exhaustive search and 
-retrained on the whole dataset.
-* _best_params_: <code>dict</code>. Parameter setting that gave the best results on the hold out data.
-* _best_score_: <code>float</code>. Mean cross-validated score of the best model _best_model_instance_.
-* _cv_results_: <code>dict</code>. A dict with keys as column headers and values as columns representing the test score
-for each split, each parameter combination, the rank of each set of parameters and the mean test score and standard 
-deviation. Can be imported into a DataFrame.
-
-Example:
-
-<img src="figures/tune_hyper_parameters.png" alt="table" width="1000"> 
-
-### Details:
-
-It will perform an exhaustive search of the best parameters for the given model family over the parameter grid, using
-the provided cross validation partitioning. For each fixed combination of hyper-parameters (parameter set) 
-and cross validation iteration (split), it will fit the model instance on the folds representing the training set and 
-predict on the fold left out as test set, calculating the accuracy of the prediction with the provided scoring function. 
-Then, it will compute the average of all the cv split scores for each fixed combination of hyper-parameters. Finally, it
-will return the model instance retrained on the whole dataset using the parameters that provided the best mean 
-cross-validated score. For details, the function will also provide a dictionary showing the final and intermediate 
-results and also the time took for the several phases of the optimization.
-
+# :card_file_box: Data Modelling / Model Assessment
 
 ## :round_pushpin: evaluate_model_cv
 
@@ -211,7 +169,51 @@ Example:
 
 <img src="figures/nested_cv.png" alt="nested_cv" width="500"> 
 
+
 # :card_file_box: Data Modelling / Model Identification
+
+## :round_pushpin: tune_hyper_parameters
+
+### Description:
+    
+This function performs an exhaustive search on all the parameters of the parameter grid defined and identifies the best
+parameter set for a specific model family, given a scoring function.
+
+### Input arguments:
+* _model_family_: <code>string</code>. string identifying a model family (e.g. 'SVC',
+'DecisionTreeClassifier', etc.)
+* _X_data_: <code>timeSeries</code>. X time series. Training vector of shape (_n_samples_, _n_features_), 
+where _n_samples_ is the number of samples and _n_features_ is the number of features.
+* _y_data_: <code>timeSeries</code>. Y time series. Target relative to X for classification or regression; 
+None for unsupervised learning.
+* _parameter_grid_: <code>dict</code>. Dictionary containing the set of parameters to explore.
+* _scoring_: <code>string</code>. A string representing the scoring function to use.
+* _cv_splitter_: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
+library which yields couples of _k_ training sets and test sets indices, each couple representing one split.
+
+### Return values: 
+* _best_model_instance_: <code>object</code>. Best model instance of the model family found by the exhaustive search and 
+retrained on the whole dataset.
+* _best_params_: <code>dict</code>. Parameter setting that gave the best results on the hold out data.
+* _best_score_: <code>float</code>. Mean cross-validated score of the best model _best_model_instance_.
+* _cv_results_: <code>dict</code>. A dict with keys as column headers and values as columns representing the test score
+for each split, each parameter combination, the rank of each set of parameters and the mean test score and standard 
+deviation. Can be imported into a DataFrame.
+
+Example:
+
+<img src="figures/tune_hyper_parameters.png" alt="table" width="1000"> 
+
+### Details:
+
+It will perform an exhaustive search of the best parameters for the given model family over the parameter grid, using
+the provided cross validation partitioning. For each fixed combination of hyper-parameters (parameter set) 
+and cross validation iteration (split), it will fit the model instance on the folds representing the training set and 
+predict on the fold left out as test set, calculating the accuracy of the prediction with the provided scoring function. 
+Then, it will compute the average of all the cv split scores for each fixed combination of hyper-parameters. Finally, it
+will return the model instance retrained on the whole dataset using the parameters that provided the best mean 
+cross-validated score. For details, the function will also provide a dictionary showing the final and intermediate 
+results and also the time took for the several phases of the optimization.
 
 ## :round_pushpin: identify_best_model
 
