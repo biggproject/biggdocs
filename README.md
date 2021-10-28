@@ -89,12 +89,10 @@ collect(g)
 ## <code>timeSeries</code>
 
 * R:
-> <code>data.frame</code> with two columns. The first one, named "time", defining the series' initial timestamp using POSIXct class and UTC timezone. The second column represents the value column and it can be of whatever class needed by the variable (<code>character, float, integer, factor</code>).
+<code>data.frame</code> with two columns. The first one, named "time", defining the series' initial timestamp using POSIXct class and UTC timezone. The second column represents the value column and it can be of whatever class needed by the variable (<code>character, float, integer, factor</code>).
 
 * Python:
-> <code>pandas.Series</code> class with indexed time in UTC timezone. The series type can be whatever is needed by the variable (<code>string, float, integer</code>) 
-
-> <code>pandas.DataFrame</code> class with a DateTimeIndex and one column representing the values of the series. The series type can be whatever is needed by the variable (<code>string, float, integer</code>) 
+<code>pandas.DataFrame</code> class with a DateTimeIndex and one column representing the values of the series. The series type can be whatever is needed by the variable (<code>string, float, integer</code>)
 
 * Note! In the case of non cumulative consumption or some weather feature time series, the time stamp of each element represents the initial time where the value applies. We assume that it does not change during that time step, until the next time series element.
 
