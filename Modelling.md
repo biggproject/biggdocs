@@ -263,6 +263,52 @@ using the same nested cross-validation procedure (_data_modelling_._cross_valida
 then it will run the _data_modelling_._cross_validation_._tune_hyper_parameters_ function on the best model family with 
 the related _parameter_grid_.
 
+# :card_file_box: Data Modelling / Model Persistence and prediction
+
+## :round_pushpin: serialize_model
+
+### Description:
+    
+This procedure serializes a model, according to the specified file format and saves it on the file system following a 
+specific convention (tbd).
+
+### Input arguments:
+* _model_dir_path_: <code>string</code>. Full path (not relative) on the file system of the directory where the model
+should be saved.
+* _format_: <code>string</code>. Format of the model to serialize and persist (tbd by the programming language or 
+framework adopted, e.g. mlflow).
+
+### Return values:
+None
+
+### Details:
+
+This procedure will save a model created by a pipeline on the file system, so that it can be persisted and then loaded
+for future prediction on new _X_data_ using the complementary function _deserialize_and_predict_. The file format for
+the serialization and the naming convention to use are specific of the programming language or framework adopted.
+
+## :round_pushpin: deserialize_and_predict
+
+### Description:
+    
+This function deserializes a model, inferring the file format from the file name, applies the model on the 
+_X_data_ and returns the predicted values in the form of a time series.
+
+### Input arguments:
+* _model_full_path_: <code>string</code>. Full path (not relative) on the file system of the model to load.
+* _X_data_: <code>timeSeries</code>. X time series. Vector of predictors of shape (_n_samples_, _n_features_), 
+where _n_samples_ is the number of samples and _n_features_ is the number of features or predictors.
+
+### Return values:
+* _y_data_: <code>timeSeries</code>. Y time series. Predicted target values.
+
+### Details:
+
+This function will load a model stored on the file system and specified with a full path (not relative) and predict, 
+based on the input _X_data_, the target values. The function will infer the format of the model from its file name and
+select automatically the correct loader (see the function _serialize_model_) to deserialize it. The predicted values 
+are provided as an output in the form of time series.
+
 ## :round_pushpin: test_stationarity_acf_pacf
 
 ### Description:
