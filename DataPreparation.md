@@ -51,9 +51,12 @@ samples that are missing in the series given a detected minimum frequency.
 
 ### Examples 
 Non-uniform time series of temperatures:
-<img src="figures/detect_time_step_case1.png" alt="detect_time_step_case1" width="300">
+
+<img src="figures/detect_time_step_case1.png" alt="detect_time_step_case1" width="200">
+
 The result will be a <code>tuple</code> containing two values, the detected _timeStep_='30T' and a DataFrame:
-<img src="figures/detect_time_step_result1.png" alt="detect_time_step_result1" width="400">
+
+<img src="figures/detect_time_step_result1.png" alt="detect_time_step_result1" width="200">
 
 ## :round_pushpin: align_time_grid
 
