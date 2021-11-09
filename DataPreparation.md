@@ -15,19 +15,18 @@ for the input time series.
 
 ### Input arguments:
 * _data_: <code>timeSeries</code>. Input time series whose time step has to be detected.
-* _maxMissingTimeSteps_: <code>int</code>. Optional tolerance threshold specifying the maximum tolerable percentage 
-of missing values on the total length of the time series. 
 
 ### Return values: 
 * _timeStep_: <code>string</code>. A string in ISO 8601 format representing the time step (e.g. "15T","1H", "3M", "1D"
-,...).
-If no frequency can be detected, the function will return None.
+,...). If the input time series is non-uniform, this will be the (minimum) most frequent time step detected. None If no
+frequency can be detected.
+* _frequencies_: <code>DataFrame</code>. This will be None if the input time series is uniform otherwise will be a
+DataFrame showing all the frequencies detected in the series in descending order and their count.
 
 ### Details:
 The function takes as input a time-indexed series and optionally the type of the input series and returns the time step
 that can be associated with it, represented with a string alias formatted according to the ISO 8601.
-
-The supported string frequency aliases are:
+For example, some supported string frequency aliases are:
 
 |Alias|Description|
 |:----------:|:-------------:|
@@ -41,16 +40,20 @@ The supported string frequency aliases are:
 |AS, YS|year start frequency|
 |A, Y|year end frequency|
 
+The function will take into account two different cases: uniform time series and non-uniform time series, i.e. a
+sequence of observations, where the spacing of observation times is not constant.
 If the frequency is not uniform, because of missing values for example, the function will still try to infer the 
-frequency and return the best guess, i.e. the most frequent time step.
-
+frequency, calculating the time deltas between consecutive observations, and return the best guess, 
+i.e. the most frequent time step. In case there are two most frequent time steps, the function will return the 
+minimum between the two.
 The function handles explicit missing values, i.e. samples having NaN as value or implicit missing values, i.e.
 samples that are missing in the series given a detected minimum frequency. 
 
-If _maxMissingTimeSteps_ is not provided, the 
-function will return the minimum detected frequency regardless of the number of missing values. If it is provided, in 
-case of non-uniform time series, the function will return the best frequency to use, i.e. the minimum frequency of the 
-series with a percentage of missing time steps lower than or equal to this argument value.
+### Examples 
+Non-uniform time series of temperatures:
+<img src="figures/detect_time_step_case1.png" alt="detect_time_step_case1" width="300">
+The result will be a <code>tuple</code> containing two values, the detected _timeStep_='30T' and a DataFrame:
+<img src="figures/detect_time_step_result1.png" alt="detect_time_step_result1" width="400">
 
 ## :round_pushpin: align_time_grid
 
