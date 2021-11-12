@@ -4,6 +4,7 @@
 - [biggpy](https://github.com/BeeGroup-cimne/biggpy#readme)
 - [biggr](https://github.com/BeeGroup-cimne/biggr#readme)
 
+
 # :card_file_box: Data Transformation / Profiling
 
 ## :round_pushpin: clustering_dlc
@@ -125,6 +126,57 @@ v2
 ### Details:
 
 
+# :card_file_box: Data Transformation / Weather
+
+## :round_pushpin: degree_days
+
+### Description: 
+Calculate the degree-days with a desired output frequency and considering cooling or heating mode.
+
+### Input arguments:
+* _temperature_: <code>timeSeries</code> of outdoor temperature of a location. Maximum input frequency is daily ("D") or higher ("H","15T",...).
+* _localTimeZone_: <code>string</code> specifying the local time zone related to the building in analysis. The format of this time zones are defined by the IANA Time Zone Database (https://www.iana.org/time-zones). This argument is optional, by default no transformation to local time zone is done.
+* _baseTemperature_: <code>float</code> describing the Balance Point Temperature (BPT) used in the calculation. Below BPT in heating mode, heat would be required by the building. The contrary in the case of cooling, over BPT in cooling mode
+* _mode_: <code>string</code> describing the calculation mode, which could be "cooling" or "heating". By default, "heating" is configured.
+* _outputTimeStep_: <code>string</code>. The frequency used to resample the daily degree days. It must be a string in ISO 8601 format representing the time step. Only yearly ("Y"), monthly ("M"),  daily ("D") output time steps are allowed.
+
+### Return values:
+* _degreeDays_: <code>timeSeries</code> in the outputTimeStep of the heating or cooling degree days.
+
+### Details:
+Firstly, this function aggregates (using average function) the temperature timeseries to daily (<img src="https://render.githubusercontent.com/render/math?math=T_d">). Then, it computes the difference between daily average temperatures and the considered base temperature (<img src="https://render.githubusercontent.com/render/math?math=T_{base}">) using the degree_raw function.
+
+## :round_pushpin: degree_raw
+
+### Description: 
+Calculate the difference between outdoor temperature and a base temperature, without considering the frequency of the original data.
+
+### Input arguments:
+* _temperature_: <code>timeSeries</code> of outdoor temperature of a location. Maximum input frequency is daily ("D").
+* _baseTemperature_: <code>float</code> describing the Balance Point Temperature (BPT) used in the calculation. Below BPT in heating mode, heat would be required by the building. The contrary in the case of cooling, over BPT in cooling mode
+* _mode_: <code>string</code> describing the calculation mode, which could be "cooling" or "heating". By default, "heating" is configured.
+
+### Return values:
+* _series_: <code>timeSeries</code> of the difference between the _temperature_ argument and the selected base temperature, mantaining the original frequency of _temperature_.
+
+### Details:
+The calculation for both modes are:
+* _Heating_ mode for one day: <img src="https://render.githubusercontent.com/render/math?math=HDD_d=(T_{base}-T_d)^{%2B}">
+* _Cooling_ mode for one day: <img src="https://render.githubusercontent.com/render/math?math=CDD_d=(T_d-T_{base})^{%2B}">
+
+where, <img src="https://render.githubusercontent.com/render/math?math=X^{%2B}=MAX(0,X)">
+
+## :round_pushpin: get_change_point_temperature
+
+### Description: 
+v2
+
+### Input arguments:
+
+### Return values:
+
+### Details:
+
 # :card_file_box: Data Transformation / Autoregressive processes
 
 ## :round_pushpin: lag_components
@@ -133,11 +185,14 @@ v2
 This function shift in time a set of features in order to be used in the training and prediction of the models. It is an important step for the multi-step prediction of Autoregressive models, where the estimated output is directly used in the subsequent predictions.
 
 ### Input arguments:
-* _data_: <code>timeSeries</code> containing the series to transform. Optionally, other variables that are not declared in _featuresNames_ can be bypassed to the output. 
-* _maxLag_: <code>integer</code> describing the maximum lags to be considered. One feature will be generated for each lag. 
-* _featuresNames_: <code>list of strings</code> selecting the series to transform.
-* _predictMode_: <code>integer</code> predictMode
-* _forceInitPerFeature_: <code>dict</code> 
+* _data_: <code>timeSeries</code> containing the series to transform. Optionally, other variables that are not declared in _featuresNames_ can be bypassed to the output.
+* _maxLag_: <code>integer</code> describing the maximum lags to be considered. One feature will be generated for each lag.
+* _featuresNames_: <code>list of strings</code> selecting the series to transform (column names of data).
+* _predictStep_: <code>integer</code> selecting the actual prediction time step when this transformation is applied in prediction mode. The first predictionStep must be 0, that will tune the features for the first timestamp defined in the _data_ timeSeries. By default, predictStep is NULL (training mode).
+* _forceGlobalInputFeatures_: <code>dict</code>. An optional object containing a fixed value for each of the inputs in the model.
+* _forceInitInputFeatures_: <code>dict</code>. An optional object containing the initialization values for the features assigned as inputs.
+* _forceInitOutputFeatures_: <code>dict</code>. An optional object containing the initialization values for the features assigned as outputs.
+* _fillInitNAs_: <code>boolean</code> setting if the initial lags of _data_ timeseries should be filled using the first value of each series. By default is false.
 
 ### Return values:
 * _data_: <code>timeSeries</code> containing the same initial information of the _data_ input argument, plus the lagged components as new columns.
