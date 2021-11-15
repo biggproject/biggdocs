@@ -144,7 +144,7 @@ Calculate the degree-days with a desired output frequency and considering coolin
 * _degreeDays_: <code>timeSeries</code> in the outputTimeStep of the heating or cooling degree days.
 
 ### Details:
-Firstly, this function aggregates (using average function) the temperature timeseries to daily (<img src="https://render.githubusercontent.com/render/math?math=T_d">). Then, it computes the difference between daily average temperatures and the considered base temperature (<img src="https://render.githubusercontent.com/render/math?math=T_{base}">) using the degree_raw function.
+Firstly, this function aggregates (using average function) the temperature timeseries to daily. Then, it computes the difference between daily average temperatures and the considered base temperature (<img src="https://render.githubusercontent.com/render/math?math=T_{base}">) using the degree_raw function.
 
 ## :round_pushpin: degree_raw
 
@@ -161,10 +161,10 @@ Calculate the difference between outdoor temperature and a base temperature, wit
 
 ### Details:
 The calculation for both modes are:
-* _Heating_ mode for one day: <img src="https://render.githubusercontent.com/render/math?math=HDD_d=(T_{base}-T_d)^{%2B}">
-* _Cooling_ mode for one day: <img src="https://render.githubusercontent.com/render/math?math=CDD_d=(T_d-T_{base})^{%2B}">
+* _Heating_ mode for one day: <img src="https://render.githubusercontent.com/render/math?math=HDD_t=(T_{base}-T_t)^{%2B}">
+* _Cooling_ mode for one day: <img src="https://render.githubusercontent.com/render/math?math=CDD_t=(T_t-T_{base})^{%2B}">
 
-where, <img src="https://render.githubusercontent.com/render/math?math=X^{%2B}=MAX(0,X)">
+where, <img src="https://render.githubusercontent.com/render/math?math=X^{%2B}=MAX(0,X)"> and <img src="https://render.githubusercontent.com/render/math?math=t"> is a timestamp of the temperature timeseries.
 
 ## :round_pushpin: get_change_point_temperature
 
