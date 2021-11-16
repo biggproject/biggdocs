@@ -317,8 +317,8 @@ This function tests the stationarity and plot the autocorrelation and partial au
 
 ### Input arguments:
 * _data: <code>timeSeries</code> for which the stationarity as to be evaluated.
-* _Sample: <code>float</code>. Sample of the data that will be evaluated.
-* _Maxlag: <code>int</code>. Maximum lag which is included in test, default value of 12*(nobs/100)^{1/4} is used when None.
+* _sample: <code>float</code>. Sample of the data that will be evaluated.
+* _maxLag: <code>int</code>. Maximum lag which is included in test, default value of 12*(nobs/100)^{1/4} is used when None.
 
 ### Return values: 
 * <code>plot</code> of the mean and variance of the sample with the p-value.
