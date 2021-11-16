@@ -367,6 +367,50 @@ This function splits the time series into train and test datasets at any given d
 
 This function takes a dataset and divides it into two subsets: the first one will be used to fit the model and the second one will be the used to evaluate the fit. 
 
+## :round_pushpin: param_tuning_sarimax
+
+### Description:
+    
+This function performs an exhaustive search on all the parameters of the parameter grid defined and identifies the best parameter set for a sarimax models, given a scoring function.
+
+### Input arguments:
+* _data_: <code>timeSeries</code> to which to fit the sarimax estimator. This may either be a Pandas Series object or a numpy array. 
+* _Optional_ _m_: <code>int</code>. The period for seasonal differencing, m refers to the number of periods in each season. For example, m is 4 for quarterly data, 12 for monthly data, or 1 for annual (non-seasonal) data. Default is 1. Note that if m == 1 (i.e., is non-seasonal), seasonal will be set to False.
+* _information_criterion_: <code>str</code>. The information criterion used to select the best model. Possibilities are ‘aic’, ‘bic’, ‘hqic’, ‘oob’. Default is 'aic'. 
+* _Optional_ _max_order_: <code>int</code>. Maximum value of p+q+P+Q. If the sum of p and q is >= max_order, a model will not be fit with those parameters, but will progress to the next combination. Default is 5.
+
+### Return values: 
+* _best_model_: <code>Object</code>. Best parameters for the sarimax model found by the exhaustive search. 
+
+### Details:
+
+This function automatically discovers the optimal order for an sarimax model. It seeks to identify the most optimal parameters. 
+In order to find the best model, it optimizes for a given information_criterion, one of (‘aic’, ‘aicc’, ‘bic’, ‘hqic’, ‘oob’) and returns the sarimax model which minimizes the value.
+
+
+## :round_pushpin: param_tuning_prophet
+
+### Description:
+    
+This function performs a search on all the parameters of the parameter grid defined and identifies the best parameter set for a sarimax models, given a MAPE scoring.
+
+### Input arguments:
+* _data_: <code>timeSeries</code> to which to fit the prophet estimator.
+* _p_: <code>int</code>. The period that you want to forecast. 
+* _Optional_seasonality_mode_: <code>list of strings</code> containing the set of parameters to explore 'multiplicative' and/or 'additive'.
+* _Optional_changepoint_prior_scale_: <code>list of floats</code> controling the flexibility of the changepoints.
+* _Optional_holidays_prior_scale_: <code>list of floats</code> controling the flexibility of the holidays. 
+* _Optional_n_changepoints_: <code>list of int</code> containing the maximum number of trend changepoints allowed when modeling the trend.
+
+
+### Return values: 
+* _optimals_: <code>Object</code>. Best parameters for the prophet model found by the exhaustive search. 
+
+
+### Details:
+
+This function seeks to identify the most optimal parameters. In order to find the best model, it optimizes for MAPE criterion and returns the prophet model which minimizes the value.
+
 ## :round_pushpin: fit_sarimax
 
 ### Description:
