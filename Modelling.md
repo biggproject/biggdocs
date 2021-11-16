@@ -329,13 +329,13 @@ This function tests the stationarity and plot the autocorrelation and partial au
 
 This function will test the stationarity by running Augmented Dickey-Fuller test wiht 95%
 In statistics, the Dickey–Fuller test tests the null hypothesis that a unit root is present in an autoregressive model. 
-    The alternative hypothesis is different depending on which version of the test is used, but is usually stationarity or trend-stationarity. 
+    The alternative hypothesis is different depending on which version of the test is used but is usually stationarity or trend-stationarity. 
     - plotting mean and variance of a sample from data
-    - plottig autocorrelation and partial autocorrelation
+    - plotting autocorrelation and partial autocorrelation
 * p-value > 0.05: Fail to reject the null hypothesis (H0), the data has a unit root and is non-stationary.
 * p-value <= 0.05: Reject the null hypothesis (H0), the data does not have a unit root and is stationary.
 
-This function is used to verify stationarity so that suitable forecasting methodes can be applied. 
+This function is used to verify stationarity so that suitable forecasting methods can be applied. 
 
 Partial autocorrelation is a summary of the relationship between an observation in a time series with observations at prior time steps 
 with the relationships of intervening observations removed.
@@ -356,7 +356,7 @@ This function splits the time series into train and test datasets at any given d
 ### Input arguments:
 * _data_: <code>timeSeries</code> we want to split. 
 * _test_: <code>float</code> (ex: 0.2) or <code>str</code>: index position (ex."yyyy-mm-dd", 1000). Test size 
-* _plot_: <code>boolean</code> to decide if the 2 new time series have to be plotted
+* _plot_: <code>bool</code> to decide if the 2 new time series have to be plotted
 
 ### Return values: 
 * _ts_train_: <code>timeSeries</code>. Train time series
@@ -395,9 +395,9 @@ The AR from ARIMA stands for autoregressive and refers to using lagged values of
 
 The I stands for integrated. It means that instead of taking the raw target values, we are differencing them. For example, our sales prediction model would try to forecast tomorrow’s change in sales (i.e. tomorrow’s sales minus today’s sales) rather than just tomorrow’s sales. The reason we need this is that many time series exhibit a trend, making the raw values non-stationary. Taking the difference makes our Y variable more stationary.
 
-The MA stands for moving average. A moving average model takes the lagged prediction errors as inputs. It’s not a directly observable parameter unlike the others (and it’s not fixed as it changes along with the model’s others parameters). At a high level, feeding the model’s errors back to itself serves to push it somewhat towards the correct value (the actual Y values).
+The MA stands for moving average. A moving average model takes the lagged prediction errors as inputs. It’s not a directly observable parameter unlike the others (and it’s not fixed as it changes along with the model’s other parameters). At a high level, feeding the model’s errors back to itself serves to push it somewhat towards the correct value (the actual Y values).
 
-The S in SARIMA stands for seasonality: consistently cyclical and easily predictable, which means that we should look past the cyclicality(in other words adjust for it).
+The S in SARIMA stands for seasonality: consistently cyclical and easily predictable, which means that we should look past the cyclicality (in other words adjust for it).
 
 SARIMAX extends on this framework just by adding the capability to handle exogenous variables.
               
@@ -409,7 +409,7 @@ SARIMAX extends on this framework just by adding the capability to handle exogen
 This function gets the prediction of the sarimax model. 
 
 ### Input arguments:
-* _start_: <code>int</code>, <code>str</code> or <code>datetime</code>. Observation number at which to start forecasting used to train the model. Can also be a date string to parse or a datetime type. Default is the the zeroth observation.
+* _start_: <code>int</code>, <code>str</code> or <code>datetime</code>. Observation number at which to start forecasting used to train the model. Can also be a date string to parse or a datetime type. Default is the zeroth observation.
 * _end_: <code>int</code>, <code>str</code> or <code>datetime</code>. Observation number at which to end forecasting. Default is the last observation in the sample.          
 * _exog_test_: <code>timeSeries</code> containing the exogeneous variables.  
 * _model_: <code>Object</code> holding results from fitting the model. 
@@ -466,6 +466,24 @@ This function gets the prediction of the prophet model.
 This function will make the prediction using the model previously created. 
 
 
+## :round_pushpin: evaluate_forecast 
+
+### Description:
+    
+This function calculates evaluation metrics for the prediction. 
+
+### Input arguments:
+* _dtf_: <code>timeSeries</code>. Imported into a DataFrame with columns raw values, fitted training values, predicted test values.  
+* _title_: <code>str</code>. Title of the plot. 
+* _plot_: <code>bool</code> to visualize on a plot the result. Default is True. 
+
+### Return values: 
+* _dtf_eval_: <code>timeSeries</code>. Imported into a DataFrame with raw ts and forecast.
+* _plot_ of the real value and the forecast. With it, the value of the metrics. 
+
+### Details:
+This function will calculate several metrics (mae, mse, rmse for example) to be able to compare the results of the forecast models. 
+
 ## :round_pushpin: schedule_optimizer
 
 ### Description:
@@ -483,4 +501,7 @@ This function gives alternative schedules for households to answer to the flexib
 * _Y_schedule_: <code>dict</code> A dict containing the alternative schedule for each Y households. 
 
 ### Details:
-This function will analyze which households have to adapt their consumption to answer to the flexibility request based on the forecast and taking into account their preferences. Alternative schedules are created for these identified households taking into account the dynamic tariff and the amount of renewable energy available.
+This function will analyze which households have to adapt their consumption to answer to the flexibility request based on the forecast and taking into account their preferences. Alternative schedules are created for these identified households considering the dynamic tariff and the amount of renewable energy available.
+
+
+
