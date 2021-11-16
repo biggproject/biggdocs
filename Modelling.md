@@ -396,7 +396,7 @@ This function performs a search on all the parameters of the parameter grid defi
 
 ### Input arguments:
 * _data_: <code>timeSeries</code> to which to fit the prophet estimator.
-* _p_: <code>int</code>. The period that you want to forecast. 
+* _p_: <code>int</code>. The number of periods you want to forecast. 
 * _Optional_seasonality_mode_: <code>list of strings</code> containing the set of parameters to explore 'multiplicative' and/or 'additive'.
 * _Optional_changepoint_prior_scale_: <code>list of floats</code> controling the flexibility of the changepoints.
 * _Optional_holidays_prior_scale_: <code>list of floats</code> controling the flexibility of the holidays. 
@@ -405,7 +405,6 @@ This function performs a search on all the parameters of the parameter grid defi
 
 ### Return values: 
 * _optimals_: <code>Object</code>. Best parameters for the prophet model found by the exhaustive search. 
-
 
 ### Details:
 
