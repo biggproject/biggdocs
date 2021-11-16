@@ -429,7 +429,6 @@ This function trains and fits a SARIMAX model
 * _exog_train_: <code>timeSeries</code> containing the exogeneous variables.  
 
 ### Return values: 
-* _model_: <code>Object</code> holding results from fitting the model.
 * _dtf_:  <code>timeSeries</code>. Imported in a DataFrame, contains the fitted values.  
 
 ### Details:
