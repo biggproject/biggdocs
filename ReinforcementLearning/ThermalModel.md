@@ -1,6 +1,6 @@
 [Return to home](README.md)
 
-### Description of the model
+### Description of the thermal model
 - [Flexibility Identification](ReinforcementLearning/FlexibilityIdentification.md)
 
 # :card_file_box: Thermal Model / Dynamics
