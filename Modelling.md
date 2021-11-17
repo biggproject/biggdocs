@@ -434,6 +434,7 @@ This function trains and fits a SARIMAX model
 * _exog_train_: <code>timeSeries</code> containing the exogeneous variables.  
 
 ### Return values: 
+* _model_: <code>Object</code> holding the model. 
 * _dtf_:  <code>timeSeries</code>. Imported in a DataFrame, contains the fitted values.  
 
 ### Details:
@@ -461,7 +462,7 @@ This function gets the prediction of the sarimax model.
 * _ts_train_: <code>timeSeries</code> used to train the model. 
 * _ts_test_: <code>timeSeries</code> used to test the model.  
 * _exog_test_: <code>timeSeries</code> containing the exogeneous variables.  
-* _model_: <code>Object</code> holding results from fitting the model. 
+* _model_: <code>Object</code> holding model from the fit_sarimax function. 
 * _p_: <code>int</code> the number of periods to be forecasted. 
 ### Return values: 
 * _forecast_: <code>timeSeries</code> containing the forecasted value. 
@@ -482,7 +483,7 @@ This function trains and fits a PROPHET model
              other additional regressor. 
 * _lst_exog_: <code>list</code> of exogeneous variables. 
 ### Return values: 
-* _model_: <code>Object</code> holding results from fitting the model. 
+* _model_: <code>Object</code> holding the model. 
 
 ### Details:
 Prophet makes use of a decomposable time series model with three main model components: trend, seasonality, and holidays.
@@ -505,7 +506,7 @@ Prophet is framing the forecasting problem as a curve-fitting exercise rather th
 This function gets the prediction of the prophet model. 
 
 ### Input arguments:
-* _model_: <code>Object</code> holding results from fitting the model. 
+* _model_: <code>Object</code> holding the model trained in the fit_prophet function. 
 * _period_: <code>int</code>. Number of periods to be predicted. 
 
 ### Return values: 
