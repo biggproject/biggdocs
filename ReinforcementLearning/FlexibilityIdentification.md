@@ -48,18 +48,18 @@ The  second  and  third  terms  are  adjustments  in  the baseline gas consumpti
 
 
 
-## :round_pushpin: Thermal Model
+# :card_file_box: Thermal Model
 
 The  thermal  model M of  a  building  has, (i)  a  **PhyCell**, which is a sequential model of the dynamic system, and (ii) a Dense  network  (**NN**),  used  to  estimate  the  external  disturbances (T<sub>a<\sub>)
 
-### PhyCell 
+## :round_pushpin: PhyCell 
 
 We introduce a physics cell (**PhyCell**) that implements the dynamics of space heating at each time step *t* and that can be optimized sequentially. 
 Figure below provides the architecture of the **PhyCell**. The  hidden  parameters  (T<sub>i</sub> and T<sub>b</sub> ) are  carried  forward  to  the  next  step  in  the  sequence.
 
 <img src="../figures/Flexibility/PhyCell.png" alt="nested_cv" width="500">
 
-### Training Algorithm 
+## Training Algorithm 
 
 We unroll the model in time for K steps, i.e., the sequence length, to estimate output and gas consumption for next step.  
 We  provide  a  pseudo  code  to  train  the  weights  of  the thermal model in Algorithm 1 To optimize the parameters of  PhyCell  we  feed  the  data  in  sequences.  Training  data  is divided into B sequences of K length each. Loss is calculated using the output values and back propagated through time to optimize the parameters.
