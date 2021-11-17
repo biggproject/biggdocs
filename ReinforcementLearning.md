@@ -6,3 +6,6 @@
 
 # Reinforcement learning / Module block XXX
 
+
+[Flexibility Identification](ReinforcementLearning/FlexibilityIdentification.md)
+
