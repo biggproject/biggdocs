@@ -31,7 +31,6 @@ This is the calculation for room temperature for next time step. This is based o
 * _RoomT_next_: <code>float</code> or <code>array</code>. Room temperature at timeslot T + dt
 
 
-
 ## :round_pushpin: BuildingT_next
 
 ### Description:
@@ -195,3 +194,23 @@ loss for the parametrs of the **PhyCell**. This loss is calculated using the wei
 * _loss_: loss for the current parameters of **PhyCell** object instance.
 
 
+
+
+# :card_file_box: Thermal Model / DenseNet
+
+### Details:
+This is used to create a dense neural network that to estimate the mapping of unknown disturbances (Outside temperature in our case)
+
+
+## :round_pushpin: DenseNet
+
+### Description:
+
+A function to create a neural network with given layers.
+
+### Input arguments:
+* _layers_: <code>list</code>. a list of number of nodes in the layers of the network. for example, layers = [1,10,1] would create a neural network of 1 input node, 1 hidden layer 10 nodes, and 1 output node.
+* _bias_: <code>bool</code> (optional). if bias term should be included in the weights
+
+### Return values: 
+* _DenaseNet_: <code>list</code> a list containing the layers of the network. this list can be based on the type of neural network library being used.
