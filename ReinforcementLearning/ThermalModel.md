@@ -139,7 +139,7 @@ Class **PhyCell** for space heating.
 ### Return values: 
 * _self_: <code>object</code> or <code>array</code>. An object of class **PhyCell**
 
-## :round_pushpin: [PhyCell](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L20).forward()
+## :round_pushpin: [PhyCell](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L20). [forward()](https://github.com/biggproject/biggpy/blob/89d7c63800f4083a773f7eabd89aa2275113e75c/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L29)
 
 ### Description:
 
@@ -152,7 +152,7 @@ forward method for the **PhyCell** class.
 ### Return values: 
 * <code>tuple</code> a tuple containing the next output and state of the PhyCell
 
-## :round_pushpin: [PhyCell](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L20).set_param()
+## :round_pushpin: [PhyCell](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L20). [set_param()](https://github.com/biggproject/biggpy/blob/89d7c63800f4083a773f7eabd89aa2275113e75c/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L53)
 
 ### Description:
 
@@ -164,7 +164,7 @@ forward method for the **PhyCell** class.
 ### Return values: 
 * nothing is returned
 
-## :round_pushpin: [PhyCell](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L20).get_param()
+## :round_pushpin: [PhyCell](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L20). [get_param()](https://github.com/biggproject/biggpy/blob/89d7c63800f4083a773f7eabd89aa2275113e75c/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L46)
 
 ### Description:
 
@@ -174,7 +174,7 @@ Returns the dictionary of the parameters of the current instance of the **PhyCel
 * _dict_: dictionary containing the parameters of the object
 
 
-## :round_pushpin: [PhyCell](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L20).set_param_grad()
+## :round_pushpin: [PhyCell](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L20). [set_param_grad()](https://github.com/biggproject/biggpy/blob/89d7c63800f4083a773f7eabd89aa2275113e75c/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L65)
 
 ### Description:
 
@@ -184,7 +184,7 @@ forward method for the **PhyCell** class.
 * _**kwargs_: <code>bool</code> or <code>dict</code>. indicate if the gradiant should be calculated for parameters of the **PhyCell**. A parameter will not be optimized if the gradiant for that parameter is set to False.
 
 
-## :round_pushpin: [PhyCell](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L20).param_loss()
+## :round_pushpin: [PhyCell](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L20). [param_loss()](https://github.com/biggproject/biggpy/blob/89d7c63800f4083a773f7eabd89aa2275113e75c/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L38)
 
 ### Description:
 
