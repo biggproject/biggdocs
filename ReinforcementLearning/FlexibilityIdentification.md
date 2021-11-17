@@ -62,10 +62,12 @@ We  provide  a  pseudo  code  to  train  the  weights  of  the thermal model in 
 
 <img src="../figures/Flexibility/Algorithm.png" alt="nested_cv" width="400">
 
-We optimize the PhyCell after passing sequential inputs, and back propagating the accumulated loss in the unrolled sequence. Where lβ is  the  loss  of  the  parameters  (β)  of  PhyCell, that is used to satisfy the constraints.lw is the loss encountered by the neural network in predicting outside  ambient  temperature.  We  calculate  the  loss  for  each time step for the sequence, where at K<sup>th<\sup> step we calculate the error in room temperature and gas consumption. Estimated  room  temperature  and  gas  consumption are added to calculate l<sub>x<\sub>.
+We optimize the PhyCell after passing sequential inputs, and back propagating the accumulated loss in the unrolled sequence. Where lβ is  the  loss  of  the  parameters  (β)  of  PhyCell, that is used to satisfy the constraints.lw is the loss encountered by the neural network in predicting outside  ambient  temperature.  We  calculate  the  loss  for  each time step for the sequence, where at K<sup>th</sup> step we calculate the error in room temperature and gas consumption. Estimated  room  temperature  and  gas  consumption are added to calculate l<sub>x<\sub>.
 
 
 <img src="../figures/Flexibility/EqnLoss.png" alt="nested_cv" width="400">
+
+
 
 
 
