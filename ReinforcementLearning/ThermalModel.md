@@ -1,11 +1,11 @@
 [Return to home](README.md)
 
-This page provides the overview of the functions implemented for thermal model. For details about the thermal model and flexibility identification please visit [Flexibility Identification](ReinforcementLearning/FlexibilityIdentification.md).
+This page provides the overview of the functions implemented for thermal model. For details about the thermal model and flexibility identification please visit [Flexibility Identification](../ReinforcementLearning/FlexibilityIdentification.md).
 
 # :card_file_box: Thermal Model / Dynamics
 
 ### Details:
-Here we implement the functions for modelling the dynamics of thermal model. These are detailed by the space heating, boiler and gas consumption models detailed in [Flexibility Identification](ReinforcementLearning/FlexibilityIdentification.md)
+Here we implement the functions for modelling the dynamics of thermal model. These are detailed by the space heating, boiler and gas consumption models detailed in [Flexibility Identification](../ReinforcementLearning/FlexibilityIdentification.md)
 
 ## :round_pushpin: RoomT_next
 
