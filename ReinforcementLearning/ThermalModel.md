@@ -103,11 +103,30 @@ This is the calculation for Gas modulation next time step. This is based on boil
 * _Gas_consumption_: <code>float</code> or <code>array</code>. Gas consumption at next timestep.
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # :card_file_box: Thermal Model / PhysicsCell
 
 ### Details:
 This is **PhyCell** class. An object of this class is used as a main recurrent unit in the thermal model. A <code>forward()</code> method is implemented in the class, which takes the current hidden state **z**<sub>t</sub> and current inputs **x**<sub>t</sub>, and returns the next hidden state and output (**x**<sub>t+1</sub>, **z**<sub>t+1</sub>). The class also has <code>set_param()</code> and <code>set_param_grad()</code> methods to set the values of parameters of **PhyCell** and if they should be optimized. A <code>weight_loss()</code> methods returns the value of loss calculated for weights of the cell
 
+Required parameters to be initialised:
+
+R<sub>a</sub>,R<sub>b</sub>, R<sub>i</sub>, R<sub>o</sub>, C<sub>r</sub>, C<sub>i</sub>, C<sub>b</sub>, a<sub>1</sub>, a<sub>2</sub>, b<sub>1</sub>, b<sub>2</sub>, c<sub>g</sub>, m
 
 ## :round_pushpin: PhyCell
 
@@ -146,6 +165,16 @@ forward method for the **PhyCell** class.
 ### Return values: 
 * nothing is returned
 
+## :round_pushpin: PhyCell.get_param()
+
+### Description:
+
+Returns the dictionary of the parameters of the current instance of the **PhyCell** object.
+
+### Return values: 
+* _dict_: dictionary containing the parameters of the object
+
+
 ## :round_pushpin: PhyCell.set_param_grad()
 
 ### Description:
@@ -156,5 +185,13 @@ forward method for the **PhyCell** class.
 * _**kwargs_: <code>bool</code> or <code>dict</code>. indicate if the gradiant should be calculated for parameters of the **PhyCell**. A parameter will not be optimized if the gradiant for that parameter is set to False.
 
 
+## :round_pushpin: PhyCell.param_loss()
+
+### Description:
+
+loss for the parametrs of the **PhyCell**. This loss is calculated using the weight loss function defined in the training section of [Flexibility Identification](../ReinforcementLearning/FlexibilityIdentification.md).
+
 ### Return values: 
-* nothing is returned
+* _loss_: loss for the current parameters of **PhyCell** object instance.
+
+
