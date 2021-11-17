@@ -2,7 +2,7 @@
 
 Effective demand response is built on identification and exploitation of flexibility. We make a thermal model of a build that can be used to estimate the maximum gas flexibility in the next steps, which can be utilized by the Reinforcement learning based control algorithm. This flexibility can de defined as:
 
-<img src="../figures/Flexibility/EqnFlexibility.png" alt="nested_cv" width="300"> 
+<img src="../figures/Flexibility/EqnFlexibility.png" alt="nested_cv" width="100"> 
 
 Where the gas consumption is minimized for T steps based on the boiler output set points T<sub>o</sub><sup>s</sup>
 
