@@ -452,11 +452,11 @@ SARIMAX extends on this framework just by adding the capability to handle exogen
 This function gets the prediction of the sarimax model. 
 
 ### Input arguments:
-* _start_: <code>int</code>, <code>str</code> or <code>datetime</code>. Observation number at which to start forecasting used to train the model. Can also be a date string to parse or a datetime type. Default is the zeroth observation.
-* _end_: <code>int</code>, <code>str</code> or <code>datetime</code>. Observation number at which to end forecasting. Default is the last observation in the sample.          
+* _ts_train_: <code>timeSeries</code> used to train the model. 
+* _ts_test_: <code>timeSeries</code> used to test the model.  
 * _exog_test_: <code>timeSeries</code> containing the exogeneous variables.  
 * _model_: <code>Object</code> holding results from fitting the model. 
-
+* _p_: <code>int</code> the number of periods to be forecasted. 
 ### Return values: 
 * _forecast_: <code>timeSeries</code> containing the forecasted value. 
 
