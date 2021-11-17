@@ -4,7 +4,7 @@ Effective demand response is built on identification and exploitation of flexibi
 
 <img src="../figures/Flexibility/EqnFlexibility.png" alt="nested_cv" width="200"> 
 
-Where the gas consumption is minimized for T steps based on the boiler output set points T<sub>o</sub><sup>s</sup>
+Where the gas consumption is minimized for T steps based on the boiler output set points T<sub>o</sub><sup>s</sup>. This Thermal model will act as a forward model for building a model-based demand response for the building.
 
 # :card_file_box: Heating system
 Space heating in domestic households can be achieved using water heating systems that can be used for space heating and/orproviding domestic hot water. 
