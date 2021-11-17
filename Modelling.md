@@ -95,7 +95,7 @@ This function evaluates the performances of a given model instance by cross-vali
 where _n_samples_ is the number of samples and _n_features_ is the number of features.
 * _y_data_: <code>timeSeries</code>. Y time series. Target relative to X for classification or regression; 
 None for unsupervised learning.
-* _scoring_: <code>list</code><code>string</code>. A list of strings representing the scoring functions to use.
+* _scoring_: <code>list</code> of <code>string</code>. A list of strings representing the scoring functions to use.
 * _cv_splitter_: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
 library which yields couples of _k_ training sets and test sets indices, each couple representing one split.
 
@@ -147,7 +147,7 @@ splitter is related to the inner loop of cross-validation for the hyper-paramete
 ### Return values:
 * _mean_score_: <code>float</code>. Mean cross-validated score for all the model instances.
 * _mean_std_: <code>float</code>. Standard deviation from the mean score.
-* _cv_results_: <code>list</code><code>dict</code>. A list of dictionaries where each element represents the results
+* _cv_results_: <code>list</code> of <code>dict</code>. A list of dictionaries where each element represents the results
 obtained on a specific model instance in terms of performance evaluation and selected hyper-parameters. Can be imported
 into a DataFrame.
 
@@ -256,7 +256,7 @@ procedure.
 * _cv_results_final_: <code>dict</code>. A dict with keys as column headers and values as columns representing the 
 test score for each split, each parameter combination, the rank of each set of parameters and the mean test score and 
 standard deviation. Can be imported into a DataFrame.
-* _cv_results_evaluation_: <code>list</code><code>dict</code>. 
+* _cv_results_evaluation_: <code>list</code> of <code>dict</code>. 
 A list of dictionaries related to the results of the nested cross-validation procedure. Each element represents the 
 results obtained on a specific model instance in terms of performance evaluation and selected hyper-parameters.
 Can be imported into a DataFrame.
