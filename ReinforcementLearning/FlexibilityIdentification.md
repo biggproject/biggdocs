@@ -2,14 +2,6 @@
 
 This page provides the detailed overview of the thermal model used for space heating. For details about implementation of related functions please visit [thermal Model](../ReinforcementLearning/ThermalModel.md).
 
-# Flexibility Identification 
-
-Effective demand response is built on identification and exploitation of flexibility. We make a **thermal model** of a build that can be used to estimate the maximum gas flexibility in the next steps, which can be utilized by the Reinforcement learning based control algorithm. This flexibility can de defined as:
-
-<img src="../figures/Flexibility/EqnFlexibility.png" alt="nested_cv" width="200"> 
-
-Where the gas consumption is minimized for T steps based on the boiler output set points T<sub>o</sub><sup>s</sup>. The thermal model will act as a forward model for building a model-based demand response for the building. This thermal model can also be used as the environment class for training the RL agent.
-
 # :card_file_box: Heating system
 Space heating in domestic households can be achieved using water heating systems that can be used for space heating and/orproviding domestic hot water. 
 A typical water heating system consists  of  a  radiator and  a  boiler  which  is  used  to  heat  the water. Heating  water  circulates  inside  radiator  and  delivers  a heat through surface layer. Externally, the radiator is in contact with the air in the room, which is warmed-up. Following figure shows a simplified version of the space heating system. Heated water leaves  the boiler  at  boiler  outlet  temperature  (T<sub>o</sub>)  and  cold water  enters  the  boiler  at boiler  inlet  temperature  (T<sub>i</sub>).  Theuser requests a room temperature (i.e., Room temperature set point (T<sub>r</sub><sup>s</sup>))
@@ -74,6 +66,16 @@ We only optimize of gas as room temperature errors because all the other values 
 We  provide  a  pseudo  code  to  train  the  weights  of  the thermal model in Algorithm 1 To optimize the parameters of  PhyCell  we  feed  the  data  in  sequences.  Training  data  is divided into B sequences of K length each. Loss is calculated using the output values and back propagated through time to optimize the parameters.
 
 <img src="../figures/Flexibility/Algorithm.png" alt="nested_cv" width="400">
+
+
+# :card_file_box: Flexibility
+
+Effective demand response is built on identification and exploitation of flexibility. We make a **thermal model** of a building that can be used to estimate the maximum gas flexibility in the next steps, which can be utilized by the Reinforcement learning based control algorithm. This flexibility can de defined as:
+
+<img src="../figures/Flexibility/EqnFlexibility.png" alt="nested_cv" width="200"> 
+
+Where the gas consumption is minimized for T steps based on the boiler output set points T<sub>o</sub><sup>s</sup>. The thermal model will act as a forward model for building a model-based demand response for the building. This thermal model can also be used as the environment class for training the RL agent.
+
 
 
 
