@@ -377,11 +377,11 @@ This function takes a dataset and divides it into two subsets: the first one wil
 
 ### Description:
     
-This function performs an exhaustive search on all the parameters of the parameter grid defined and identifies the best parameter set for a sarimax models, given a scoring function.
+This function performs an exhaustive search on all the parameters of the parameter grid defined and identifies the best parameter set for a sarimax model, given a scoring function.
 
 ### Input arguments:
-* _data_: <code>timeSeries</code> to which to fit the sarimax estimator. This may either be a Pandas Series object or a numpy array. 
-* _Optional_ _m_: <code>int</code>. The period for seasonal differencing, m refers to the number of periods in each season. For example, m is 4 for quarterly data, 12 for monthly data, or 1 for annual (non-seasonal) data. Default is 1. Note that if m == 1 (i.e., is non-seasonal), seasonal will be set to False.
+* _data_: <code>timeSeries</code> used to fit the sarimax estimator. This may either be a Pandas Series object or a numpy array. 
+* _m_: <code>int</code>. The period for seasonal differencing, m refers to the number of periods in each season. For example, m is 4 for quarterly data, 12 for monthly data, or 1 for annual (non-seasonal) data. Default is 1. Note that if m == 1 (i.e., is non-seasonal), seasonal will be set to False.
 * _information_criterion_: <code>str</code>. The information criterion used to select the best model. Possibilities are ‘aic’, ‘bic’, ‘hqic’, ‘oob’. Default is 'aic'. 
 * _Optional_ _max_order_: <code>int</code>. Maximum value of p+q+P+Q. If the sum of p and q is >= max_order, a model will not be fit with those parameters, but will progress to the next combination. Default is 5.
 
@@ -398,11 +398,11 @@ In order to find the best model, it optimizes for a given information_criterion,
 
 ### Description:
     
-This function performs a search on all the parameters of the parameter grid defined and identifies the best parameter set for a sarimax models, given a MAPE scoring.
+This function performs a search on all the parameters of the parameter grid defined and identifies the best parameter set for a prophet model, given a MAPE scoring.
 
 ### Input arguments:
-* _data_: <code>timeSeries</code> to which to fit the prophet estimator.
-* _p_: <code>int</code>. The number of periods you want to forecast. 
+* _dtf_train_: <code>timeSeries</code>. Import in a DataFrame containing the train set and with the column containing the timestamp named "ds". Used to fit the prophet estimator.
+* _p_: <code>int</code>. The number of periods you want to be forecasted. 
 * _Optional_seasonality_mode_: <code>list of strings</code> containing the set of parameters to explore 'multiplicative' and/or 'additive'.
 * _Optional_changepoint_prior_scale_: <code>list of floats</code> controling the flexibility of the changepoints.
 * _Optional_holidays_prior_scale_: <code>list of floats</code> controling the flexibility of the holidays. 
@@ -434,7 +434,8 @@ This function trains and fits a SARIMAX model
 * _exog_train_: <code>timeSeries</code> containing the exogeneous variables.  
 
 ### Return values: 
-* _dtf_:  <code>timeSeries</code>. Imported in a DataFrame, contains the fitted values.  
+* _model_: <code>Object</code> holding the model. 
+* _dtf_train_:  <code>timeSeries</code>. Imported in a DataFrame, contains the fitted values.  
 
 ### Details:
 
@@ -460,11 +461,12 @@ This function gets the prediction of the sarimax model.
 ### Input arguments:
 * _ts_train_: <code>timeSeries</code> used to train the model. 
 * _ts_test_: <code>timeSeries</code> used to test the model.  
-* _exog_test_: <code>timeSeries</code> containing the exogeneous variables.  
-* _model_: <code>Object</code> holding results from fitting the model. 
+* _exog_test_: <code>timeSeries</code> containing the exogeneous variables. 
 * _p_: <code>int</code> the number of periods to be forecasted. 
+* _model_: <code>Object</code> holding model from the fit_sarimax function. 
+ 
 ### Return values: 
-* _forecast_: <code>timeSeries</code> containing the forecasted value. 
+* _dtf_test_: <code>timeSeries</code> containing the true values and the forecasted ones. 
 
 ### Details:
 This function will make the prediction using the model previously created. 
@@ -482,7 +484,7 @@ This function trains and fits a PROPHET model
              other additional regressor. 
 * _lst_exog_: <code>list</code> of exogeneous variables. 
 ### Return values: 
-* _model_: <code>Object</code> holding results from fitting the model. 
+* _model_: <code>Object</code> holding the model. 
 
 ### Details:
 Prophet makes use of a decomposable time series model with three main model components: trend, seasonality, and holidays.
@@ -505,7 +507,7 @@ Prophet is framing the forecasting problem as a curve-fitting exercise rather th
 This function gets the prediction of the prophet model. 
 
 ### Input arguments:
-* _model_: <code>Object</code> holding results from fitting the model. 
+* _model_: <code>Object</code> holding the model trained in the fit_prophet function. 
 * _period_: <code>int</code>. Number of periods to be predicted. 
 
 ### Return values: 
