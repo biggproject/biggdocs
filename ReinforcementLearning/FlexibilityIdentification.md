@@ -1,7 +1,6 @@
 [Return to home](README.md)
 
-### Implementation of thermal model described in this page
-- Description of functions: [Thermal Model](ReinforcementLearning/ThermalModel.md)
+This page provides the detailed overview of the thermal model used for space heating. For details about implementation of related functions please visit [thermal Model](ReinforcementLearning/ThermalModel.md).
 
 # Flexibility Identification 
 

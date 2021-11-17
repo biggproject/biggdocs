@@ -1,7 +1,6 @@
 [Return to home](README.md)
 
-### Description of the thermal model
-- [Flexibility Identification](ReinforcementLearning/FlexibilityIdentification.md)
+This page provides the overview of the functions implemented for thermal model. For details about the thermal model and flexibility identification please visit [Flexibility Identification](ReinforcementLearning/FlexibilityIdentification.md).
 
 # :card_file_box: Thermal Model / Dynamics
 
