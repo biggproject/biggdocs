@@ -10,10 +10,13 @@
 
 ### Description:
     
-The function divides all the samples in _k_ groups of samples, called folds (if _k_ is chosen to be equal to the size of
-the input dataset _n_, this is equivalent to the _Leave One Out_ strategy, where n-1 observations are used for the 
-training set and the remaining one is used for the test set), of approximately equal sizes. 
+If k > 1, the function will run the standard k-fold partitioning algorithm. 
+In this case, the function divides all the samples in _k_ groups of samples, called folds (if _k_ is chosen to be equal
+to the size of the input dataset _n_, this is equivalent to the _Leave One Out_ strategy, where n-1 observations are 
+used for the training set and the remaining one is used for the test set), of approximately equal sizes. 
 The prediction function is learned using _k-1_ folds, and the fold left out is used for test.
+If k = 1, the function will run the train-test split algorithm.
+
 
 ### Input arguments:
 * _data_: <code>timeSeries</code>. Input time series representing the dataset to partition.
@@ -47,14 +50,19 @@ preserve the temporal relationship between observations.
 
 ### Description:
     
-This is a time-aware variation of k-fold which returns first _k_ folds as train set and the _k-1_ th fold as test set. 
+This is a time-aware variation of k-fold. In the kth split, it returns the first k folds as the train set and the 
+(k+1)th fold as test set. 
 Note that unlike standard cross-validation methods, successive training sets are supersets of those that come before 
 them. Also, it adds all surplus data to the first training partition, which is always used to train the model.
 
 ### Input arguments:
 * _data_: <code>timeSeries</code>. Input time series representing the dataset to partition.
 * _k_: <code>int</code>. Number of folds. Must be at least 2. The default value is 5.
-* _max_training_set_size_: <code>int</code>. Maximum size for a single training set.
+* _max_training_set_size_: <code>int</code>. Maximum size for a single training set. The default is None.
+* _gap_: <code>int</code>: Number of samples to exclude from the end of each train set before the test set. 
+The default value is 0.
+* _max_test_set_size_: <code>int</code>. Used to limit the size of the test set. Defaults to 
+n_samples // (n_splits + 1), which is the maximum allowed value with gap=0. The default is None.
 
 ### Return values: 
 * _partition_indices_: <code>Generator</code>. Yields (generate) couples of _k_ training sets and test sets indices, 
@@ -63,11 +71,9 @@ each couple representing one split.
 ### Details:
 
 This function represents a variation of the k-fold base algorithm that also takes into account the temporal dependency 
-between the observations in the dataset. When treating time series, we must take into account that it would make no 
-sense to use data from the future to forecast what happened in the past. This is the reason why it is suggested to use
-a time-aware partitioning method when dealing with time-series. A standard k-fold validation on a time series, 
+between the observations in the dataset. A standard k-fold validation on a time series, 
 can generate training sets with observations that occur after the observation of the test set. This way, the model would
-be trained on future data to predict past data, which is a situation we want to avoid.
+be trained on future data to predict past data, which is a situation we want to avoid in most of the cases.
 This function will partition the data so that the test sets of each fold will not overlap in time (will contain unique
 observations) and observations from the training set will always occur before their corresponding test set.
 The return value is a generator that can be used directly as input argument of the _tune_hyper_parameters_ function to 
@@ -227,9 +233,9 @@ associated with a specific parameter grid, given a input time series and a scori
 where _n_samples_ is the number of samples and _n_features_ is the number of features.
 * _y_data_: <code>timeSeries</code>. Y time series. Target relative to X for classification or regression; 
 None for unsupervised learning.
-* _parameter_grid_: <code>dict</code>. Dictionary of key:values pairs, where the key is a string identifying the 
-_model_family_ (e.g. 'SVC', 'DecisionTreeClassifier', etc.) and the value is a dictionary identifying the parameter grid
-  (subset of parameters to test) for that specific model family.
+* _model_families_parameter_grid_: <code>dict</code>. Dictionary of key:values pairs, where the key is a string 
+identifying the _model_family_ (e.g. 'SVC', 'DecisionTreeClassifier', etc.) and the value is a dictionary identifying 
+the parameter grid (subset of parameters to test) for that specific model family.
 * _scoring_: <code>string</code>. A string representing the scoring function to use.
 * _cv_splitter_outer_: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
 library which yields couples of _k_ training sets and test sets indices, each couple representing one split. This 
