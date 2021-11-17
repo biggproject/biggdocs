@@ -7,7 +7,7 @@ This page provides the overview of the functions implemented for thermal model. 
 ### Details:
 Here we implement the functions for modelling the dynamics of thermal model. These are detailed by the space heating, boiler and gas consumption models detailed in [Flexibility Identification](../ReinforcementLearning/FlexibilityIdentification.md)
 
-## :round_pushpin: RoomT_next
+## :round_pushpin: [RoomT_next](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/dynamics.py#L41)
 
 ### Description:
 
@@ -31,7 +31,7 @@ This is the calculation for room temperature for next time step. This is based o
 * _RoomT_next_: <code>float</code> or <code>array</code>. Room temperature at timeslot T + dt
 
 
-## :round_pushpin: BuildingT_next
+## :round_pushpin: [BuildingT_next](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/dynamics.py#L17)
 
 ### Description:
 
@@ -47,7 +47,7 @@ This is the calculation for building temperature (temperature of the thermal mas
 * _BuildingT_next_: <code>float</code> or <code>array</code>. Building temperature at timeslot T + dt
 
 
-## :round_pushpin: BoilerInletT_next
+## :round_pushpin: [BoilerInletT_next](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/dynamics.py#L29)
 
 ### Description:
 
@@ -63,7 +63,7 @@ This is the calculation for boiler inlet temperature for next time step. This is
 * _BoilerInletT_next_: <code>float</code> or <code>array</code>. Boiler outlet temperature at timeslot T + dt
 
 
-## :round_pushpin: BoilerOutletT_next
+## :round_pushpin: [BoilerOutletT_next](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/dynamics.py#L68)
 
 ### Description:
 
@@ -80,7 +80,7 @@ This is the calculation for boiler outlet temperature for next time step. This i
 * _BoilerOutletT_next_: <code>float</code> or <code>array</code>. Boiler temperature at next timestep.
 
 
-## :round_pushpin: Gas_consumption
+## :round_pushpin: [Gas_modulation](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/dynamics.py#L83)
 
 ### Description:
 
@@ -99,7 +99,7 @@ This is the calculation for Gas modulation next time step. This is based on boil
 * _b2_: <code>float</code>. parameter b2
 
 ### Return values: 
-* _Gas_consumption_: <code>float</code> or <code>array</code>. Gas consumption at next timestep.
+* _Gas_modulation_: <code>float</code> or <code>array</code>. Gas modulation at next timestep. This is directly related to consumption.
 
 
 
@@ -127,7 +127,7 @@ Required parameters to be initialised:
 
 R<sub>a</sub>,R<sub>b</sub>, R<sub>i</sub>, R<sub>o</sub>, C<sub>r</sub>, C<sub>i</sub>, C<sub>b</sub>, a<sub>1</sub>, a<sub>2</sub>, b<sub>1</sub>, b<sub>2</sub>, c<sub>g</sub>, m
 
-## :round_pushpin: PhyCell
+## :round_pushpin: [PhyCell](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L20)
 
 ### Description:
 
@@ -139,7 +139,7 @@ Class **PhyCell** for space heating.
 ### Return values: 
 * _self_: <code>object</code> or <code>array</code>. An object of class **PhyCell**
 
-## :round_pushpin: PhyCell.forward()
+## :round_pushpin: [PhyCell](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L20).forward()
 
 ### Description:
 
@@ -152,7 +152,7 @@ forward method for the **PhyCell** class.
 ### Return values: 
 * <code>tuple</code> a tuple containing the next output and state of the PhyCell
 
-## :round_pushpin: PhyCell.set_param()
+## :round_pushpin: [PhyCell](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L20).set_param()
 
 ### Description:
 
@@ -164,7 +164,7 @@ forward method for the **PhyCell** class.
 ### Return values: 
 * nothing is returned
 
-## :round_pushpin: PhyCell.get_param()
+## :round_pushpin: [PhyCell](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L20).get_param()
 
 ### Description:
 
@@ -174,7 +174,7 @@ Returns the dictionary of the parameters of the current instance of the **PhyCel
 * _dict_: dictionary containing the parameters of the object
 
 
-## :round_pushpin: PhyCell.set_param_grad()
+## :round_pushpin: [PhyCell](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L20).set_param_grad()
 
 ### Description:
 
@@ -184,7 +184,7 @@ forward method for the **PhyCell** class.
 * _**kwargs_: <code>bool</code> or <code>dict</code>. indicate if the gradiant should be calculated for parameters of the **PhyCell**. A parameter will not be optimized if the gradiant for that parameter is set to False.
 
 
-## :round_pushpin: PhyCell.param_loss()
+## :round_pushpin: [PhyCell](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/phycell.py#L20).param_loss()
 
 ### Description:
 
@@ -202,7 +202,7 @@ loss for the parametrs of the **PhyCell**. This loss is calculated using the wei
 This is used to create a dense neural network that to estimate the mapping of unknown disturbances (Outside temperature in our case)
 
 
-## :round_pushpin: DenseNet
+## :round_pushpin: [DenseNet](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/denseNet.py#L16)
 
 ### Description:
 
