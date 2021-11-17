@@ -1,4 +1,4 @@
-[Return to home](README.md)
+[Return to home](../README.md)
 
 This page provides the overview of the functions implemented for thermal model. For details about the thermal model and flexibility identification please visit [Flexibility Identification](../ReinforcementLearning/FlexibilityIdentification.md).
 
@@ -102,3 +102,59 @@ This is the calculation for Gas modulation next time step. This is based on boil
 ### Return values: 
 * _Gas_consumption_: <code>float</code> or <code>array</code>. Gas consumption at next timestep.
 
+
+# :card_file_box: Thermal Model / PhysicsCell
+
+### Details:
+This is **PhyCell** class. An object of this class is used as a main recurrent unit in the thermal model. A <code>forward()</code> method is implemented in the class, which takes the current hidden state **z**<sub>t</sub> and current inputs **x**<sub>t</sub>, and returns the next hidden state and output (**x**<sub>t+1</sub>, **z**<sub>t+1</sub>). The class also has <code>set_param()</code> and <code>set_param_grad()</code> methods to set the values of parameters of **PhyCell** and if they should be optimized. A <code>weight_loss()</code> methods returns the value of loss calculated for weights of the cell
+
+
+## :round_pushpin: PhyCell
+
+### Description:
+
+Class **PhyCell** for space heating. 
+
+### Input arguments:
+* _paras_json_loc_: <code>str</code>. location of the *json* file containing the initial values of the parameters. A json file with default initial parameters if supplied as the default file location. A proper *json* dictionary should have all the required parameters, ie all the R,C,a and b. 
+
+### Return values: 
+* _self_: <code>object</code> or <code>array</code>. An object of class **PhyCell**
+
+## :round_pushpin: PhyCell.forward()
+
+### Description:
+
+forward method for the **PhyCell** class.
+
+### Input arguments:
+* _inputs_: <code>tensor</code>. Inputs for the cell at time step t. dimensions: [Batch_size, x_features]
+* _state_: <code>tensor</code>. Past state of the cell. dimensions: [Batch_size, z_features]
+    
+### Return values: 
+* <code>tuple</code> a tuple containing the next output and state of the PhyCell
+
+## :round_pushpin: PhyCell.set_param()
+
+### Description:
+
+forward method for the **PhyCell** class.
+
+### Input arguments:
+* _**kwargs_: <code>float</code> or <code>dict</code>. set the parameters of the **PhyCell**. Single parameter can be passed as a key value pair, for example Ri = 10.0, to set the value of Ri to 10.0. A dictionary containing all the parameters can also be passed.
+
+### Return values: 
+* nothing is returned
+
+## :round_pushpin: PhyCell.set_param_grad()
+
+### Description:
+
+forward method for the **PhyCell** class.
+
+### Input arguments:
+* _**kwargs_: <code>bool</code> or <code>dict</code>. indicate if the gradiant should be calculated for parameters of the **PhyCell**. A parameter will not be optimized if the gradiant for that parameter is set to False.
+
+
+### Return values: 
+* nothing is returned

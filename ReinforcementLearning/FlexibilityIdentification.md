@@ -1,14 +1,14 @@
-[Return to home](README.md)
+[Return to home](../README.md)
 
 This page provides the detailed overview of the thermal model used for space heating. For details about implementation of related functions please visit [thermal Model](../ReinforcementLearning/ThermalModel.md).
 
 # Flexibility Identification 
 
-Effective demand response is built on identification and exploitation of flexibility. We make a thermal model of a build that can be used to estimate the maximum gas flexibility in the next steps, which can be utilized by the Reinforcement learning based control algorithm. This flexibility can de defined as:
+Effective demand response is built on identification and exploitation of flexibility. We make a **thermal model** of a build that can be used to estimate the maximum gas flexibility in the next steps, which can be utilized by the Reinforcement learning based control algorithm. This flexibility can de defined as:
 
 <img src="../figures/Flexibility/EqnFlexibility.png" alt="nested_cv" width="200"> 
 
-Where the gas consumption is minimized for T steps based on the boiler output set points T<sub>o</sub><sup>s</sup>. This Thermal model will act as a forward model for building a model-based demand response for the building. This thermal model can also be used as the environment class for training the RL agent.
+Where the gas consumption is minimized for T steps based on the boiler output set points T<sub>o</sub><sup>s</sup>. The thermal model will act as a forward model for building a model-based demand response for the building. This thermal model can also be used as the environment class for training the RL agent.
 
 # :card_file_box: Heating system
 Space heating in domestic households can be achieved using water heating systems that can be used for space heating and/orproviding domestic hot water. 
@@ -66,7 +66,7 @@ We  provide  a  pseudo  code  to  train  the  weights  of  the thermal model in 
 
 <img src="../figures/Flexibility/Algorithm.png" alt="nested_cv" width="400">
 
-We optimize the PhyCell after passing sequential inputs, and back propagating the accumulated loss in the unrolled sequence. Where lβ is  the  loss  of  the  parameters  (β)  of  PhyCell, that is used to satisfy the constraints.lw is the loss encountered by the neural network in predicting outside  ambient  temperature.  We  calculate  the  loss  for  each time step for the sequence, where at K<sup>th</sup> step we calculate the error in room temperature and gas consumption. Estimated  room  temperature  and  gas  consumption are added to calculate l<sub>x<\sub>.
+We optimize the PhyCell after passing sequential inputs, and back propagating the accumulated loss in the unrolled sequence. Where *l*<sub>β</sub> is  the  loss  of  the  parameters  (β)  of  PhyCell, that is used to satisfy the constraints. *l*<sub>w</sub>  is the loss encountered by the neural network in predicting outside  ambient  temperature.  We  calculate  the  loss  for  each time step for the sequence, where at K<sup>th</sup> step we calculate the error in room temperature and gas consumption. Estimated  room  temperature  and  gas  consumption are added to calculate *l*<sub>x</sub>.
 
 
 <img src="../figures/Flexibility/EqnLoss.png" alt="nested_cv" width="400">
