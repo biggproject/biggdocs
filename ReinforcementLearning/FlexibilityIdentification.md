@@ -22,7 +22,7 @@ Heat is added into the system by  increasing  the  boiler  outlet  temperature  
 
 ### Boiler outlet temperature
 
-We assume that the boiler temperature depends on boiler set point and boiler inlet temperature. A high boiler set will increase the boiler outlet, similarly, a lower room temperature will  make  the  boiler  temperature  decay. We  can  estimate  the boiler outlet in the time step *t* + 1 using Following Equations.
+We assume that the boiler temperature depends on boiler set point and room temperature. A high boiler set will increase the boiler outlet, similarly, a lower room temperature will  make  the  boiler  temperature  decay. We  can  estimate  the boiler outlet in the time step *t* + 1 using Following Equations.
 
 <img src="../figures/Flexibility/EqnBoiler.png" alt="nested_cv" width="400">
 
