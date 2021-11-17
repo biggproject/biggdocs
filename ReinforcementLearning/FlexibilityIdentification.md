@@ -35,7 +35,7 @@ We assume that the boiler temperature depends on boiler set point and boiler inl
 A high boiler set will increase the boiler outlet, similarly, a lower room temperature will  make  the  boiler  temperature  decay.  
 We  can  estimate  the boiler outlet in the time step *t* + 1 using Following Equations.
 
-<img src="../figures/Flexibility/EqnBoiler.png" alt="nested_cv" width="500">
+<img src="../figures/Flexibility/EqnBoiler.png" alt="nested_cv" width="200">
 
 
 ### Gas modulation
@@ -48,7 +48,7 @@ namely,
 (iii) G <sub>d</sub>:  which  is  the  consumption  decay  while running.  
 The  second  and  third  terms  are  adjustments  in  the baseline gas consumption.
 
-<img src="../figures/Flexibility/EqnGas.png" alt="nested_cv" width="500">
+<img src="../figures/Flexibility/EqnGas.png" alt="nested_cv" width="200">
 
 
 
