@@ -59,17 +59,22 @@ Figure below provides the architecture of the **PhyCell**. The  hidden  paramete
 
 <img src="../figures/Flexibility/PhyCell.png" alt="nested_cv" width="500">
 
+
 ## Training Algorithm 
 
-We unroll the model in time for K steps, i.e., the sequence length, to estimate output and gas consumption for next step.  
+We unroll the model in time for K steps, i.e., the sequence length, to estimate output and gas consumption for next step. Figure below shows the overview of how data is fed into the unrolled sequential model, and outputs are generated. 
+
+<img src="../figures/Flexibility/TrainingFlow.png" alt="nested_cv" width="400">
+
+We optimize the PhyCell after passing K sequential inputs per batch B, and back propagating the accumulated loss in the unrolled sequence. Where *l*<sub>β</sub> is  the  loss  of  the  parameters  (β)  of  PhyCell, that is used to satisfy the constraints. *l*<sub>w</sub>  is the loss encountered by the neural network in predicting outside  ambient  temperature.  We  calculate  the  loss  for  each time step for the sequence, where at K<sup>th</sup> step we calculate the error in room temperature and gas consumption. Estimated  room  temperature  and  gas  consumption are added to calculate *l*<sub>x</sub>.
+We only optimize of gas as room temperature errors because all the other values are optimized by inference.
+
+<img src="../figures/Flexibility/EqnLoss.png" alt="nested_cv" width="400">
+
 We  provide  a  pseudo  code  to  train  the  weights  of  the thermal model in Algorithm 1 To optimize the parameters of  PhyCell  we  feed  the  data  in  sequences.  Training  data  is divided into B sequences of K length each. Loss is calculated using the output values and back propagated through time to optimize the parameters.
 
 <img src="../figures/Flexibility/Algorithm.png" alt="nested_cv" width="400">
 
-We optimize the PhyCell after passing sequential inputs, and back propagating the accumulated loss in the unrolled sequence. Where *l*<sub>β</sub> is  the  loss  of  the  parameters  (β)  of  PhyCell, that is used to satisfy the constraints. *l*<sub>w</sub>  is the loss encountered by the neural network in predicting outside  ambient  temperature.  We  calculate  the  loss  for  each time step for the sequence, where at K<sup>th</sup> step we calculate the error in room temperature and gas consumption. Estimated  room  temperature  and  gas  consumption are added to calculate *l*<sub>x</sub>.
-
-
-<img src="../figures/Flexibility/EqnLoss.png" alt="nested_cv" width="400">
 
 
 
