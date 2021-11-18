@@ -3,8 +3,8 @@
 This page provides the detailed overview of the thermal model used for space heating. For details about implementation of related functions please visit [thermal Model](../ReinforcementLearning/ThermalModel.md).
 
 # :card_file_box: Heating system
-Space heating in domestic households can be achieved using water heating systems that can be used for space heating and/orproviding domestic hot water. 
-A typical water heating system consists  of  a  radiator and  a  boiler  which  is  used  to  heat  the water. Heating  water  circulates  inside  radiator  and  delivers  a heat through surface layer. Externally, the radiator is in contact with the air in the room, which is warmed-up. Following figure shows a simplified version of the space heating system. Heated water leaves  the boiler  at  boiler  outlet  temperature  (T<sub>o</sub>)  and  cold water  enters  the  boiler  at boiler  inlet  temperature  (T<sub>i</sub>).  Theuser requests a room temperature (i.e., Room temperature set point (T<sub>r</sub><sup>s</sup>))
+Space heating in domestic households can be achieved using water heating systems that can be used for space heating and/or providing domestic hot water. 
+A typical water heating system consists  of  a  radiator and  a  boiler  which  is  used  to  heat  the water. Heating  water  circulates  inside  radiator  and  delivers  a heat through surface layer. Externally, the radiator is in contact with the air in the room, which is warmed-up. Following figure shows a simplified version of the space heating system. Heated water leaves  the boiler  at  boiler  outlet  temperature  (T<sub>o</sub>)  and  cold water  enters  the  boiler  at boiler  inlet  temperature  (T<sub>i</sub>).  The user requests a room temperature (i.e., Room temperature set point (T<sub>r</sub><sup>s</sup>)). The temperature of buildings' thermal mass and outside air is given by T<sub>b</sub> and T<sub>a</sub>.
 
 <img src="../figures/Flexibility/House.png" alt="nested_cv" width="300"> 
 
@@ -14,11 +14,9 @@ A typical water heating system consists  of  a  radiator and  a  boiler  which  
 <img src="../figures/Flexibility/RCNetwork.png" alt="nested_cv" width="300"> 
 
 Conventionally,  thermal  modelling  the  building  is  done using gray-box models such as an RC network model. This models the thermal system using a network of resistances and capacitance and calculates heat flows across different network elements. We  define  an  extended  RC  model  for  thermal modeling  that  includes  boiler  outlet  and  boiler  inlet  temperatures.  
-Figure below  shows  the  RC  network  for  thermal  modelling. This  represents  a  non-linear  system  of  ordinary  differential equations given by Equation below. 
-Heat is added into the system by  increasing  the  boiler  outlet  temperature  (T<sub>o</sub>). Resistances and  capacitances  are  represented  by R and C respectively.  The  vector  given  by [T<sub>a</sub>,G,I] represents  the  disturbance vector  comprising of  outside  air  temperature,  solar  radiance and  internal  heat  gains. Parameter α represents  the  coupling between boiler outlet and boiler inlet temperatures.
+Figure above  shows  the  RC  network  for  thermal  modelling. This  represents  a  non-linear  system  of  ordinary  differential equations given by Equation below. Heat is added into the system by  increasing  the  boiler  outlet  temperature  (T<sub>o</sub>). Resistances and  capacitances  are  represented  by R and C respectively.  The  vector  given  by [T<sub>a</sub>,G,I] represents  the  disturbance vector  comprising of  outside  air  temperature,  solar  radiance and  internal  heat  gains. Parameter α represents  the  coupling between boiler outlet and boiler inlet temperatures.
 
-<img src="../figures/Flexibility/EqnSpaceHeating.png" alt="nested_cv" width="500"> 
-
+<img src="../figures/Flexibility/EqnSpaceHeating.png" alt="nested_cv" width="500">
 
 ### Boiler outlet temperature
 
@@ -29,11 +27,10 @@ We assume that the boiler temperature depends on boiler set point and room tempe
 
 ### Gas modulation
 
-Gas  modulation  for  by  the boiler  depends  on  the  boiler  configuration. We  calculate  gas consumption  using  the equations below,  where  total  gas  consumption depends  on  three  factors,  
-namely,  
+Gas  modulation for the boiler  depends  on  the  boiler  configuration. We  calculate  gas consumption  using  the equations below,  where  total  gas  consumption depends  on  three  factors, namely,  
 (i) G <sub>o</sub>:  the  baseline  consumption  required  to  heat  the  water  from inlet to outlet,  
-(ii) G <sub>s</sub>:which  is  the  startup  consumption,  which  represents  boiler startup  cost  
-(iii) G <sub>d</sub>:  which  is  the  consumption  decay  while running.  
+(ii) G <sub>s</sub>: the  startup  consumption cost,  which  represents  boiler startup  cost  
+(iii) G <sub>d</sub>:  the  consumption  decay  while running.  
 The  second  and  third  terms  are  adjustments  in  the baseline gas consumption.
 
 <img src="../figures/Flexibility/EqnGas.png" alt="nested_cv" width="200">
@@ -42,7 +39,7 @@ The  second  and  third  terms  are  adjustments  in  the baseline gas consumpti
 
 # :card_file_box: Thermal Model
 
-The  thermal  model M of  a  building  has, (i)  a  **PhyCell**, which is a sequential model of the dynamic system, and (ii) a Dense  network  (**NN**),  used  to  estimate  the  external  disturbances (T<sub>a<\sub>)
+The  thermal  model M of  a  building  has, (i)  a  **PhyCell**, which is a sequential model of the dynamic system, and (ii) a Dense  network  (**NN**),  used  to  estimate  the  external  disturbances (T<sub>a</sub>)
 
 ## :round_pushpin: PhyCell 
 
