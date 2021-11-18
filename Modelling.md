@@ -483,6 +483,7 @@ This function trains and fits a PROPHET model
              'y' (values), 'cap' (capacity if growth="logistic") [requirement of the Prophet model], 
              other additional regressor. 
 * _lst_exog_: <code>list</code> of exogeneous variables. 
+* _freq_: <code>str</code>. Frequency can be "D" for daily, "M" for monthly, "Y" annual, ...
 ### Return values: 
 * _model_: <code>Object</code> holding the model. 
 
@@ -508,10 +509,12 @@ This function gets the prediction of the prophet model.
 
 ### Input arguments:
 * _model_: <code>Object</code> holding the model trained in the fit_prophet function. 
-* _period_: <code>int</code>. Number of periods to be predicted. 
+* _period_: <code>int</code>. Number of periods to be predicted.
+* _freq_: <code>str</code>. Frequency can be "D" for daily, "M" for monthly, "Y" for annual, ... 
+* _dtf_test: <code>timeSeries</code> imported in a DataFrame 
 
 ### Return values: 
-* _forecast_: <code>timeSeries</code> containing the forecasted value. 
+* _dtf_forecast_: <code>timeSeries</code> imported as a DataFrame, containing the real and forecasted values. 
 
 ### Details:
 This function will make the prediction using the model previously created. 
