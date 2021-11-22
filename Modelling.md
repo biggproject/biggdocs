@@ -9,10 +9,10 @@
 ## :round_pushpin: Data Partitioning
 
 For data partitioning we will use directly most of the splitter classes and methods already provided by the library
-scikit-learn,
-like [KFold](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html#sklearn.model_selection.KFold), 
-[TimeSeriesSplit](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html#sklearn.model_selection.TimeSeriesSplit),
-[train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html#sklearn.model_selection.train_test_split)
+scikit-learn, like:
+* [KFold](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html#sklearn.model_selection.KFold)
+* [TimeSeriesSplit](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html#sklearn.model_selection.TimeSeriesSplit)
+* [train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html#sklearn.model_selection.train_test_split)
 
 For all the splitter classes that can be used in the cross-validation framework, please refer to:
 [scikit-learn splitter-classes](https://scikit-learn.org/stable/modules/classes.html#splitter-classes)
@@ -92,6 +92,11 @@ Example:
 
 For the hyper-parameter tuning phase, we will use directly the function 
 [GridSearchCV](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV)
+
+For the models, we will use directly the ML algorithms defined in scikit-learn or in statsmodels or in another packages 
+publicly available. For scikit-learn, please refer to:
+* [Supervised learning models](https://scikit-learn.org/stable/supervised_learning.html)
+* [Unsupervised learning models](https://scikit-learn.org/stable/unsupervised_learning.html)
 
 ## :round_pushpin: identify_best_model
 
