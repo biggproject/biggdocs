@@ -6,116 +6,28 @@
 
 # :card_file_box: Data Modelling / Cross Validation
 
-## :round_pushpin: k_fold_data_partitioning
+## :round_pushpin: Data Partitioning
 
-### Description:
-    
-If k > 1, the function will run the standard k-fold partitioning algorithm. 
-In this case, the function divides all the samples in _k_ groups of samples, called folds (if _k_ is chosen to be equal
-to the size of the input dataset _n_, this is equivalent to the _Leave One Out_ strategy, where n-1 observations are 
-used for the training set and the remaining one is used for the test set), of approximately equal sizes. 
-The prediction function is learned using _k-1_ folds, and the fold left out is used for test.
-If k = 1, the function will run the train-test split algorithm.
+For data partitioning we will use directly most of the splitter classes and methods already provided by the library
+scikit-learn,
+like [KFold](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html#sklearn.model_selection.KFold), 
+[TimeSeriesSplit](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.TimeSeriesSplit.html#sklearn.model_selection.TimeSeriesSplit),
+[train_test_split](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html#sklearn.model_selection.train_test_split)
 
-
-### Input arguments:
-* _data_: <code>timeSeries</code>. Input time series representing the dataset to partition.
-* _k_: <code>int</code>. Number of folds. Must be at least 1. If it is 1, only one split between training and 
- test set will be created (train-test split case). The default value is 5.
-* _training_set_size_: <code>int</code>. Number representing the size of the training set, expressed in percentage of the
-entire dataset size. This argument will be ignored if the number of folds is greater than one.
-* _random_split_: <code>bool</code>. Shuffle the data before splitting to create folds with datapoints in random order.
- The default value is False.
-* _seed_: <code>int</code>. If _random_split_ is False, this argument is ignored.
-If _random_split_ is True, the seed specifies a random number generator seeded by the given integer and will produce
- the same results across different calls. If _seed_ is None (default), the function uses a standard random state 
-instance (e.g., from numpy.random in Python) and produce different results across different calls.
-
-### Return values: 
-* _partition_indices_: <code>Generator</code>. Yields (generate) couples of _k_ training sets and test sets indices, 
-each couple representing one split.
-
-### Details:
-This function is often used when tuning the hyper-parameters of a model to select the best parameter set or in general
-when evaluating the performance of a model with chosen hyper-parameter. 
-If the dataset is not divisible in fold of the exact same size, the first n_samples % n_splits folds have size 
-n_samples // n_splits + 1, other folds have size n_samples // n_splits, where n_samples is the number of samples.
-However, this function can still be used to obtain just one split of the dataset into training set and test set with
-_k=1_. In this case the proportion of training set and test set can be specified with the arg _training_set_size_.
-The train-test split case is treated by this function as a special case of _k_fold_data_partitioning_.
-For time series it is suggested to use the other partitioning method of the library _time_series_data_partitioning_ to 
-preserve the temporal relationship between observations.
-
-## :round_pushpin: time_series_data_partitioning
-
-### Description:
-    
-This is a time-aware variation of k-fold. In the kth split, it returns the first k folds as the train set and the 
-(k+1)th fold as test set. 
-Note that unlike standard cross-validation methods, successive training sets are supersets of those that come before 
-them. Also, it adds all surplus data to the first training partition, which is always used to train the model.
-
-### Input arguments:
-* _data_: <code>timeSeries</code>. Input time series representing the dataset to partition.
-* _k_: <code>int</code>. Number of folds. Must be at least 2. The default value is 5.
-* _max_training_set_size_: <code>int</code>. Maximum size for a single training set. The default is None.
-* _gap_: <code>int</code>: Number of samples to exclude from the end of each train set before the test set. 
-The default value is 0.
-* _max_test_set_size_: <code>int</code>. Used to limit the size of the test set. Defaults to 
-n_samples // (n_splits + 1), which is the maximum allowed value with gap=0. The default is None.
-
-### Return values: 
-* _partition_indices_: <code>Generator</code>. Yields (generate) couples of _k_ training sets and test sets indices, 
-each couple representing one split.
-
-### Details:
-
-This function represents a variation of the k-fold base algorithm that also takes into account the temporal dependency 
-between the observations in the dataset. A standard k-fold validation on a time series, 
-can generate training sets with observations that occur after the observation of the test set. This way, the model would
-be trained on future data to predict past data, which is a situation we want to avoid in most of the cases.
-This function will partition the data so that the test sets of each fold will not overlap in time (will contain unique
-observations) and observations from the training set will always occur before their corresponding test set.
-The return value is a generator that can be used directly as input argument of the _tune_hyper_parameters_ function to 
-specify which partitioner to use.
-
+For all the splitter classes that can be used in the cross-validation framework, please refer to:
+[scikit-learn splitter-classes](https://scikit-learn.org/stable/modules/classes.html#splitter-classes)
 
 # :card_file_box: Data Modelling / Model Assessment
 
-## :round_pushpin: evaluate_model_cv
+For model assessment we will use most of the methods already provided by the library scikit-learn, like:
 
-### Description:
-    
-This function evaluates the performances of a given model instance by cross-validation using the given metrics. 
+* [cross_validate](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_validate.html?highlight=cross%20validate#sklearn-model-selection-cross-validate)
+: to evaluate an estimator (classifier or regressor) instance by cross-validation using multiple metrics.
+* [cross_val_score](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html#sklearn.model_selection.cross_val_score)
+: to evaluate an estimator (classifier or regressor) instance by cross-validation using a single metric.
 
-### Input arguments:
-* _model_instance_: <code>object</code>. Object representing a specific model instance, i.e. a model class (family) 
- already initialized with a fixed set of hyper-parameters (if available).
-* _X_data_: <code>timeSeries</code>. X time series. Training vector of shape (_n_samples_, _n_features_), 
-where _n_samples_ is the number of samples and _n_features_ is the number of features.
-* _y_data_: <code>timeSeries</code>. Y time series. Target relative to X for classification or regression; 
-None for unsupervised learning.
-* _scoring_: <code>list</code> of <code>string</code>. A list of strings representing the scoring functions to use.
-* _cv_splitter_: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
-library which yields couples of _k_ training sets and test sets indices, each couple representing one split.
-
-### Return values:
-* _cv_results_: <code>dict</code>. A dict of arrays containing the score/time arrays for each scoring metric.
-Can be imported into a DataFrame.
-
-Example:
-
-<img src="figures/evaluate_model.png" alt="table2" width="500"> 
-
-### Details:
-
-This function will evaluate a model instance,  i.e. a model class (family) which has been already initialized with a 
-fixed set of hyper-parameters using one or more scoring functions and a cross-validation splitter. 
-For each cross validation iteration (split), it will fit the model instance on the folds representing the training set 
-and predict on the fold left out as test set, calculating the accuracy of the prediction with the provided scoring 
-functions. 
-N.B.: To evaluate the generalization performance of several model instances of the same model family (model family
-requiring a tuning of their hyper-parameters), _the evaluate_model_with_tuning_ function should be used.
+The metrics to use are related to the specific estimator that has been chosen. Please refer to this list:
+[sklearn-metrics](https://scikit-learn.org/stable/modules/classes.html?highlight=metrics#sklearn-metrics-metrics)
 
 
 ## :round_pushpin: evaluate_model_cv_with_tuning
@@ -155,9 +67,9 @@ into a DataFrame.
 
 This function will evaluate multiple model instances, i.e. several models of the same family instantiated with a 
 specific set of hyper-parameters. However, the purpose of this procedure is not the selection of the best model (the 
-function _tune_hyper_parameters_ is in charge of this task) among all the instances but is instead to provide a 
+function _GridSearchCV_ is in charge of this task) among all the instances but is instead to provide a 
 less-biased evaluation of a subset of instances of a model family. The score obtained from the function 
-_tune_hyper_parameters_ is not a reasonable estimate of our testing error, when evaluating the performance of the 
+_GridSearchCV_ is not a reasonable estimate of our testing error, when evaluating the performance of the 
 best model, and it is shown to be too optimistic in practice. Indeed, in that case, we use the final scores to pick-up
 the best model. It means that we used knowledge from the test set (i.e. test score) to decide our model’s 
 training parameter and that score is not representative of the generalization performance of the model. 
@@ -178,48 +90,8 @@ Example:
 
 # :card_file_box: Data Modelling / Model Identification
 
-## :round_pushpin: tune_hyper_parameters
-
-### Description:
-    
-This function performs an exhaustive search on all the parameters of the parameter grid defined and identifies the best
-parameter set for a specific model family, given a scoring function.
-
-### Input arguments:
-* _model_family_: <code>string</code>. string identifying a model family (e.g. 'SVC',
-'DecisionTreeClassifier', etc.)
-* _X_data_: <code>timeSeries</code>. X time series. Training vector of shape (_n_samples_, _n_features_), 
-where _n_samples_ is the number of samples and _n_features_ is the number of features.
-* _y_data_: <code>timeSeries</code>. Y time series. Target relative to X for classification or regression; 
-None for unsupervised learning.
-* _parameter_grid_: <code>dict</code>. Dictionary containing the set of parameters to explore.
-* _scoring_: <code>string</code>. A string representing the scoring function to use.
-* _cv_splitter_: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
-library which yields couples of _k_ training sets and test sets indices, each couple representing one split.
-
-### Return values: 
-* _best_model_instance_: <code>object</code>. Best model instance of the model family found by the exhaustive search and 
-retrained on the whole dataset.
-* _best_params_: <code>dict</code>. Parameter setting that gave the best results on the hold out data.
-* _best_score_: <code>float</code>. Mean cross-validated score of the best model _best_model_instance_.
-* _cv_results_: <code>dict</code>. A dict with keys as column headers and values as columns representing the test score
-for each split, each parameter combination, the rank of each set of parameters and the mean test score and standard 
-deviation. Can be imported into a DataFrame.
-
-Example:
-
-<img src="figures/tune_hyper_parameters.png" alt="table" width="1000"> 
-
-### Details:
-
-It will perform an exhaustive search of the best parameters for the given model family over the parameter grid, using
-the provided cross validation partitioning. For each fixed combination of hyper-parameters (parameter set) 
-and cross validation iteration (split), it will fit the model instance on the folds representing the training set and 
-predict on the fold left out as test set, calculating the accuracy of the prediction with the provided scoring function. 
-Then, it will compute the average of all the cv split scores for each fixed combination of hyper-parameters. Finally, it
-will return the model instance retrained on the whole dataset using the parameters that provided the best mean 
-cross-validated score. For details, the function will also provide a dictionary showing the final and intermediate 
-results and also the time took for the several phases of the optimization.
+For the hyper-parameter tuning phase, we will use directly the function 
+[GridSearchCV](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV)
 
 ## :round_pushpin: identify_best_model
 
@@ -265,8 +137,8 @@ Can be imported into a DataFrame.
 
 This function implements a full generalized pipeline to select the best model among several model instances of different
 model families. First, It will select the best model family for the given dataset (the family giving the best score)
-using the same nested cross-validation procedure (_data_modelling_._cross_validation_._evaluate_model_cv_with_tuning_), 
-then it will run the _data_modelling_._cross_validation_._tune_hyper_parameters_ function on the best model family with 
+using the same nested cross-validation procedure (_data_modelling_._evaluate_model_cv_with_tuning_), 
+then it will run the _GridSearchCV_ function on the best model family with 
 the related _parameter_grid_.
 
 # :card_file_box: Data Modelling / Model Persistence and prediction
