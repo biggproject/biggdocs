@@ -6,8 +6,6 @@
 
 # :card_file_box: Data Modelling / Cross Validation
 
-## :round_pushpin: Data Partitioning
-
 For data partitioning we will use directly most of the splitter classes and methods already provided by the library
 scikit-learn, like:
 * [KFold](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.KFold.html#sklearn.model_selection.KFold)
@@ -91,7 +89,7 @@ Example:
 # :card_file_box: Data Modelling / Model Identification
 
 For the hyper-parameter tuning phase, we will use directly the function 
-[GridSearchCV](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV)
+[GridSearchCV](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV).
 
 For the models, we will use directly the ML algorithms defined in scikit-learn or in statsmodels or in another packages 
 publicly available. For scikit-learn, please refer to:
