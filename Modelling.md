@@ -154,7 +154,7 @@ This function serializes and saves a model instance, with a given file format,
 to a specific path on the file system.
 
 ### Input arguments:
-* _model_instance_: Model instance which has been already fitted on X data.
+* _model_instance_: <code>object</code>.Model instance which has been already fitted on X data.
 * _model_full_path_: <code>string</code>. Full path (not relative and with no file extensions) of the file
 where the model should be saved. The extension will be added by the function based on the format argument.
 * _format_: <code>string</code>. Format of the model to serialize and persist (tbd by the programming language or 
