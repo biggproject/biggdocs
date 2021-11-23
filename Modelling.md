@@ -150,21 +150,22 @@ the related _parameter_grid_.
 
 ### Description:
     
-This procedure serializes a model, according to the specified file format and saves it on the file system following a 
-specific convention (tbd).
+This function serializes and saves a model instance, with a given file format, 
+to a specific path on the file system.
 
 ### Input arguments:
-* _model_dir_path_: <code>string</code>. Full path (not relative) on the file system of the directory where the model
-should be saved.
+* _model_instance_: Model instance which has been already fitted on X data.
+* _model_full_path_: <code>string</code>. Full path (not relative and with no file extensions) of the file
+where the model should be saved. The extension will be added by the function based on the format argument.
 * _format_: <code>string</code>. Format of the model to serialize and persist (tbd by the programming language or 
 framework adopted, e.g. mlflow).
 
 ### Return values:
-None
+* _file_name_: <code>string</code>.String identifying the filename where the model will be stored.
 
 ### Details:
 
-This procedure will save a model created by a pipeline on the file system, so that it can be persisted and then loaded
+This procedure will save a fitted model instance on the file system, so that it can be persisted and then loaded
 for future prediction on new _X_data_ using the complementary function _deserialize_and_predict_. The file format for
 the serialization and the naming convention to use are specific of the programming language or framework adopted.
 
@@ -176,7 +177,8 @@ This function deserializes a model, inferring the file format from the file name
 _X_data_ and returns the predicted values in the form of a time series.
 
 ### Input arguments:
-* _model_full_path_: <code>string</code>. Full path (not relative) on the file system of the model to load.
+* _model_full_path_: <code>string</code>. String identifying the full path (not relative and with the extension),
+on the file system of the file from which the model should be loaded.
 * _X_data_: <code>timeSeries</code>. X time series. Vector of predictors of shape (_n_samples_, _n_features_), 
 where _n_samples_ is the number of samples and _n_features_ is the number of features or predictors.
 
@@ -186,7 +188,7 @@ where _n_samples_ is the number of samples and _n_features_ is the number of fea
 ### Details:
 
 This function will load a model stored on the file system and specified with a full path (not relative) and predict, 
-based on the input _X_data_, the target values. The function will infer the format of the model from its file name and
+based on new _X_data_, the target values. The function will infer the format of the model from its file name and
 select automatically the correct loader (see the function _serialize_model_) to deserialize it. The predicted values 
 are provided as an output in the form of time series.
 
