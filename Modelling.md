@@ -38,13 +38,13 @@ the purpose of this function is not to select the best model instance of a model
 biased estimate of a tuned model’s performance on the dataset.
 
 ### Input arguments:
-* _model_family_: <code>string</code>. string identifying a model family (e.g. 'SVC',
+* _model_family_: <code>object</code>. object identifying a model family (a ML algorithm, e.g. 'SVC',
 'DecisionTreeClassifier', etc.)
 * _X_data_: <code>timeSeries</code>. X time series. Training vector of shape (_n_samples_, _n_features_), 
 where _n_samples_ is the number of samples and _n_features_ is the number of features.
 * _y_data_: <code>timeSeries</code>. Y time series. Target relative to X for classification or regression; 
 None for unsupervised learning.
-* _parameter_grid_: <code>dict</code>. Dictionary containing the set of parameters to explore.
+* _parameter_grid_: <code>dict</code>. Dictionary containing the set of parameters of the model family to explore.
 * _scoring_: <code>string</code>. A string representing the scoring function to use.
 * _cv_splitter_outer_: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
 library which yields couples of _k_ training sets and test sets indices, each couple representing one split. This 
@@ -108,7 +108,7 @@ associated with a specific parameter grid, given a input time series and a scori
 where _n_samples_ is the number of samples and _n_features_ is the number of features.
 * _y_data_: <code>timeSeries</code>. Y time series. Target relative to X for classification or regression; 
 None for unsupervised learning.
-* _model_families_parameter_grid_: <code>dict</code>. Dictionary of key:values pairs, where the key is a string 
+* _model_families_parameter_grid_: <code>dict</code>. Dictionary of key:values pairs, where the key is an object
 identifying the _model_family_ (e.g. 'SVC', 'DecisionTreeClassifier', etc.) and the value is a dictionary identifying 
 the parameter grid (subset of parameters to test) for that specific model family.
 * _scoring_: <code>string</code>. A string representing the scoring function to use.
