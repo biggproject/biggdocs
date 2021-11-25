@@ -5,7 +5,7 @@ This page provides the overview of the functions implemented for thermal model. 
 # :card_file_box: Thermal Model / Dynamics
 
 ### Details:
-Here we implement the functions for modelling the dynamics of thermal model. These are detailed by the space heating, boiler and gas consumption models detailed in [Flexibility Identification](../ReinforcementLearning/FlexibilityIdentification.md)
+Here we implement the functions for modelling the dynamics of thermal model. These are the space heating, boiler and gas consumption models detailed in [Flexibility Identification](../ReinforcementLearning/FlexibilityIdentification.md).
 
 ## :round_pushpin: [RoomT_next](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/dynamics.py#L41)
 
@@ -17,9 +17,9 @@ This is the calculation for room temperature for next time step. This is based o
 * _RoomT_: <code>float</code> or <code>array</code>. Room temperature at time T
 * _BuildingT_: <code>float</code> or <code>array</code>. Building temperature for the timestep T
 * _BoilerInletT_: <code>float</code> or <code>array</code>. Boiler Inlet temperature at time T
-* _BoilerOutletT_next_: <code>float</code> or <code>array</code>. Boiler temperature at time T+dt.
-* _AmbientT_: <code>float</code> or <code>array</code>. outside ambient temperature at time T.
-* _dt_: <code>float</code> or <code>array</code>. Time difference in current and next time
+* _BoilerOutletT_next_: <code>float</code> or <code>array</code>. Boiler temperature at time T+dt
+* _AmbientT_: <code>float</code> or <code>array</code>. outside ambient temperature at time T
+* _dt_: <code>float</code> or <code>array</code>. Time difference between consecutive timesteps
 * _Ci_: <code>float</code>. Capacitance of room (Represents the heat storage capacity of room)
 * _Ri_: <code>float</code>. Resistance between room and boiler inlet 
 * _Ro_: <code>float</code>. Resistance between room and boiler outlet
@@ -38,9 +38,9 @@ This is the calculation for room temperature for next time step. This is based o
 This is the calculation for building temperature (temperature of the thermal mass of the building) for next time step. This is based on the space heating model.
 ### Input arguments:
 * _RoomT_: <code>float</code> or <code>array</code>. Room temperature at time T
-* _BuildingT_: <code>float</code> or <code>array</code>. Building temperature for the timestep T
-* _dt_: <code>float</code> or <code>array</code>. Time difference in current and next time
-* _Cb_: <code>float</code>. Capacitance of building thermal mass (Represents the storage capacity of building)
+* _BuildingT_: <code>float</code> or <code>array</code>. Building temperature for timestep T
+* _dt_: <code>float</code> or <code>array</code>. Time difference between consecutive timesteps
+* _Cb_: <code>float</code>. Capacitance of the building thermal mass. (This represents the storage capacity of building)
 * _Rb_: <code>float</code>. Resistance between room and building thermal mass
 
 ### Return values: 
@@ -54,7 +54,7 @@ This is the calculation for building temperature (temperature of the thermal mas
 This is the calculation for boiler inlet temperature for next time step. This is based on the space heating model.
 ### Input arguments:
 * _RoomT_: <code>float</code> or <code>array</code>. Room temperature at time T
-* _BoilerInletT_: <code>float</code> or <code>array</code>. Boiler Inlet temperature at time T
+* _BoilerInletT_: <acode>float</code> or <code>array</code>. Boiler Inlet temperature at time T
 * _dt_: <code>float</code> or <code>array</code>. Time difference in current and next time
 * _Ci_: <code>float</code>. Capacitance of boiler (Represents the storage capacity of boiler)
 * _Ri_: <code>float</code>. Resistance between room and boiler
@@ -67,7 +67,8 @@ This is the calculation for boiler inlet temperature for next time step. This is
 
 ### Description:
 
-This is the calculation for boiler outlet temperature for next time step. This is based on decay/growth model for boiler temperature, where a1 and a2 are the variables that control the rate of change of boiler temperature. 
+This is the calculation for boiler outlet temperature for next time step. This is based on a decay/growth model for the boiler temperature, where a1 and a2 are the variables that control the rate of change of boiler temperature. 
+
 ### Input arguments:
 * _RoomT_: <code>float</code> or <code>array</code>. Room temperature at time T
 * _BoilerSet_next_: <code>float</code> or <code>array</code>. Boiler setpoint for the timestep T+dt
@@ -77,14 +78,14 @@ This is the calculation for boiler outlet temperature for next time step. This i
 * _a2_: <code>float</code>. parameter a2
 
 ### Return values: 
-* _BoilerOutletT_next_: <code>float</code> or <code>array</code>. Boiler temperature at next timestep.
+* _BoilerOutletT_next_: <code>float</code> or <code>array</code>. Boiler temperature at the next timestep.
 
 
 ## :round_pushpin: [Gas_modulation](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/dynamics.py#L83)
 
 ### Description:
+This is the calculation for the Gas modulation at the next time step. This is based on the boiler model. b1 and b2 are parameters  used for the internal model of the boiler.
 
-This is the calculation for Gas modulation next time step. This is based on boiler model. b1 and b2 are parameters that can be used to model the internal model of the boiler.
 ### Input arguments:
 * _RoomT_: <code>float</code> or <code>array</code>. Room temperature at time T
 * _RoomSet_next_: <code>float</code> or <code>array</code>. Set point for room temperature at time T + dt
@@ -99,7 +100,7 @@ This is the calculation for Gas modulation next time step. This is based on boil
 * _b2_: <code>float</code>. parameter b2
 
 ### Return values: 
-* _Gas_modulation_: <code>float</code> or <code>array</code>. Gas modulation at next timestep. This is directly related to consumption.
+* _Gas_modulation_: <code>float</code> or <code>array</code>. Gas modulation at the next timestep. This is directly related to consumption.
 
 
 
@@ -134,7 +135,7 @@ R<sub>a</sub>,R<sub>b</sub>, R<sub>i</sub>, R<sub>o</sub>, C<sub>r</sub>, C<sub>
 Class **PhyCell** for space heating. 
 
 ### Input arguments:
-* _paras_json_loc_: <code>str</code>. location of the *json* file containing the initial values of the parameters. A json file with default initial parameters if supplied as the default file location. A proper *json* dictionary should have all the required parameters, ie all the R,C,a and b. 
+* _paras_json_loc_: <code>str</code>. location of the *json* file containing the initial values of the parameters. A json file with default initial parameters, if supplied at the default file location. A proper *json* dictionary should have all the required parameters, i.e., all of  R, C, a and b. 
 
 ### Return values: 
 * _self_: <code>object</code> or <code>array</code>. An object of class **PhyCell**
@@ -178,7 +179,7 @@ Returns the dictionary of the parameters of the current instance of the **PhyCel
 
 ### Description:
 
-forward method for the **PhyCell** class.
+The forward method for the **PhyCell** class.
 
 ### Input arguments:
 * _**kwargs_: <code>bool</code> or <code>dict</code>. indicate if the gradiant should be calculated for parameters of the **PhyCell**. A parameter will not be optimized if the gradiant for that parameter is set to False.
@@ -199,18 +200,18 @@ loss for the parametrs of the **PhyCell**. This loss is calculated using the wei
 # :card_file_box: Thermal Model / DenseNet
 
 ### Details:
-This is used to create a dense neural network that to estimate the mapping of unknown disturbances (Outside temperature in our case)
+This is used to create a dense neural network that to estimate the mapping of unknown disturbances (Outside temperature in our case).
 
 
 ## :round_pushpin: [DenseNet](https://github.com/biggproject/biggpy/blob/5e2d617ffdd256cefa56f156bab8f8f548716822/ai_toolbox/src/ai_toolbox/RL/ThermalModel/denseNet.py#L16)
 
 ### Description:
 
-A function to create a neural network with given layers.
+A function to create a DenseNet neural network with given layers.
 
 ### Input arguments:
 * _layers_: <code>list</code>. a list of number of nodes in the layers of the network. for example, layers = [1,10,1] would create a neural network of 1 input node, 1 hidden layer 10 nodes, and 1 output node.
-* _bias_: <code>bool</code> (optional). if bias term should be included in the weights
+* _bias_: <code>bool</code> (optional). Parameter indicating whether a bias term should be included in the weights.
 
 ### Return values: 
 * _DenaseNet_: <code>list</code> a list containing the layers of the network. this list can be based on the type of neural network library being used.
