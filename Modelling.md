@@ -114,7 +114,7 @@ the parameter grid (subset of parameters to test) for that specific model family
 * _scoring_: <code>string</code>. A string representing the scoring function to use.
 * _cv_splitter_outer_: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
 library which yields couples of _k_ training sets and test sets indices, each couple representing one split. This 
-splitter is related to the outer loop of cross-validation and generally has a _k_ lower than or equal to the inner. d
+splitter is related to the outer loop of cross-validation and generally has a _k_ lower than or equal to the inner.
 * _cv_splitter_inner_: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
 library which yields couples of _k_ training sets and test sets indices, each couple representing one split. This 
 splitter is related to the inner loop of cross-validation for the hyper-parameter tuning and for the final model tuning 
