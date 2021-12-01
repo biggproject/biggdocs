@@ -42,8 +42,7 @@ biased estimate of a tuned model’s performance on the dataset.
 'DecisionTreeClassifier', etc.)
 * _X_data_: <code>timeSeries</code>. X time series. Training vector of shape (_n_samples_, _n_features_), 
 where _n_samples_ is the number of samples and _n_features_ is the number of features.
-* _y_data_: <code>timeSeries</code>. Y time series. Target relative to X for classification or regression; 
-None for unsupervised learning.
+* _y_data_: <code>timeSeries</code>. Y time series. Target relative to X for classification or regression.
 * _parameter_grid_: <code>dict</code>. Dictionary containing the set of parameters of the model family to explore.
 * _scoring_: <code>string</code> or <code>list</code> of <code>string</code> or None. A string or list of string 
 representing the scoring functions to use. If None, the default scoring functions will be used (R^2 if _model_family_ is
@@ -102,14 +101,13 @@ publicly available. For scikit-learn, please refer to:
 
 ### Description:
     
-This function implements a complete generalized pipeline to find the best model among different model families, each one 
-associated with a specific parameter grid, given an input time series and a scoring function. 
-
+This function implements a complete generalized pipeline for supervised learning to find the best model among different 
+model families, each one associated with a specific parameter grid, given an input time series and a scoring 
+function. 
 ### Input arguments:
 * _X_data_: <code>timeSeries</code>. X time series. Training vector of shape (_n_samples_, _n_features_), 
 where _n_samples_ is the number of samples and _n_features_ is the number of features.
-* _y_data_: <code>timeSeries</code>. Y time series. Target relative to X for classification or regression; 
-None for unsupervised learning.
+* _y_data_: <code>timeSeries</code>. Y time series. Target relative to X for classification or regression.
 * _model_families_parameter_grid_: <code>dict</code>. Dictionary of key:values pairs, where the key is an object
 identifying the _model_family_ (e.g. 'SVC', 'DecisionTreeClassifier', etc.) and the value is a dictionary identifying 
 the parameter grid (subset of parameters to test) for that specific model family.
@@ -147,8 +145,8 @@ Can be imported into a DataFrame.
 ### Details:
 
 This function implements a full generalized pipeline to select the best model among several model instances of different
-model families. First, It will select the best model family for the given dataset (the family giving the best score with 
-the _compare_with_ scoring function)
+model families. First, It will select the best model family for the given dataset (the family 
+giving the best score with the _compare_with_ scoring function)
 using the same nested cross-validation procedure (_data_modelling_._evaluate_model_cv_with_tuning_), 
 then it will run the _GridSearchCV_ function on the best model family with 
 the related _parameter_grid_ to find the best model.
