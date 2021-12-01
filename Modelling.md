@@ -45,7 +45,9 @@ where _n_samples_ is the number of samples and _n_features_ is the number of fea
 * _y_data_: <code>timeSeries</code>. Y time series. Target relative to X for classification or regression; 
 None for unsupervised learning.
 * _parameter_grid_: <code>dict</code>. Dictionary containing the set of parameters of the model family to explore.
-* _scoring_: <code>string</code>. A string representing the scoring function to use.
+* _scoring_: <code>string</code> or <code>list</code> of <code>string</code> or None. A string or list of string 
+representing the scoring functions to use. If None, the default scoring functions will be used (R^2 if _model_family_ is
+a regressor, accuracy if is a classifier).
 * _cv_splitter_outer_: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
 library which yields couples of _k_ training sets and test sets indices, each couple representing one split. This 
 splitter is related to the outer loop of cross-validation and generally has a _k_ lower than or equal to the inner.
@@ -55,8 +57,8 @@ library which yields couples of _k_ training sets and test sets indices, each co
 splitter is related to the inner loop of cross-validation for the hyper-parameter tuning. The default value is 5.
 
 ### Return values:
-* _mean_score_: <code>float</code>. Mean cross-validated score for all the model instances.
-* _mean_std_: <code>float</code>. Standard deviation from the mean score.
+* _scores_: <code>dict</code>. Mean cross-validated score and standard deviation for all the model instances for each 
+scoring function specified.
 * _cv_results_: <code>list</code> of <code>dict</code>. A list of dictionaries where each element represents the results
 obtained on a specific model instance in terms of performance evaluation and selected hyper-parameters. Can be imported
 into a DataFrame.
@@ -84,7 +86,7 @@ and the surrogate models are discarded.
 Example:
 
 <img src="figures/nested_cv.png" alt="nested_cv" width="500"> 
-
+[Image source](https://stats.stackexchange.com/questions/292179/whats-the-meaning-of-nested-resampling)
 
 # :card_file_box: Data Modelling / Model Identification
 
@@ -100,8 +102,8 @@ publicly available. For scikit-learn, please refer to:
 
 ### Description:
     
-This function implement a complete generalized pipeline to find the best model among different model families, each one 
-associated with a specific parameter grid, given a input time series and a scoring function. 
+This function implements a complete generalized pipeline to find the best model among different model families, each one 
+associated with a specific parameter grid, given an input time series and a scoring function. 
 
 ### Input arguments:
 * _X_data_: <code>timeSeries</code>. X time series. Training vector of shape (_n_samples_, _n_features_), 
@@ -111,7 +113,6 @@ None for unsupervised learning.
 * _model_families_parameter_grid_: <code>dict</code>. Dictionary of key:values pairs, where the key is an object
 identifying the _model_family_ (e.g. 'SVC', 'DecisionTreeClassifier', etc.) and the value is a dictionary identifying 
 the parameter grid (subset of parameters to test) for that specific model family.
-* _scoring_: <code>string</code>. A string representing the scoring function to use.
 * _cv_splitter_outer_: <code>Generator</code>. This parameter is a generator coming from a partitioning function of the 
 library which yields couples of _k_ training sets and test sets indices, each couple representing one split. This 
 splitter is related to the outer loop of cross-validation and generally has a _k_ lower than or equal to the inner.
@@ -119,30 +120,38 @@ splitter is related to the outer loop of cross-validation and generally has a _k
 library which yields couples of _k_ training sets and test sets indices, each couple representing one split. This 
 splitter is related to the inner loop of cross-validation for the hyper-parameter tuning and for the final model tuning 
 required by the model selection procedure.
+* _scoring_: <code>string</code> or <code>list</code> of <code>string</code> or None. A string or list of string 
+representing the scoring functions to use. If None, the default scoring functions will be used (R^2 if _model_family_ is
+a regressor, accuracy if is a classifier).
+* _compare_with_: <code>string</code>. This argument is used only if the argument _scoring_ contains multiple evaluation
+metrics otherwise is ignored. It specifies the scoring function in _scoring_ that should be used to compare the model
+families. The model family that obtained the maximum score with the scoring function in _compare_with_ will be chosen
+as the best model family to train the final model.
 
 ### Return values:
 * _best_model_instance_: <code>object</code>. Best model instance of the model families found by the exhaustive search 
 and retrained on the whole dataset.
 * _best_params_: <code>dict</code>. Dictionary with a key:value pair, where the key identifies the best model family and 
 the value the best configuration, i.e. the best set of hyper-parameters.
-* _mean_score_: <code>float</code>. Mean score for all the model instances produced by the nested cross validation 
-procedure.
-* _mean_std_: <code>float</code>. Standard deviation from the mean score.
+* _scores_: <code>dict</code>. Mean cross-validated score and standard deviation for all the model instances for each 
+scoring function specified.
 * _cv_results_final_: <code>dict</code>. A dict with keys as column headers and values as columns representing the 
 test score for each split, each parameter combination, the rank of each set of parameters and the mean test score and 
 standard deviation. Can be imported into a DataFrame.
-* _cv_results_evaluation_: <code>list</code> of <code>dict</code>. 
-A list of dictionaries related to the results of the nested cross-validation procedure. Each element represents the 
-results obtained on a specific model instance in terms of performance evaluation and selected hyper-parameters.
+* _cv_results_evaluation_: <code>dict</code>. A dictionary containing the results of the performance evaluation obtained
+with the nested cross-validation, i.e. the mean cross-validated score and standard deviation for each model family 
+and each scoring function specified.
+
 Can be imported into a DataFrame.
 
 ### Details:
 
 This function implements a full generalized pipeline to select the best model among several model instances of different
-model families. First, It will select the best model family for the given dataset (the family giving the best score)
+model families. First, It will select the best model family for the given dataset (the family giving the best score with 
+the _compare_with_ scoring function)
 using the same nested cross-validation procedure (_data_modelling_._evaluate_model_cv_with_tuning_), 
 then it will run the _GridSearchCV_ function on the best model family with 
-the related _parameter_grid_.
+the related _parameter_grid_ to find the best model.
 
 # :card_file_box: Data Modelling / Model Persistence and prediction
 
