@@ -151,7 +151,7 @@ using the same nested cross-validation procedure (_data_modelling_._evaluate_mod
 then it will run the _GridSearchCV_ function on the best model family with 
 the related _parameter_grid_ to find the best model.
 
-# :card_file_box: Data Modelling / Model Persistence and prediction
+# :card_file_box: Data Modelling / Model Persistence and Prediction
 
 ## :round_pushpin: serialize_model
 
