@@ -215,3 +215,22 @@ A function to create a DenseNet neural network with given layers.
 
 ### Return values: 
 * _DenaseNet_: <code>list</code> a list containing the layers of the network. this list can be based on the type of neural network library being used.
+
+
+
+# :card_file_box: Thermal Model / Model
+
+### Details:
+This is the main thermalmodelclass. We have developed it using pytorch-lightning wrapper, that builds the final model using the densenet, phycell and dynamics defined above. Additionally, this class offeres training, validation and testing steps for the thermal model, which can be used to learn, and evaluate the mode. 
+
+
+## :round_pushpin: [thermalmodel](https://github.com/biggproject/biggpy/blob/7dc8ec9c50ca753b0d357e902fdf23bca0ad63bf/ai_toolbox/src/ai_toolbox/RL/ThermalModel/model.py#L28)
+
+### Description:
+
+thermalmodel class, can be used to create a thermalmodel object. This object can be trained, validated and tested using data
+### Input arguments:
+* _learning_rate_: <code>float</code>. learning rate of the model. Default = 1e-3
+
+### Return values:
+* _thermalmodel_: <code>object</code> thermalmodel object
