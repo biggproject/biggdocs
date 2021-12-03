@@ -76,6 +76,7 @@ values are:
   * _sum_: sum of the values in a time period.
   * _min_: minimum value in a time period.
   * _max_: maximum value in a time period.
+  * _median_: median value in a time period.
 
 ### Return values: 
 * _data_: <code>timeSeries</code>. The time series resampled with the specified period and aggregation function.
