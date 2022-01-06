@@ -15,6 +15,34 @@ scikit-learn, like:
 For all the splitter classes that can be used in the cross-validation framework, please refer to:
 [scikit-learn splitter-classes](https://scikit-learn.org/stable/modules/classes.html#splitter-classes)
 
+## :round_pushpin: BlockingTimeSeriesSplit
+
+### Description:
+    
+This class is a splitter performing a special type of time series partitioning to be used in the cross-validation 
+framework. Differently from TimeSeriesSplit, this method will generate disjoint partitions of the dataset in each
+iteration.
+
+### Input arguments:
+* _n_splits_: <code>int</code>. Number of splits. Must be at least 2. Default value is 5.
+* _gap_: <code>int</code>. Number of samples to exclude from the end of each train set before the test set. 
+Default value is 0.
+
+### Return values:
+* _indices_: <code>generator</code>. Generate indices to split data into training and test set.
+
+### Details:
+
+While in TimeSeriesSplit the training set increases at each CV iteration, including also the samples of 
+the previous validation set, in BlockingTimeSeriesSplit, the training and validation set are always unique. A sample
+used in one CV iteration never appears in the other iterations, neither in a training set nor in a validation set.
+It is a more restrictive TimeSeriesSplit that prevents the model from memorizing patterns from one iteration to the 
+next. 
+
+Example:
+
+<img src="figures/blocking_tssplit.png" alt="nested_cv" width="500"> 
+
 # :card_file_box: Data Modelling / Model Assessment
 
 For model assessment we will use most of the methods already provided by the library scikit-learn, like:
