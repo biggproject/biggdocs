@@ -236,7 +236,7 @@ This function tests the stationarity and plot the autocorrelation and partial au
 ### Input arguments:
 * _data: <code>timeSeries</code> for which the stationarity as to be evaluated.
 * _sample: <code>float</code>. Sample of the data that will be evaluated.
-* _maxLag: <code>int</code>. Maximum lag which is included in test, default value of 12*(nobs/100)^{1/4} is used when None.
+* _max_lag: <code>int</code>. Maximum lag which is included in test, default value of 12*(nobs/100)^{1/4} is used when None.
 
 ### Return values: 
 * <code>plot</code> of the mean and variance of the sample with the p-value.
@@ -272,7 +272,7 @@ These correlations are used to define the parameters of the forecasting methods 
 This function splits the time series into train and test datasets at any given data point. 
 
 ### Input arguments:
-* _data_: <code>timeSeries</code> we want to split. 
+* _ts_: <code>timeSeries</code> we want to split. 
 * _test_: <code>float</code> (ex: 0.2) or <code>str</code>: index position (ex."yyyy-mm-dd", 1000). Test size 
 * _plot_: <code>bool</code> to decide if the 2 new time series have to be plotted
 
@@ -294,8 +294,8 @@ This function performs an exhaustive search on all the parameters of the paramet
 ### Input arguments:
 * _data_: <code>timeSeries</code> used to fit the sarimax estimator. This may either be a Pandas Series object or a numpy array. 
 * _m_: <code>int</code>. The period for seasonal differencing, m refers to the number of periods in each season. For example, m is 4 for quarterly data, 12 for monthly data, or 1 for annual (non-seasonal) data. Default is 1. Note that if m == 1 (i.e., is non-seasonal), seasonal will be set to False.
+*max_order_: <code>int</code>. Maximum value of p+q+P+Q. If the sum of p and q is >= max_order, a model will not be fit with those parameters, but will progress to the next combination.
 * _information_criterion_: <code>str</code>. The information criterion used to select the best model. Possibilities are ‘aic’, ‘bic’, ‘hqic’, ‘oob’. Default is 'aic'. 
-* _Optional_ _max_order_: <code>int</code>. Maximum value of p+q+P+Q. If the sum of p and q is >= max_order, a model will not be fit with those parameters, but will progress to the next combination. Default is 5.
 
 ### Return values: 
 * _best_model_: <code>Object</code>. Best parameters for the sarimax model found by the exhaustive search. 
@@ -315,14 +315,15 @@ This function performs a search on all the parameters of the parameter grid defi
 ### Input arguments:
 * _dtf_train_: <code>timeSeries</code>. Import in a DataFrame containing the train set and with the column containing the timestamp named "ds". Used to fit the prophet estimator.
 * _p_: <code>int</code>. The number of periods you want to be forecasted. 
-* _Optional_seasonality_mode_: <code>list of strings</code> containing the set of parameters to explore 'multiplicative' and/or 'additive'.
-* _Optional_changepoint_prior_scale_: <code>list of floats</code> controling the flexibility of the changepoints.
-* _Optional_holidays_prior_scale_: <code>list of floats</code> controling the flexibility of the holidays. 
-* _Optional_n_changepoints_: <code>list of int</code> containing the maximum number of trend changepoints allowed when modeling the trend.
+* _seasonality_mode_: <code>list of strings</code> containing the set of parameters to explore 'multiplicative' and/or 'additive'.
+* _ts_test_: <code>timeSeries</code> used to test the model. 
+* _changepoint_prior_scale_: <code>list of floats</code> controling the flexibility of the changepoints.
+* _holidays_prior_scale_: <code>list of floats</code> controling the flexibility of the holidays. 
+* _n_changepoints_: <code>list of int</code> containing the maximum number of trend changepoints allowed when modeling the trend.
 
 
 ### Return values: 
-* _optimals_: <code>Object</code>. Best parameters for the prophet model found by the exhaustive search. 
+* _model_parameters_: <code>Object</code>. Best parameters for the prophet model found by the exhaustive search. 
 
 ### Details:
 
@@ -343,7 +344,7 @@ This function trains and fits a SARIMAX model
                   observations per seasonal (ex. 7 for weekly 
                   seasonality with daily data, 12 for yearly 
                   seasonality with monthly data).              
-* _exog_train_: <code>timeSeries</code> containing the exogeneous variables.  
+* _exog_train_: <code>timeSeries</code> containing the exogeneous variables. Default is None. 
 
 ### Return values: 
 * _model_: <code>Object</code> holding the model. 
@@ -382,6 +383,27 @@ This function gets the prediction of the sarimax model.
 
 ### Details:
 This function will make the prediction using the model previously created. 
+
+## :round_pushpin: input_prophet
+
+### Description:
+    
+This function adapts the training and testing datasets to match with the requirements of Prophet model.
+
+### Input arguments:
+* _ts_train_: <code>timeSeries</code> used to train the model. 
+* _ts_test_: <code>timeSeries</code> used to test the model.  
+ 
+### Return values: 
+* _dtf_train_: <code>Dataframe</code> with the train set with columns 'ds' (dates) and the values.
+* _dtf_test_: <code>Dataframe</code> with the test set with columns 'ds' (dates) and the values. 
+ 
+
+### Details:
+The input to Prophet is always a dataframe with two columns: ds and y.
+The ds (datestamp) column should be of a format expected by Pandas,
+ideally YYYY-MM-DD for a date or YYYY-MM-DD HH:MM:SS for a timestamp.
+The function rename and adapt the format of ds.
               
 
 ## :round_pushpin: fit_prophet
@@ -391,13 +413,12 @@ This function will make the prediction using the model previously created.
 This function trains and fits a PROPHET model 
 
 ### Input arguments:
-* _ts_train_: <code>timeSeries</code>. Imported into a DataFrame with columns 'ds' (dates), 
+* _dtf_train_: <code>timeSeries</code>. Imported into a DataFrame with columns 'ds' (dates), 
              'y' (values), 'cap' (capacity if growth="logistic") [requirement of the Prophet model], 
              other additional regressor. 
-* _lst_exog_: <code>list</code> of exogeneous variables. 
-* _freq_: <code>str</code>. Frequency can be "D" for daily, "M" for monthly, "Y" annual, ...
+
 ### Return values: 
-* _model_: <code>Object</code> holding the model. 
+* _model_: <code>Object</code> holding the trained model. 
 
 ### Details:
 Prophet makes use of a decomposable time series model with three main model components: trend, seasonality, and holidays.
@@ -420,10 +441,10 @@ Prophet is framing the forecasting problem as a curve-fitting exercise rather th
 This function gets the prediction of the prophet model. 
 
 ### Input arguments:
-* _model_: <code>Object</code> holding the model trained in the fit_prophet function. 
-* _period_: <code>int</code>. Number of periods to be predicted.
-* _freq_: <code>str</code>. Frequency can be "D" for daily, "M" for monthly, "Y" for annual, ... 
 * _dtf_test: <code>timeSeries</code> imported in a DataFrame 
+* _model_: <code>Object</code> holding the model trained in the fit_prophet function. 
+* _p_: <code>int</code>. Number of periods to be predicted.
+* _freq_: <code>str</code>. Frequency can be "D" for daily, "M" for monthly, "Y" for annual, ... 
 
 ### Return values: 
 * _dtf_forecast_: <code>timeSeries</code> imported as a DataFrame, containing the real and forecasted values. 
@@ -440,7 +461,6 @@ This function calculates evaluation metrics for the prediction.
 
 ### Input arguments:
 * _dtf_: <code>timeSeries</code>. Imported into a DataFrame with columns raw values, fitted training values, predicted test values.  
-* _title_: <code>str</code>. Title of the plot. 
 * _plot_: <code>bool</code> to visualize on a plot the result. Default is True. 
 
 ### Return values: 
@@ -450,24 +470,43 @@ This function calculates evaluation metrics for the prediction.
 ### Details:
 This function will calculate several metrics (mae, mse, rmse for example) to be able to compare the results of the forecast models. 
 
-## :round_pushpin: schedule_optimizer
+
+## :round_pushpin: prepare_pycaret
 
 ### Description:
     
-This function gives alternative schedules for households to answer to the flexibility request. 
+This function adapt the TimeSerie to add exogeneous variables (year-month-day-hour)
+for them to be available for pycaret models. 
 
 ### Input arguments:
-* _X_forecast_: <code>timeSeries</code>. Forecast of X household energy consumption. 
-* _flex_request_: <code>tuple</code>. Time window and amount of energy asked in the flexibility request. 
-* _X_user_pref_: <code>dict</code> containing the X user preferences.
-* _dynamic_tariff_: <code>timeSeries</code>. Price of energy per hour. 
-* _dynamic_renew_energy_: <code>timeSeries</code>. Quantity of available renewable energy per hour. 
+* _ts_: <code>timeSeries</code>. Imported into a DataFrame with columns raw values.  
 
 ### Return values: 
-* _Y_schedule_: <code>dict</code> A dict containing the alternative schedule for each Y households. 
+* _y_: <code>timeSeries</code>. Imported into a DataFrame containing the true values.
+* _data_: <code>timeSeries</code>. Imported into a DataFrame containing the true values and the exogeneous ones.
 
 ### Details:
-This function will analyze which households have to adapt their consumption to answer to the flexibility request based on the forecast and taking into account their preferences. Alternative schedules are created for these identified households considering the dynamic tariff and the amount of renewable energy available.
+PyCaret is an open source Python machine learning library.
+The goal of the caret package is to automate the major steps for evaluating and 
+comparing machine learning algorithms for classification and regression. 
+The main benefit of the library is that a lot can be achieved with very few lines of code and little manual configuration. 
+The PyCaret library brings these capabilities to Python.
 
+## :round_pushpin: predict_pycaret
 
+### Description:
+    
+This function will select the best model runned by pycared based on their performance
+and it will make predictions with this selected model.
 
+### Input arguments:
+* _y_: <code>timeSeries</code>. Imported into a DataFrame containing the true values.
+* _data_: <code>timeSeries</code>. Imported into a DataFrame containing the true values and the exogeneous ones.
+* _eval_: <code>str</code>. Metric use to evaluate the models. It can be 'R2', 'MAE', 'MSE', 'RMSE', RMSLE' or 'MAPE'. Default is 'R2'. 
+
+### Return values: 
+* _prediction_holdout_: DataFrame containing the predictions made by pycaret's best model.
+
+### Details:
+PyCaret compares 20 different machine learning algorithms. 
+The function will select the model with the best evaluation based on the choosen metric to make the predictions. 
