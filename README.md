@@ -1,6 +1,6 @@
 # Description
 
-This repository contains the language-agnostic documentation of the R and Python libraries implemented on the framework of the BIGG-EKATE AI toolbox. This AI toolbox is formed by three main the following modules:
+This repository contains the language-agnostic documentation of the R and Python libraries implemented on the framework of the BIGG-EKATE AI toolbox. This AI toolbox is formed by the following modules:
 - Data preparation
 - Data trasnsformation
 - Modelling
