@@ -1,6 +1,12 @@
 # Description
 
-The Building Information aGGregation, harmonisation and analytics (BIGG) platform is a EU-funded project to aims at demonstrating the application of big data technologies and data analytics techniques for the complete buildings life-cycle of more than 4000 buildings in 6 large-scale pilot test-beds. This repository contains the language-agnostic documentation of the R and Python libraries implemented on the framework of the BIGG AI toolbox.
+This repository contains the language-agnostic documentation of the R and Python libraries implemented on the framework of the BIGG-EKATE AI toolbox. This AI toolbox is formed by three main the following modules:
+- Data preparation
+- Data trasnsformation
+- Modelling
+- Reinforce learning
+
+The first two modules have been developed within the framework of the BIGG H2020 project and of the EKATE project. The EKATE project is a project funder by the POCTEFA Interreg Progrma. The The Building Information aGGregation, harmonisation and analytics (BIGG) project is a EU-funded project to aims at demonstrating the application of big data technologies and data analytics techniques for the complete buildings life-cycle of more than 4000 buildings in 6 large-scale pilot test-beds. 
 
 # Related repositories
 - [biggpy - Python library](https://github.com/BeeGroup-cimne/biggpy#readme)
