@@ -128,6 +128,29 @@ v2
 ### Details:
 
 
+# :card_file_box: Data Transformation / Holidays
+
+## :round_pushpin: add_holiday_component
+
+### Description: 
+Calculate the public holidays based on the country, province and state in the time range of the input <code>timeSeries</code>.
+
+### Input arguments:
+* _data_: input <code>timeSeries</code> with at least one column.
+* _country_: string identifying the country based on ISO 3166-1 alpha-2 code.
+* _prov_: The Province (see documentation of what is supported; not
+       implemented for all countries).
+* _state_: The State (see documentation for what is supported; not
+       implemented for all countries).
+
+### Return values:
+* _data_: <code>timeSeries</code> of holidays based on the datetime index of the input data.
+
+### Details:
+The function computes automatically the holidays based on the input data and returns a <code>timeSeries</code> having 1 if that timestamp matches a public holidays for that country/province/state or 0 otherwise.
+
+
+
 # :card_file_box: Data Transformation / Weather
 
 ## :round_pushpin: degree_days
