@@ -91,6 +91,30 @@ The function uses _data_preparation_._detect_time_step_ to infer the frequency o
 hourly data with _data_preparation_._align_time_grid_.
 The minimum frequency allowed to compute the weekly profile is hourly ('H').
 
+## :round_pushpin: add_weekly_profile
+
+### Description:
+    
+The function derives the weekly profile of an input time series at hourly frequency or higher, repeating it for the entire
+time range and adds it to the input set of features.
+
+### Input arguments:
+* _data_: <code>timeSeries</code>. Input time series whose weekly profile has to be detected.
+* _aggregation_fun_: <code>str</code>. Function to use to aggregate the datapoints after they are grouped together
+by day of the week and hour. Default value is median.
+
+### Return values: 
+* _data_: <code>timeSeries</code>. Time series with the weekly profile added as a feature, e.g. weekly electricity consumption
+profile. 
+
+### Details:
+The function takes as input a time-indexed series of a measurement of _instantaneous_ type and derives the weekly
+pattern from the data. The profile is derived aggregating the data by day of the week and by hour of the day.
+Then, it is aligned with the other data using the day of week and hour of the day of the datetime 
+index and repeated from the start to the end.
+This engineered feature is meant to improve the performance of linear and ploynomial models.
+The minimum frequency allowed to compute the weekly profile is hourly ('H').
+
 ## :round_pushpin: yearly_profile_detection
 
 ### Description:
