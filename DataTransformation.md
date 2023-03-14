@@ -75,6 +75,7 @@ The function returns the weekly profile of the input time series.
 
 ### Input arguments:
 * _data_: <code>timeSeries</code>. Input time series whose weekly profile has to be detected.
+* _aggregation_: <code>string</code>. Aggregation function to use to aggregate the data.
 * _exclude_days_: <code>timeSeries</code><code>list</code>. List of days or boolean time series of days to exclude 
 (filter out the day when True) from the input time series, e.g. holidays. Default value is None.
 
@@ -100,7 +101,7 @@ time range and adds it to the input set of features.
 
 ### Input arguments:
 * _data_: <code>timeSeries</code>. Input time series whose weekly profile has to be detected.
-* _aggregation_fun_: <code>str</code>. Function to use to aggregate the datapoints after they are grouped together
+* _aggregation_: <code>str</code>. Function to use to aggregate the datapoints after they are grouped together
 by day of the week and hour. Default value is median.
 
 ### Return values: 
@@ -123,6 +124,7 @@ The function returns the yearly profile of the input time series.
 
 ### Input arguments:
 * _data_: <code>timeSeries</code>. Input time series whose yearly profile has to be detected.
+* _aggregation_: <code>string</code>. Aggregation function to use to aggregate the data.
 * _exclude_days_: <code>timeSeries</code><code>list</code>. List of days or boolean time series of days to exclude 
 (filter out the day when True) from the input time series, e.g. holidays. Default value is None.
 
