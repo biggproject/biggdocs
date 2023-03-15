@@ -116,6 +116,33 @@ index and repeated from the start to the end.
 This engineered feature is meant to improve the performance of linear and ploynomial models.
 The minimum frequency allowed to compute the weekly profile is hourly ('H').
 
+## :round_pushpin: generate_extended_weekly_profile
+
+### Description:
+    
+The function derives the weekly profile of an input time series at hourly frequency, repeating it for the specified time range, which
+can be several years.
+
+### Input arguments:
+* _data_: <code>timeSeries</code>. Input time series whose weekly profile has to be detected.
+* _aggregation_: <code>str</code>. Function to use to aggregate the datapoints after they are grouped together
+by day of the week and hour. Default value is median.
+* _years_: <code>int</code>. Number of years for which the profile must be repeated. The years are added starting from
+the last timestamp in the input series.
+
+
+### Return values: 
+* _data_: <code>timeSeries</code>. Time series with the extended weekly profile, e.g. weekly electricity consumption
+profile. 
+
+### Details:
+The function takes as input a time-indexed series of a measurement of _instantaneous_ type and derives the weekly
+pattern from the data. The profile is derived aggregating the data by day of the week and by hour of the day.
+Then, it is aligned with the other data using the day of week and hour of the day of the datetime 
+index and repeated over the specified number of years.
+This engineered feature is meant to improve the performance of linear and ploynomial models.
+The minimum frequency allowed to compute the weekly profile is hourly ('H').
+
 ## :round_pushpin: yearly_profile_detection
 
 ### Description:
