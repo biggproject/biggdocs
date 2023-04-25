@@ -255,6 +255,22 @@ v2
 
 ### Details:
 
+## :round_pushpin: optimize_balance_point_temperature
+
+### Description: 
+The function finds the optimal balance point temperature based on the correlation between energy consumption timeseries and outdoor temperature data.
+
+### Input arguments:
+* _energy_consumption_data_: <code>timeSeries</code>. timeseries with energy consumption measurements.
+* _outdoor_temperature_data_: <code>timeSeries</code>. timeseries with outdoor temperature measurements.
+* _mode_: <code>string</code>. can be 'heating' for heating degree days and 'cooling' for cooling degree days.
+
+### Return values:
+* _optimal_temperature_: <code>string</code>. Optimal balance point temperature to use for the degree day feature.
+
+### Details:
+The function will search for the best balance point temperature based on the correlation between outdoor temperature and energy consumption and on the selected mode using a brute force approach. The frequency of the two series must be hourly or daily.
+
 # :card_file_box: Data Transformation / Autoregressive processes
 
 ## :round_pushpin: lag_components
