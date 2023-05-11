@@ -243,6 +243,31 @@ Detect which string element satisfy the regular expression
 ### Details:
 To test regular expressions configured in the _regExpValues_ you should use the application https://regexr.com/
 
+## :round_pushpin: detect_disruptive_period
+
+### Description:
+Detects a disruptive period in a consumption time series.
+
+### Input arguments:
+* _data_: <code>data.frame</code> Time series with potential anomalies in values. It should contain a time column, a consumption column and a temperature column.
+* _consumptionColumn_: <code>string</code> Consumption column in data time series
+* _timeColumn_: <code>string</code> Time column in data time series
+* _temperatureColumn_: <code>string</code> Temperature column in data time series
+* _tz_: <code>string</code> specifying the local time zone related to the building in analysis. The format of this time zones are defined by the IANA Time Zone Database (https://www.iana.org/time-zones). 
+* _minIniDate_: <code>date</code> Minimum date to start looking for anomalies
+* _maxIniDate_: <code>date</code> Maximum date to start looking for anomalies
+* _minEndDate_: <code>date</code> Minimum date to stop looking for anomalies
+* _maxEndDate_: <code>date</code> Maximum date to stop looking for anomalies
+* _checkFor_: <code>string</code> Which effect will the disruptive event generate? e.g. the SARS-CoV2 pandemia decrease the energy consumption of tertiary buildings, so in that case we should check for decrement in consumption. Possible values: decrement, increment, incrementAndDecrement.
+* _minDecrementPercentualAffectation_: <code>float</code> indicating the minimum decrement of consumption (vs. baseline) to be considered as abnormal. Default 30%.
+* _minIncrementPercentualAffectation_: <code>float</code> indicating the minimum increment of consumption (vs. baseline) to be considered as abnormal. Default 60%.
+
+### Return value: 
+* _outliers_: <code>data.frame</code> with the period of time (min-max) with abnormal consumption.
+
+### Details:
+It evaluates different date ranges to find the most suitable one containing a disruptive period that should not be considered in the training phases of statistical models. An example of a disruptive period could be the COVID-19 lockdown when building consumption radically changes due to the different occupancy and activity patterns. The model used to detect the disruptive period considers the consumption relationship between weekdays and temperature. 
+
 
 # :card_file_box: Data Preparation / Missing Data Management
 
