@@ -259,7 +259,7 @@ It evaluates different date ranges to find the most suitable one containing a di
 Automatically detect holidays in consumption time series
 
 ### Input arguments:
-* _data_: <code>timeSeries</code> Time serie with potential anomalies in values
+* _data_: <code>timeSeries</code> Time series with potential anomalies in values
 * _consumptionColumn_: <code>string</code> Consumption value column
 * _timeColumn_: <code>string</code> Time column
 * _plotDensity_: <code>boolean</code> Plot density function used to obtain holidays consumption threshold.
@@ -267,10 +267,10 @@ Automatically detect holidays in consumption time series
 * _tz_: <code>string</code> specifying the local time zone related to the building in analysis. The format of this time zones are defined by the IANA Time Zone Database (https://www.iana.org/time-zones). 
 
 ### Return value: 
-This function returns a plot (svg, pdf, html)
+* _dates_: <code>array</code> of dates with classified as holidays.
 
 ### Details:
-Plot the data cleaning process of a time series to expose the outliers
+The function detects holiday periods in buildings with highly seasonal patterns. An analysis of turnpoints in density function is performed to identify "over represented" low consumption dates. Additional post-processing is done in order to take care of additional constraints related to holidays period
 
 
 # :card_file_box: Data Preparation / Missing Data Management
