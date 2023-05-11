@@ -194,21 +194,6 @@ Next figure explains the model evaluation and prediction of the outliers thresho
 <img src="figures/calendar_model_by_window.png" alt="drawing" width="800"> 
 
 
-## :round_pushpin: plot_outliers
-
-### Description:
-v2
-
-### Input arguments:
-Time series, outliers logical time series, cleaned time series, showPlot
-
-### Return value: 
-This function returns a plot (svg, pdf, html)
-
-### Details:
-Plot the data cleaning process of a time series to expose the outliers
-
-
 ## :round_pushpin: detect_static_min_max_outliers
 
 ### Description:
@@ -267,6 +252,25 @@ Detects a disruptive period in a consumption time series.
 
 ### Details:
 It evaluates different date ranges to find the most suitable one containing a disruptive period that should not be considered in the training phases of statistical models. An example of a disruptive period could be the COVID-19 lockdown when building consumption radically changes due to the different occupancy and activity patterns. The model used to detect the disruptive period considers the consumption relationship between weekdays and temperature. 
+
+## :round_pushpin: detect_holidays_in_tertiary_buildings
+
+### Description:
+Automatically detect holidays in consumption time series
+
+### Input arguments:
+* _data_: <code>timeSeries</code> Time serie with potential anomalies in values
+* _consumptionColumn_: <code>string</code> Consumption value column
+* _timeColumn_: <code>string</code> Time column
+* _plotDensity_: <code>boolean</code> Plot density function used to obtain holidays consumption threshold.
+* _ignoreDates_: <code>list</code> Ignore list of dates in time series.
+* _tz_: <code>string</code> specifying the local time zone related to the building in analysis. The format of this time zones are defined by the IANA Time Zone Database (https://www.iana.org/time-zones). 
+
+### Return value: 
+This function returns a plot (svg, pdf, html)
+
+### Details:
+Plot the data cleaning process of a time series to expose the outliers
 
 
 # :card_file_box: Data Preparation / Missing Data Management
